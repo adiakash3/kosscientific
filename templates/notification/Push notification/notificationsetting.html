@@ -1,0 +1,62 @@
+{% extends 'main/base.html'%}
+{% block title%}add Server key{% endblock %}
+{% block style%}
+<!--write here css-->
+{% endblock style%}
+{% block script%}
+{% endblock %}
+
+
+{% block content %}
+<!--write main content here-->
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / Server Key
+
+    </div>
+{% endblock %}
+<div class="row" style="background-color: white">
+    <div class="col-lg-12" style="margin-bottom:900px">
+
+
+
+        <form id="" action="." method="post">
+            {% csrf_token %}
+            <div style="margin-left: 20px;">
+                <br />
+<center>
+ <label class="col-sm-2"><b> Add Server key</b><span style="color: red;">&nbsp;&nbsp;</span></label></center>
+                    <br>
+                <div class="col-sm-8 row">
+
+                    <label class="col-sm-2"><b>Server key</b><span style="color: red;">&nbsp;*&nbsp;</span></label>
+                    <div class="col-sm-4">
+                        {% if serverkey.server_key == None or serverkey.server_key == '' %}
+                        <input type="text" placeholder="your Server key" class="form-control" name="server_key" style="width:400px;height:40px" >
+                        {% else %}
+                        <input type="text" placeholder="your Server key" class="form-control" value="{{ serverkey.server_key}}" name="server_key" style="width:400px;height:40px" >
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+<br>
+                <br>
+                <div class="form-group row">
+
+                        <div class="col-sm-10 row">
+                            <label class="col-sm-2"><b></b><span style="color: red;">&nbsp;&nbsp;</span></label>
+                            <button type="submit" class="btn btn-primary"><strong>submit</strong>
+                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                    </div>
+                <br/>
+            </div>
+
+
+
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,302 @@
+{% extends 'main/base.html'%}
+{% load has_group %}
+
+{% block title%}instruction course assign{% endblock %}
+
+{% block style%}
+<style>
+    .section {
+        position: absolute;
+        left: 45%;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        position: absolute;
+        left: 24%;
+        top: 75px;
+    }
+
+    .title {
+        color: #2679bf;
+    }
+
+    .title:hover {
+        color: #023866;
+    }
+
+    .align-right {
+        margin-right: 16px;
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate {
+        display: none;
+    }
+
+    div.dataTables_wrapper div.dataTables_length label {
+        display: none;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        display: none;
+    }
+
+    .row-green,
+    .row-green:hover {
+        background: #488647 !important;
+        color: white !important;
+        font-weight: 800;
+    }
+
+    .row-red,
+    .row-red:hover {
+        background: #bc0f0f !important;
+        color: white !important;
+        font-weight: 800;
+    }
+
+    .modal {
+        color: #545454 !important;
+    }
+</style>
+
+{% endblock style%}
+
+{% block script_link%}
+<script>
+
+    $(document).ready(function () {
+        $('.dataTables-example').DataTable({
+            pageLength: 10,
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: []
+
+        });
+
+    });
+
+    $("a.reassign").click(function () {
+        var section_id = $(this).attr('name');
+        var evalutor_id = $(this).attr('name1');
+        // console.log('section id', section_id);
+        // console.log('evalutor_id ', evalutor_id);
+        $(".select_evaluator").empty();
+        $.ajax({
+            url: '{% url "koscientific:section_evaluators" %}',
+            data: {
+                'section_id': section_id,
+                'evalutor_id': evalutor_id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data['result'] == 'success') {
+                    for (let index = 0; index < data['section_evaluator'].length; index++) {
+                        const section_obj = data['section_evaluator'][index];
+
+                        $(".select_evaluator").append("<option value=" + section_obj.id + '>' + section_obj.membership__user__first_name + ' ' + section_obj.membership__user__last_name + "</option>");
+
+                    };
+                    $(".select_evaluator").val(evalutor_id);
+
+                } else {
+                    alert(data['message']);
+                }
+
+            }
+        });
+
+    });
+</script>
+{% endblock script_link%}
+
+{% block content %}
+<!--write main content here-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <div>
+                    <h3> Assigned Evaluator List for Instruction course</h3>
+                </div>
+
+            </div>
+            <div class="ibox-content">
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <div class="section">
+                            <form action="{% url 'koscientific:assign_to_instruction_course' %}" method="get">
+                                <select required id="clientID" style="width:139px;margin-right: 10px;" name="section"
+                                    class="btn btn-success col-sm-12">
+                                    <option value="1">Choose Section</option>
+                                    {% for each in sec%}
+                                    <option value="{{each.id}}">{{each.section_name}}</option>
+                                    {% endfor %}
+
+                                </select>
+                                <input type="submit" value="Filter" class="btn btn-success" />
+                                <a href="{% url 'koscientific:assign_to_instruction_course'%}" class="btn btn-danger "
+                                    style="padding-left:8px;"> Reset</a>
+                            </form>
+
+
+
+                        </div>
+                        <thead>
+                            <tr>
+                                <th>Sl. no</th>
+                                {% if request.user|has_group:"evaluator" or request.user|has_group:"evaluator_non_member" %}
+                                <th>Reference id</th>
+                                {% else %}
+                                <th>Unique id</th>
+                                {% endif %}
+                                <th>Evaluator Name</th>
+                                <th>Section</th>
+                                <th>Status</th>
+                                <th>Marks</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="ev">
+                            {% for each in inst_assign %}
+                            <tr class="{% if each.marks %}
+                                row-green
+                                {% else %}
+                                row-red  
+                                {% endif %}">
+                                <td>{{forloop.counter0|add:inst_assign.start_index}}</td>
+                                {% if request.user|has_group:"evaluator" or request.user|has_group:"evaluator_non_member" %}
+                                <td>{{each.ic.ref_id}}</td>
+                                {% else %}
+                                <td>{{each.ic.unique_id}}</td>
+                                {% endif %}
+                                <td>
+                                    {% if each.evulator.membership %}
+                                    {{each.evulator.membership.user.first_name}}
+                                    {{each.evulator.membership.user.last_name}}</td>
+                                {% elif each.evulator.invite %}
+                                    {{each.evulator.invite.first_name}} {{each.evulator.invite.last_name}}
+                                {% endif %}
+                                <td>{{each.ic.section.section_name}}</td>
+                                <td>{{each.status}}</td>
+                                
+                                <td>{{each.marks|default_if_none:"N/A"}}</td>
+                                <td>
+                                    {% if perms.koscientific.reassign_evaluator and not each.marks %}
+                                    <a class="btn btn-primary reassign" href="#" data-toggle="modal"
+                                        name="{{each.ic.section.pk}}" name1="{{each.evulator_id}}"
+                                        data-target="#reassign_{{each.id}}">Reassign</a>
+
+                                    <div class="modal inmodal" id="reassign_{{ each.id }}" tabindex="-1" role="dialog"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+
+                                            <div class="modal-content animated bounceInRight">
+                                                <form action="" method="post" enctype="multipart/form-data">
+
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span
+                                                                aria-hidden="true">&times;</span><span
+                                                                class="sr-only">Close</span></button>
+
+                                                        <h4 class="modal-title">Reassign Evaluator</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {% csrf_token %}
+                                                        <input type="text" name="id" hidden value="{{ each.id }}">
+
+                                                        <div class="form-group">
+                                                            <label for="">
+                                                                <b>Instruction Cource : </b>
+                                                            </label>
+                                                        </div>
+                                                        <p> Unique Id: <span>{{each.ic.unique_id}}</span></p>
+                                                        <p> Title: <span>{{each.ic.title}}</span></p>
+
+
+
+                                                        <div class="form-group">
+                                                            <label for="">
+                                                                <b>Evaluator: </b>
+                                                            </label>
+                                                        </div>
+                                                        <select required name="evulator"
+                                                            class="form-control select2_demo_1 select_evaluator">
+
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Save changes
+                                                        </button>
+
+                                                        <button type="button" class="btn btn-white"
+                                                            data-dismiss="modal">Close
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% endif %}
+                                    {% if perms.koscientific.add_marks and not each.marks %}
+                                    <a href="{% url 'koscientific:add_marks' each.id %}" class="btn btn-primary">Add
+                                        marks</a>
+                                    {% endif %}
+
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                    {% if inst_assign.has_other_pages %}
+                    <div style="margin-left:13px;">
+
+                        <b style="margin-left: 6px;">Page</b> <span><b>{{ inst_assign.number }}</b></span> <b>of</b>
+                        <span> <b>{{ end_index}}</b></span>
+
+                    </div>
+                    <div class="text-center">
+                        <ul class="pagination pagination-lg text-center" style="margin-left: 19px;">
+
+                            {% if inst_assign.has_previous %}
+                            <li><a href="?page={{ inst_assign.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                            <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+
+                            {% if start_index %}
+                            <li><a href="?page={{ start_index }}">{{ start_index }}</a></li>
+                            <li class="disabled"><span>&mldr;</span></li>
+                            {% endif %}
+
+                            {% for i in page_range %}
+                            {% if inst_assign.number == i %}
+                            <li class="active" style=""><span style="border-color:#252a2d;font-weight:900">{{ i }} <span
+                                        class="sr-only">(current)</span></span></li>
+                            {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+
+
+                            {% if inst_assign.has_next %}
+                            <li><a href="?page={{ inst_assign.next_page_number }} ">&raquo;</a></li>
+                            {% else %}
+                            <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% endblock %}

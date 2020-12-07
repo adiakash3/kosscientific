@@ -1,0 +1,255 @@
+{% load has_group %}
+{% if perms.koscientific.registered_dashboard %}
+<li>
+    <a href="{% url 'koscientific:dashboard' %}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard
+        </span>
+    </a>
+</li>
+
+{% elif perms.koscientific.member_dashboard %}
+<li>
+    <a href="{% url 'koscientific:registered_member' %}"><i class="fa fa-th-large"></i> <span
+            class="nav-label">Dashboard </span>
+    </a>
+</li>
+
+{% elif perms.koscientific.view_dash_board %}
+<li>
+    <a href="{% url 'koscientific:dashboard' %}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard
+        </span>
+    </a>
+</li>
+{% endif %}
+
+{% if perms.koscientific.registered_dashboard %}
+<li>
+    <a href="{% url 'koscientific:profile' %}"><i class="fa fa-address-book-o"></i> <span class="nav-label">Profile
+        </span>
+    </a>
+</li>
+{% endif %}
+
+{% if perms.koscientific.registered_dashboard %}
+<li>
+    <a href="{% url 'koscientific:change_password' %}"><i class="fa fa-th-large"></i> <span class="nav-label">Change
+            Password </span>
+    </a>
+</li>
+{% endif %}
+
+{% if perms.koscientific.view_all_paper %}
+<li>
+    <a href="#"><i class="fa fa-paper-plane"></i> <span class="nav-label">All Papers</span><span
+            class="fa arrow"></span></a>
+    <ul class="nav nav-second-level collapse">
+        <li>
+            <a href="{% url 'koscientific:freepaper_list' %}"><i class="fa fa-th-large"></i> <span
+                    class="nav-label">Free Paper/Poster</span></a>
+        </li>
+
+        <li class="active">
+            <a href="{% url 'koscientific:instruction_course' %}"><i class="fa fa-th-large"></i>
+                <span class="nav-label">Instruction Course</span></a>
+        </li>
+
+        <li>
+            <a href="{% url 'koscientific:video' %}"><i class="fa fa-file-video-o"></i> <span
+                    class="nav-label">Video</span> </a>
+        </li>
+
+
+    </ul>
+</li>
+
+{% elif perms.koscientific.view_all_paper_member %}
+<li>
+    <a href="{% url 'koscientific:freepaper_list' %}"><i class="fa fa-th-large"></i>
+        <span class="nav-label">Free Paper/Poster</span></a>
+</li>
+<li>
+    <a href="{% url 'koscientific:instruction_course' %}"><i class="fa fa-paper-plane"></i>
+        <span class="nav-label">Instruction Course</span></a>
+</li>
+
+
+<li>
+    <a href="{% url 'koscientific:video' %}"><i class="fa fa-file-video-o"></i> <span class="nav-label">Video</span></a>
+</li>
+
+{% endif %}
+
+{% if request.user|has_group:"admin" %}
+<li>
+    <a href="{% url 'koscientific:event_list' %}"><i class="fa fa-calendar"></i>
+        <span class="nav-label">Events</span></a>
+</li>
+{% endif %}
+
+{% if perms.koscientific.view_evaluators %}
+<li>
+    <a href="{% url 'koscientific:evaluter_list' %}"><i class="fa fa-th-large"></i>
+        <span class="nav-label">Evaluators</span></a>
+</li>
+{% endif %}
+
+{% if perms.koscientific.view_assign_paper %}
+<li>
+    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Assigned paper to Evaluator</span><span
+            class="fa arrow"></span></a>
+    <ul class="nav nav-second-level collapse">
+        <li>
+            <a href="{% url 'koscientific:assign_to_freepaper' %}"><i class="fa fa-th-large"></i> <span
+                    class="nav-label">Free Paper/Poster</span></a>
+        </li>
+        <li class="active">
+            <a href="{% url 'koscientific:assign_to_instruction_course' %}"><i class="fa fa-th-large"></i> <span
+                    class="nav-label">Instruction Course</span></a>
+        </li>
+
+        <li>
+            <a href="{% url 'koscientific:assign_to_video' %}"><i class="fa fa-file-video-o"></i> <span
+                    class="nav-label">Video</span>
+            </a>
+        </li>
+
+
+    </ul>
+</li>
+
+{% endif %}
+
+
+{% if perms.koscientific.view_master %}
+<li>
+    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Master</span><span class="fa arrow"></span></a>
+    <ul class="nav nav-second-level collapse">
+        <li class="active">
+            <a href="{% url 'koscientific:section_list' %}"><i class="fa fa-th-large"></i> <span
+                    class="nav-label"></span>Section</a>
+        </li>
+        <li class="active">
+            <a href="{% url 'koscientific:addMainConfi' %}"><i class="fa fa-th-large"></i> <span class="nav-label">Mail
+                    Setting</span></a>
+        </li>
+        <li class="active">
+            <a href="{% url 'koscientific:add_ServerKey' %}"><i class="fa fa-th-large"></i> <span
+                    class="nav-label">Notification Setting</span></a>
+        </li>
+        <li class="active">
+            <a href="{% url 'koscientific:registered_user' %}"><i class="fa fa-th-large"></i> <span
+                    class="nav-label"></span>Registered User</a>
+        </li>
+
+    </ul>
+</li>
+{% endif %}
+
+{% if perms.koscientific.view_members %}
+<li>
+    <a href="{% url 'koscientific:member_list' %}"><i class="fa fa-address-book"></i> <span
+            class="nav-label">Members</span>
+    </a>
+</li>
+
+<li>
+    <a href="{% url 'koscientific:member_application' %}"><i class="fa fa-th-large"></i> <span class="nav-label">Members
+            Application</span>
+    </a>
+</li>
+<li>
+    <a href="{% url 'koscientific:provisional_member' %}"><i class="fa fa-th-large"></i> <span
+            class="nav-label">Provisional members</span>
+    </a>
+</li>
+<li>
+    <a href="{% url 'koscientific:voter_list' %}"><i class="fa fa-th-large"></i> <span
+            class="nav-label">Voter list</span>
+    </a>
+</li>
+{% endif %}
+
+{% if perms.koscientific.view_notification %}
+<li>
+    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Notification</span><span
+            class="fa arrow"></span></a>
+    <ul class="nav nav-second-level collapse">
+        <li class="active">
+            <a href="{% url 'koscientific:sms_message_list' %}"><i class="fa fa-th-large"></i> <span
+                    class="nav-label"></span>SMS</a>
+        </li>
+        <li class="active">
+            <a href="{% url 'koscientific:mail_list' %}"><i class="fa fa-th-large"></i> <span
+                    class="nav-label">Email</span></a>
+        </li>
+        <li class="active">
+            <a href="{% url 'koscientific:list_Notification' %}"><i class="fa fa-th-large"></i> <span
+                    class="nav-label">Push notification</span></a>
+        </li>
+
+    </ul>
+</li>
+{% endif %}
+
+<!--{% if perms.koscientific.registered_member %}-->
+<!--<li>-->
+<!--    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Report</span><span-->
+<!--            class="fa arrow"></span></a>-->
+<!--    <ul class="nav nav-second-level collapse">-->
+<!--        <li class="active">-->
+<!--            <a href="{% url 'koscientific:registered_user' %}"><i class="fa fa-th-large"></i> <span-->
+<!--                    class="nav-label"></span>Registered User</a>-->
+<!--        </li>-->
+<!--        <li class="active">-->
+<!--            <a href="{% url 'koscientific:mail_list' %}"><i class="fa fa-th-large"></i> <span-->
+<!--                    class="nav-label">Email</span></a>-->
+<!--        </li>-->
+<!--        <li class="active">-->
+<!--            <a href="{% url 'koscientific:list_Notification' %}"><i class="fa fa-th-large"></i> <span-->
+<!--                    class="nav-label">Push notification</span></a>-->
+<!--        </li>-->
+
+<!--    </ul>-->
+<!--</li>-->
+<!--{% endif %}-->
+
+{% if perms.koscientific.view_faq %}
+<li>
+    <a href="{% url 'koscientific:FAQ' %}"><i class="fa fa-info-circle"></i> <span class="nav-label">FAQ</span>
+    </a>
+</li>
+{% endif %}
+
+{% if perms.koscientific.help %}
+<li>
+    <a href="{% url 'koscientific:help' %}"><i class="fa fa-th-large"></i> <span class="nav-label">Help</span>
+    </a>
+</li>
+{% endif %}
+
+{% if perms.koscientific.view_billing %}
+<li>
+    <a href="{% url 'koscientific:billings' %}"><i class="fa fa-cc-mastercard"></i> <span
+            class="nav-label">Billing</span>
+    </a>
+</li>
+{% endif %}
+
+
+{% if perms.koscientific.registered_dashboard %}
+<li>
+    <a href="{% url 'koscientific:main_logout' %}"><i class="fa fa-sign-out"></i> <span class="nav-label">Logout </span>
+    </a>
+</li>
+{% endif %}
+
+{% if perms.koscientific.invited_session and not request.user.is_superuser %}
+<li>
+    <a href="{% url 'koscientific:invited_session' %}"><i class="fa fa-th-large"></i> <span class="nav-label">Invited
+            session </span>
+    </a>
+</li>
+{% endif %}
+<li>
+    <a href="{% url 'koscientific:feedback_list' %}"><i class="fa fa-calendar"></i>
+        <span class="nav-label">Feedback</span></a>
+</li>

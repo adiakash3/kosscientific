@@ -1,0 +1,81 @@
+{% extends 'main/base.html'%}
+{% load static %}
+
+{% block title%}Create invited session{% endblock %}
+
+{% block style%}
+
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+$(document).ready(function () {
+    $('#id_start_date').datepicker({
+       format: 'yyyy-mm-dd',
+       autoclose: true,
+       onSelect: function(selectedDate, b) {
+          console.log(selectedDate, b);
+    }
+    });
+    $('#id_end_date').datepicker({
+       format: 'yyyy-mm-dd',
+       autoclose: true,
+    });
+ });
+ $(document).ready(function () {
+    $(".select2_demo_1").select2();
+});
+
+{% endblock %}
+
+
+
+{% block content %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / <a href="{% url 'koscientific:event_list' %}">Events</a>
+        / Add/Edit
+
+    </div>
+{% endblock %}
+<!--write main content here-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                {% if is_edit %}
+                <h3>Edit event</h3>
+                {% else %}
+                <h3>Create event</h3>
+                {% endif %}
+            </div>
+            <div class="ibox-content">
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <form class="m-t col-md-6" role="form" method="POST">
+                    {% csrf_token %}
+                    
+                    {{form.as_p}}
+                    <input id="submit" type="submit" class="btn btn-primary" value="Submit" />
+                </form>
+               
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

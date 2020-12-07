@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+<html>
+
+{% load static %}
+
+
+<head>
+
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>{% block title%}login{% endblock %}</title>
+
+
+    <link href="{% static 'koss/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'koss/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/css/datepicker3.css' %}" rel="stylesheet">
+
+    <link href="{% static 'koss/css/animate.css' %}" rel="stylesheet">
+
+    <link href="{% static 'koss/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<style>
+
+</style>
+
+
+<div class="wrapper wrapper-content  animated fadeInRight container">
+
+    <div class="ibox-content" style="background-color: #f3f7ff;">
+
+        <form id="registrationForm" method="POST" data-state-url="ajax/load-state/" data-city-url="ajax/load-city/"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- {{ form.as_p}} -->
+
+
+            <div style="text-align:center">
+                <h3><strong>Membership Application Form</strong></h3>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+
+            <!-- Start Row Name and Date of Birth.-->
+
+            <div class="form-group  row">
+                 <div class="col-sm-6">
+                                <label for="">First Name</label>
+                                 <input type="text" placeholder="Enter Name" class="form-control" name="first_name" formControlName="Name"
+                           required>
+                            </div>
+                 <div class="col-sm-6">
+                                <label for="">Last Name</label>
+                                 <input type="text" placeholder="Enter Name" class="form-control" name="last_name" formControlName="last_name"
+                           required>
+                            </div>
+
+            </div>
+
+            <div class="form-group  row">
+
+                <label class="col-sm-2 col-form-label">Date Of Birth:<span style="color: red;">*</span></label>
+                <div class="col-sm-3">
+                    <input type="text" placeholder="Enter Date of Birth" class="form-control" name="dob" id="dob" required
+                           formControlName="dob">
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label class="col-sm-2 col-form-label">Gender:<span style="color: red;">*</span></label>
+
+                <div class="col-sm-1">
+                    <input type="radio" name="gender" id="male" value="Male" required
+                           formControlName="gender">&nbsp;Male
+                </div>
+                <div class="col-sm-1">
+                    <input type="radio" name="gender" id="female" value="female" required
+                           formControlName="gender">&nbspFemale
+                </div>
+            </div>
+
+
+            <div class="hr-line-dashed"></div>
+            <div style="text-align:center">
+                <h4><strong><u>Qualification</u></strong></h4>
+            </div>
+
+            <!--            <div class="table-responsive">-->
+            <!--                <table class="table" id="dynamic_field">-->
+            <!--                    <tr>-->
+            <!--                        <th style="text-align: center;">Degree:</th>-->
+            <!--                        <th style="text-align: center;">Year:</th>-->
+            <!--                        <th style="text-align: center;">College/University:</th>-->
+            <!--                        <th></th>-->
+            <!--                    </tr>-->
+            <!--                    <tr>-->
+            <!--                        <td><input type="text" name="degree[]" placeholder="Enter your Degree"-->
+            <!--                                   class="form-control name_list"/></td>-->
+            <!--                        <td><input type="text" name="year[]" placeholder="Enter your Year"-->
+            <!--                                   class="form-control name_list"/></td>-->
+            <!--                        <td><input type="text" name="college[]" placeholder="Enter your Collage"-->
+            <!--                                   class="form-control name_list"/></td>-->
+            <!--                        <td>-->
+            <!--                            <button type="button" name="add" id="add" class="btn btn-success">Add</button>-->
+            <!--                        </td>-->
+            <!--                    </tr>-->
+            <!--                </table>-->
+            <!--            </div>-->
+
+
+            <!--            ============================================-->
+
+            <table class="table form-table table-bordered table-sm">
+                <thead class="text-center" style="background-color:red;">
+                <tr>
+                    <th>Degree</th>
+                    <th>Year</th>
+                    <th>College</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for form_data in formset %}
+                <tr class="item">
+                    <td><span style="color: red;">*</span>
+                        {{ form_data.degree }}
+                    </td>
+                    <td><span style="color: red;">*</span>
+                        {{ form_data.year }}
+                    </td>
+                    <td><span style="color: red;">*</span>
+                        {{ form_data.college }}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm remove-form-row"
+                                id="{{ formset.prefix }}">
+
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="9"
+                        style="border-left: none!important; border-right: none !important; border-bottom: none!important;">
+                        <button type="button" class="btn btn-sm btn-success add-form-row"
+                                id="{{ formset.prefix }}">
+                            Add
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            {{ formset.management_form }}
+
+
+            <!--            ===============================================================-->
+
+
+            <div class="form-group row">
+
+                <div class="col-sm-6">
+                    <label class="col-form-label">Medical Council Registration No<span style="color: red;">*</span></label>
+
+                    <input type="text" placeholder="Enter Medical Council Registration No" class="form-control" required
+                           id="medicalCouncilRegistration" name="medical_registration_no"
+                           formControlName="medicalCouncilRegistration">
+                </div>
+                <div class="col-sm-6">
+                     <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label for="country">Country</label>
+                                <select id="reg_country" name="reg_country" class="form-control">
+                                    <option value=''>--select country --</option>
+                                    {% for each in country %}
+                                    <option value="{{each.pk}}">{{each.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label class="col-form-label">State /Province /Region</label>
+                                <select id="reg_state" name="reg_state" class="form-control">
+                                    <option value=''>--select region --</option>
+                                    {% for each in region %}
+                                    <option value="{{ each.pk }}">{{ each.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                        </div>
+                </div>
+
+            </div>
+
+            <!--  End Row College/University and Medical Council Registration No.-->
+
+
+            <!-- ----------------Address -------------------- -->
+            <div style="text-align:center">
+                <h4><strong><u>Address</u></strong></h4>
+            </div>
+            <div class="hr-line-dashed"></div>
+
+
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label">Street Address:<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                    <input type="text" placeholder="Enter Street Address" class="form-control" id="streetAddress" required
+                           name="recidence_Street_address" formControlName="streetAddress">
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label">Street Address Line 2:<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                    <input type="text" placeholder="Enter Address Line 2" class="form-control" id="streetaddress2"
+                           name="recidence_address_line_2" formControlName="addressLine2">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label for="country"><span style="color: red;">*</span></label>
+                    <select id="id_country" name="recidencecountry" class="form-control" >
+                        <option value=''>--Select Country --</option>
+                        {% for each in country %}
+                        <option value="{{each.pk}}">{{each.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-sm-6">
+                    <label class="col-form-label"><span style="color: red;">*</span></label>
+                    <select id="recidence_cstate" name="recidencesstate" class="form-control" >
+                        <option value=''>--Select Region --</option>
+                        {% for each in region %}
+                        <option value="{{ each.pk }}">{{ each.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-sm-6">
+                    <label for="id_city"><span style="color: red;">*</span></label>
+                    <select id="id_city" name="recidencecity" class="form-control" >
+                        <option value="">-- Select City --</option>
+                        {% for each in city %}
+                        <option value="{{ each.pk }}">{{ each.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <label class="col-form-label"><span style="color: red;">*</span></label>
+
+                    <input type="text" placeholder="Enter ZIP / Postal Code" class="form-control" id="postalCode"
+                           name="recidence_pincode" formControlName="postalCode">
+                </div>
+            </div>
+
+            <div style="text-align:left">
+                <h4><strong><u>Office Address</u></strong></h4>
+                <input type="checkbox" name="address_condition " id="filladdress" value="True" {% if member.address_condition.value %} checked {% endif %}/>Same as previous
+            </div>
+
+            <div class="officeAddress">
+                <div class="form-group row">
+
+                    <label class="col-sm-2 col-form-label">Office Address:<span style="color: red;">*</span></label>
+                    <div class="col-sm-10">
+                        <input type="text" placeholder="Enter Street Address" class="form-control" id="officeaddress1" required
+                               name="office_Street_address" formControlName="streetAddress">
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <label class="col-sm-2 col-form-label">Office Address Line 2:</label>
+                    <div class="col-sm-10">
+                        <input type="text" placeholder="Enter Address Line 2" class="form-control" id="officeaddress2"
+                               name="office_address_line_2" formControlName="addressLine2">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label class="col-form-label"><span style="color: red;">*</span></label>
+
+                        <select id="id_country_office" name="office_country" class="form-control">
+                            <option value=''>--Select Country --</option>
+                            {% for each in country %}
+                            <option value="{{each.pk}}">{{each.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="col-form-label"><span style="color: red;">*</span></label>
+                        <select id="recidence_cstate_office" name="office_state" class="form-control">
+                            <option value=''>--Select Region --</option>
+                            {% for each in region %}
+                            <option value="{{ each.pk }}">{{ each.name }}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label><span style="color: red;">*</span></label>
+                        <select id="id_city_office" name="office_city" class="form-control">
+                            <option value=''>--Select City --</option>
+                            {% for each in city %}
+                            <option value="{{ each.pk }}">{{ each.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+
+                    <div class="col-sm-6">
+
+                        <label class="col-form-label"><span style="color: red;">*</span></label>
+
+                        <input type="text" placeholder="Enter ZIP / Postal Code" class="form-control" id="postalCode"
+                               name="office_pincode" formControlName="postalCode">
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div style="text-align:center">
+                <h4><strong><u>Contacts:</u></strong></h4>
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-sm-6">
+                    <label class="col-form-label"><span style="color: red;">*</span></label>
+
+                    <input type="text" placeholder="Enter Mobile" class="form-control" id="mobile" name="mobile" required
+                           formControlName="mobile">
+                </div>
+
+                <div class="col-sm-6">
+                    <label class="col-form-label"><span style="color: red;">*</span></label>
+                    <input type="text" placeholder="Enter Home Phone NO" class="form-control" id="homePhoneNo" required
+                           name="home_phone" formControlName="homePhoneNo">
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-sm-6">
+                    <label class="col-form-label"><span style="color: red;">*</span></label>
+
+                    <input type="text" placeholder="Enter Office Phone NO" class="form-control" id="officePhoneNO" required
+                           name="office_phone" formControlName="officePhoneNO">
+                </div>
+                <div class="col-sm-6">
+                    <label class="col-form-label"><span style="color: red;">*</span></label>
+                    <input type="email" placeholder="Enter Email" class="form-control" id="email" name="email" required
+                           formControlName="email">
+                </div>
+
+            </div>
+
+            <!--  End Row College/University and Medical Council Registration No.-->
+
+
+            <div style="text-align:center">
+                <h4><strong><u>Introduced by:</u></strong></h4>
+            </div>
+            <div class="hr-line-dashed"></div>
+
+            <div class="form-group row">
+
+                <!-- <div class="col-sm-4">
+                    <label class="col-form-label">Member Name:</label>
+
+                    <input type="text" placeholder="Enter Member Name" class="form-control" id="memberName"
+                        name="memberName" formControlName="memberName">
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="col-form-label">Signature:</label>
+                    <input type="text" placeholder="Enter Signature" class="form-control" id="signature"
+                        name="signature" formControlName="signature">
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="col-form-label">Life Membership No:</label>
+                    <input type="text" placeholder="Enter Life Membership No" class="form-control" id="lifeMembershipNo"
+                        name="lifeMembershipNo" formControlName="lifeMembershipNo">
+                </div> -->
+                <div class="table-responsive">
+                    <table class="table" id="dynamic_field1">
+                        <tr>
+                            <th>Member Name:<span style="color: red;">*</span></th>
+                            <th>Signature:<span style="color: red;">*</span></th>
+                            <th>Life Membership No:<span style="color: red;">*</span></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="memberName[]" placeholder="Enter your Membe Name" required
+                                       class="form-control name_list"/></td>
+                            <td><input type="text" name="signature[]" placeholder="Enter your Signature" required
+                                       class="form-control name_list"/></td>
+                            <td><input type="text" name="lifeMembershipNo[]" placeholder="Enter your LifeMembershipNo" required
+                                       class="form-control name_list"/></td>
+
+                        </tr>
+                         <tr>
+                            <td><input type="text" name="memberName[]" placeholder="Enter your Membe Name" required
+                                       class="form-control name_list"/></td>
+                            <td><input type="text" name="signature[]" placeholder="Enter your Signature" required
+                                       class="form-control name_list"/></td>
+                            <td><input type="text" name="lifeMembershipNo[]" placeholder="Enter your LifeMembershipNo" required
+                                       class="form-control name_list"/></td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+
+            <div class=" from-group row">
+                <label class="col-sm-2 col-form-label">Photograph:<span style="color: red;">*</span></label>
+                <div class="col-sm-3 fileinputs">
+                    <input type="file" class="file" id="addressLine2" required name="photo">
+                </div>
+                <label class="col-sm-4 col-form-label">Photocopy of Medical Council Registration Certificate:<span style="color: red;">*</span></label>
+                <div class="col-sm-2 fileinputs">
+                    <input type="file" class="file" id="addressLine2" required name="certificate">
+                </div>
+
+            </div>
+
+            <div class="hr-line-dashed"></div>
+
+<!--            <div class="from-group row">-->
+
+
+<!--            </div>-->
+
+<!--            <div class="from-group row">-->
+<!--                <label class="col-sm-5 col-form-label">Membership Price: <span>&#8377;</span>20-->
+
+<!--                    <button type="button" class="btn btn-primary" id="rzp-button1">Pay</button></label>-->
+
+
+
+<!--            </div>-->
+
+            <div class="fro-group row">
+
+                <div class="col-sm-10">
+                    <label class="col-form-label">Consent:<span style="color: red;">*</span></label><br>
+                    <input type="checkbox" name="checkbox" value="check" required id="agree"/> I agree to the privacy policy.
+                </div>
+            </div>
+
+
+            <div class="fro-group row">
+
+            </div>
+
+
+            <div class="form-group row">
+
+                <div class="col-sm-10 col-sm-offset-2 text-right">
+
+                    <button type="submit" class="btn btn-primary"><strong>Save</strong>
+
+                    </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <button type="button" class="btn btn-warning text-white"><strong><a
+                            href="{% url 'koscientific:registered_member' %}">Cancel</a></strong>
+
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+
+
+    </div>
+
+</div>
+<!-- Mainly scripts -->
+<script src="{% static 'koss/js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'koss/js/popper.min.js' %}"></script>
+<script src="{% static 'koss/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'koss/js/bootstrap-datepicker.js' %}"></script>
+
+
+<script>
+
+    $(document).ready(function(){
+    $("#filladdress").on("click", function(){
+         if (this.checked) {
+                $("#officeaddress1").val($("#streetAddress").val());
+                $("#officeaddress2").val($("#streetaddress2").val());
+                console.log($("#streetAddress").val())
+                $(".officeAddress").hide();
+    }
+
+    else {
+
+        $(".officeAddress").show();
+
+
+    }
+    });
+});
+</script>
+
+
+<script>
+    $('#dob').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true
+    });
+    $('#date').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true
+    });
+
+
+
+$(document).ready(function(){
+      var i=1;
+      $('#add').click(function(){
+           i++;
+           $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" name="degree[]" placeholder="Enter your Degree" class="form-control name_list" /></td><td><input type="text" name="year[]" placeholder="Enter your Year" class="form-control name_list" /></td><td><input type="text" name="college[]" placeholder="Enter your Collage" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+      });
+      $(document).on('click', '.btn_remove', function(){
+           var button_id = $(this).attr("id");
+           $('#row'+button_id+'').remove();
+      });
+
+ });
+
+ $(document).ready(function(){
+      var j=1;
+      $('#add1').click(function(){
+           j++;
+           $('#dynamic_field1').append('<tr id="row'+j+'"><td><input type="text" name="memberName[]" placeholder="Enter your Member Name" class="form-control name_list" /></td><td><input type="text" name="signature[]" placeholder="Enter your Signature" class="form-control name_list" /></td><td><input type="text" name="lifeMembershipNo[]" placeholder="Enter your LifeMembershipNo" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+j+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+      });
+      $(document).on('click', '.btn_remove', function(){
+           var button_id = $(this).attr("id");
+           $('#row'+button_id+'').remove();
+      });
+
+ });
+
+
+</script>
+
+<script type="text/javascript">
+
+
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+    var replacement = prefix + '-' + ndx + '-';
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+    replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+
+function addForm(btn, prefix) {
+    var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+    if (formCount < 1000) {
+        // Clone a form (without event handlers) from the first form
+        var row = $(".item:last").clone(false).get(0);
+
+        // Insert it after the last form
+        $(row).removeAttr('id').hide().insertAfter(".item:last").slideDown(300);
+
+        // Remove the bits we don't want in the new row/form
+        // e.g. error messages
+        $(".errorlist", row).remove();
+        $(row).children().removeClass("error");
+
+        // Relabel or rename all the relevant bits
+        $(row).find('.formset-field').each(function () {
+            updateElementIndex(this, prefix, formCount);
+            $(this).val('');
+            $(this).removeAttr('value');
+            $(this).prop('checked', false);
+        });
+
+        // Add an event handler for the delete item/form link
+        $(row).find(".delete").click(function () {
+            return deleteForm(this, prefix);
+        });
+        // Update the total form count
+        $("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+
+    } // End if
+
+    return false;
+}
+
+
+function deleteForm(btn, prefix) {
+      var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+      if (formCount > 1) {
+          // Delete the item/form
+          var goto_id = $(btn).find('input').val();
+          if( goto_id ){
+            $.ajax({
+                url: "/" + window.location.pathname.split("/")[1] + "/formset-data-delete/"+ goto_id +"/?next="+ window.location.pathname,
+                error: function () {
+                  console.log("error");
+                },
+                success: function (data) {
+                  $(btn).parents('.item').remove();
+                },
+                type: 'GET'
+            });
+          }else{
+            $(btn).parents('.item').remove();
+          }
+
+          var forms = $('.item'); // Get all the forms
+          // Update the total number of forms (1 less than before)
+          $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+          var i = 0;
+          // Go through the forms and set their indices, names and IDs
+          for (formCount = forms.length; i < formCount; i++) {
+              $(forms.get(i)).find('.formset-field').each(function () {
+                  updateElementIndex(this, prefix, i);
+              });
+          }
+      } // End if
+
+      return false;
+  }
+
+  $("body").on('click', '.remove-form-row',function () {
+    deleteForm($(this), String($('.add-form-row').attr('id')));
+  });
+
+  $("body").on('click', '.add-form-row',function () {
+      return addForm($(this), String($(this).attr('id')));
+  });
+
+
+</script>
+
+<script>
+ $("#id_country").change(function () {
+      var url = $("#registrationForm").attr("data-state-url");  // get the url of the `load_cities` view
+      console.log( window.location.origin)
+      var countryId = $(this).val();  // get the selected country ID from the HTML input
+      console.log(countryId)
+
+      $.ajax({                       // initialize an AJAX request
+        url: window.location.origin +'/ajax/load-state/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'country': countryId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#recidence_cstate").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+
+</script>
+
+
+<script>
+    $("#recidence_cstate").change(function () {
+      var url = $("#registrationForm").attr("data-city-url");  // get the url of the `load_cities` view
+      var regionId = $(this).val();  // get the selected country ID from the HTML input
+      $.ajax({                       // initialize an AJAX request
+        url: window.location.origin+'/ajax/load-city/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'region': regionId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+</script>
+
+<script>
+ $("#id_country_office").change(function () {
+      var url = $("#registrationForm").attr("data-state-url");  // get the url of the `load_cities` view
+      console.log( window.location.origin)
+      var countryId = $(this).val();  // get the selected country ID from the HTML input
+      console.log(countryId)
+
+      $.ajax({                       // initialize an AJAX request
+        url: window.location.origin +'/ajax/load-state/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'country': countryId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#recidence_cstate_office").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+
+</script>
+<script>
+    $("#recidence_cstate_office").change(function () {
+      var url = $("#registrationForm").attr("data-city-url");  // get the url of the `load_cities` view
+      var regionId = $(this).val();  // get the selected country ID from the HTML input
+      $.ajax({                       // initialize an AJAX request
+        url: window.location.origin+'/ajax/load-city/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'region': regionId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_city_office").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+</script>
+
+<script>
+ $("#reg_country").change(function () {
+      var url = $("#registrationForm").attr("data-state-url");  // get the url of the `load_cities` view
+      console.log( window.location.origin)
+      var countryId = $(this).val();  // get the selected country ID from the HTML input
+      console.log(countryId)
+
+      $.ajax({                       // initialize an AJAX request
+        url: window.location.origin +'/ajax/load-state/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'country': countryId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#reg_state").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+
+</script>
+
+</html>

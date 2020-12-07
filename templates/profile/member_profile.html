@@ -1,0 +1,265 @@
+{% extends 'main/base.html'%}
+
+{% block title%} profile{% endblock %}
+{% load static %}
+
+{% block style %}
+
+.profile_image {
+    border-radius: 50%;
+    width: 240px;
+    height: 228px;
+
+}
+{% endblock style %}
+
+{% block script%}
+function imgError(image) {
+image.onerror = "";
+image.src = "{% static  'koss/img/profile_small.png'%}";
+return true;
+}
+{% endblock %}
+
+{% block content %}
+<!--write main content here-->
+
+
+
+<div class="wrapper wrapper-content">
+    <div class="row animated fadeInRight">
+        <div class="col-md-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+
+                        </div>
+                        {% if perms.koscientific.full_profile %}
+                        <div class="col-sm-4">
+                            <a href="{% url 'koscientific:edit_profile'%}" class="btn btn-primary btn-xs"
+                                style="margin-left: 200px">Edit
+                            </a>
+                        </div>
+                        <br>
+                        {% elif perms.koscientific.base_profile %}
+                        <div class="col-sm-4">
+                            <a href="{% url 'koscientific:edit_base_profile'%}" class="btn btn-primary btn-xs"
+                                style="margin-left: 200px">Edit
+                            </a>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                    <div style="text-align:center">
+                        <h3><strong>Profile Details</strong></h3>
+                    </div>
+                </div>
+                <div>
+                    <div class="ibox-content no-padding text-center">
+                        
+                        {% if profile.photo %}
+                            <img  alt="image" class="img-fluid profile_image m-3" src="{{profile.photo.url}}"
+                            onerror="imgError(this);" >
+                        {% else %}
+                            <img alt="image" class="img-fluid profile_image m-3" src="{% static  'koss/img/default1.png'%}"
+                            onerror="imgError(this);" >
+                        {% endif %}
+                            
+                        
+                    </div>
+                    <div class="ibox-content profile-content">
+
+                        <div class="user-button">
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p>First Name:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    {% if first_name != None %}
+                                    <p><strong>{{first_name}}</strong></p>
+                                    {% else %}
+                                     <p></p>
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <p>Last Name:</p>
+                                </div>
+                                {% if last_name != None %}
+                                <div class="col-sm-3"><strong>{{last_name}}</strong></div>
+                                {% else %}
+                                <div class="col-sm-3"><strong></strong></div>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="row">
+
+                               
+                                <div class="col-sm-3">
+                                    <p>Registered email address:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p><strong>{{email}}</strong></p>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <p>Registered mobile number:</p>
+                                </div>
+                                <div class="col-sm-3"><strong>{{mobile_number}}</strong></div>
+                                <div class="col-sm-3">
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <h3><u>Office Address</u></h3>
+
+                            <div class="row">
+
+                                <div class="col-sm-3">
+                                    <p>Street Address:</p>
+                                </div>
+                                <div class="col-sm-3"><strong>{{office_Street_address}}</strong></div>
+                                <div class="col-sm-3">
+                                    <p>Address 2:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p><strong>{{office_address_line_2}}</strong></p>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-3">
+                                    <p>City:</p>
+                                </div>
+                                {% if office_city != None %}
+                                <div class="col-sm-3"><strong>{{office_city}}</strong></div>
+                                {% else %}
+                                <div class="col-sm-3"><strong></strong></div>
+                                {% endif %}
+                                <div class="col-sm-3">
+                                    <p>Pincode:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p><strong>{{office_pincode}}</strong></p>
+                                   
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-3">
+                                    <p>State:</p>
+                                </div>
+                                {% if office_state != None %}
+                                <div class="col-sm-3"><strong>{{office_state}}</strong></div>
+                                {% else %}
+                                <div class="col-sm-3"><strong></strong></div>
+                                {% endif %}
+
+                                <div class="col-sm-3">
+                                    <p>Country:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    {% if office_country != None %}
+                                    <p><strong>{{office_country}}</strong></p>
+                                    {% else %}
+                                    <p></p>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            <br>
+
+
+                            <h3><u>Residence Address</u></h3>
+
+                            <div class="row">
+
+                                <div class="col-sm-3">
+                                    <p>Street Address:</p>
+                                </div>
+                                {% if recidence_Street_address == None %}
+                                <div class="col-sm-3"><strong></strong></div>
+                                {% else %}
+                                <div class="col-sm-3"><strong>{{recidence_Street_address}}</strong></div>
+                                {% endif %}
+                                <div class="col-sm-3">
+                                    <p>Address 2:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    {% if recidence_address_line_2 == None %}
+                                    <p><strong></strong></p>
+                                    {% else %}
+                                    <p><strong>{{recidence_address_line_2}}</strong></p>
+                                {% endif %}
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-3">
+                                    <p>City:</p>
+                                </div>
+                                {% if recidencecity == None %}
+                                <div class="col-sm-3"><strong></strong></div>
+                                {% else %}
+                                <div class="col-sm-3"><strong>{{recidencecity}}</strong></div>
+                                {% endif %}
+                                <div class="col-sm-3">
+                                    <p>Pincode:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    {% if recidence_pincode == None %}
+                                    <p><strong></strong></p>
+                                    {% else %}
+                                    <p><strong>{{recidence_pincode}}</strong></p>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-3">
+                                    <p>State:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    {% if recidencestate == None %}
+                                   <p> <strong></strong></p>
+                                    {% else %}
+                                    <strong>{{recidencestate}}</strong>
+                                {% endif %}
+                                    </div>
+
+                                <div class="col-sm-3">
+                                    <p>Country:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    {% if recidencecountry == None %}
+                                    <p></p>
+                                    {% else %}
+                                    <p><strong>{{recidencecountry}}</strong></p>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

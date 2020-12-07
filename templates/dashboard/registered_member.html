@@ -1,0 +1,623 @@
+{% extends 'main/base.html'%}
+{% load has_group %}
+{% load maths %}
+{% load order_by %}
+{% load static %}
+
+{% block title%}Dashboard{% endblock %}
+
+{% block style%}
+<style>
+   #myModal {
+      width: 8000px;
+      margin-left: -4000px;
+   }
+
+   .mb-10 {
+      margin-bottom: 10px !important;
+   }
+
+   .temp-btn-bg15 {
+      background: #118bfc;
+   }
+
+   .temp-btn {
+      position: relative;
+      padding: 15px;
+      margin-bottom: 10px !important;
+      border-radius: 10px;
+
+
+   }
+
+   .temp-icon {
+      opacity: 0.9;
+      font-size: 40px !important;
+      position: relative;
+      float: left;
+      color: #ff9900;
+   }
+
+   .fa {
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+   }
+
+   .temp-btn h5 a {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 20px;
+      color: #fff;
+      text-decoration: none;
+   }
+
+   .font-16 {
+      font-size: 16px !important;
+   }
+
+   .marginbothside {
+      margin-left: 16px;
+   }
+
+   .widget {
+      margin-bottom: 20px;
+   }
+
+   .p-20 {
+      padding: 20px !important;
+   }
+
+   .bg118 {
+      background: #6187b4;
+      border-radius: 4px;
+      border: #9cd1ff 0px solid;
+      -webkit-box-shadow: 0 8px 6px -6px black;
+      -moz-box-shadow: 0 8px 6px -6px black;
+      box-shadow: 0 8px 6px -6px black;
+      background-color: #d4d4d4;
+      background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#d4d4d4), to(#f3f3f3));
+      background: -webkit-linear-gradient(top, #d4d4d4, #f3f3f3);
+   }
+
+   .image-cropper {
+      height: auto;
+      position: relative;
+   }
+
+   .list-unstyled {
+      padding-left: 0;
+      list-style: none;
+   }
+
+   .opening-hourse ul li {
+      border-bottom: 1px solid #edb700;
+      padding: 10px 0;
+      margin-bottom: 0 !important;
+   }
+
+   .widget ul li {
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+   }
+
+   .my-picture {
+      display: block;
+      margin: 0 auto;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      width: 100%;
+   }
+
+   .opening-hourse ul li .value {
+      float: right;
+   }
+
+   .divhover:hover {
+      cursor: pointer;
+      background-color: #0054a2;
+
+   }
+
+   .select2-container {
+      width: 77% !important;
+   }
+
+   .select2-dropdown {
+      z-index: 99999;
+   }
+
+   .error {
+      border: 1px solid red !important;
+   }
+
+   .dropdown {
+      position: relative;
+      display: inline-block;
+   }
+
+   .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: green;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      padding: 25px 16px;
+      z-index: 1;
+   }
+
+   .dropdown:hover .dropdown-content {
+      display: block;
+   }
+
+   .myModal {
+      width: 8000px;
+      margin-left: -4000px;
+   }
+
+   .orange {
+      background: #ff6f00 !important;
+      color: #fff;
+   }
+
+   .button {
+      color: #ff0066 !important;
+      background-color: #ffffff;
+   }
+
+   .margin10 {
+      margin-bottom: 10px;
+   }
+
+   .nomargintop {
+      margin-top: 0px
+   }
+
+   .orange p {
+      color: #fff;
+      font-style: normal;
+      margin: 3px;
+      text-decoration: none;
+   }
+
+   .tile {
+      width: 100%;
+      padding: 15px;
+      height: 220px;
+      background: #efefef;
+      margin-bottom: 20px;
+   }
+
+   .secondheding {
+      font-size: 25px;
+      color: #4a148c;
+   }
+
+   /* second colum css */
+   .aquablue {
+      background: #00b8d4 !important;
+      color: #fff;
+   }
+
+   .button1 {
+      color: #ff0066;
+      background-color: #ffffff;
+      -ms-transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+      transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+      font-weight: 600;
+      font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, Verdana, sans-serif;
+      text-align: center;
+      vertical-align: middle;
+      text-transform: capitalize;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+      padding: 0 18px;
+      margin-right: 18px;
+      border: 0 none;
+      border-radius: 3px;
+      display: inline-block;
+      font-size: 13px;
+      height: 32px;
+      line-height: 32px;
+   }
+
+   .buttoninfo {
+      color: #ff0066;
+      background-color: #ffffff;
+      -ms-transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+      transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+      font-weight: 600;
+      font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, Verdana, sans-serif;
+      text-align: center;
+      vertical-align: middle;
+      text-transform: capitalize;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+      padding: 0 18px;
+      /* margin-right: 18px; */
+      border: 0 none;
+      border-radius: 3px;
+      display: inline-block;
+      font-size: 13px;
+      height: 32px;
+      line-height: 32px;
+   }
+
+   .darkblue {
+      background: #311b92 !important;
+      color: #fff;
+   }
+
+   .green {
+      background: #339933 !important;
+      color: #fff;
+   }
+
+   a:hover {
+      color: #ff0066;
+      text-decoration: none;
+   }
+
+   .payment_body {
+      font-size: 14px;
+   }
+</style>
+{% endblock style%}
+
+{% block script%}
+
+{% endblock %}
+
+<!--write main content here-->
+{% block content %}
+
+<div class="row container marginbothside">
+   <div class="col-md-9">
+      <br>
+
+      <div class="row">
+
+         {% comment %} <div>
+            <img src="{% static  'koss/img/header.png'%}" width="830" height="210" alt="" class="img-fluid">
+         </div> {% endcomment %}
+
+      </div>
+      {% if request.user|has_group:"registered" and request.user.membership.status == 'draft'%}
+      <!--registred user and draft membership -->
+      <h3 class="mb-3">Welcome to Karnataka Ophthalmic society. Thank you for registering with KOS. If you are an
+         ophthalmologist please apply for membership.</h3>
+
+      {% elif request.user|has_group:"registered" and not request.user.membership %}
+      <!--registred user-->
+      <h3 class="mb-3">Welcome to Karnataka Ophthalmic society. Thank you for registering with KOS. If you are an
+         ophthalmologist please apply for membership.</h3>
+
+      {% elif request.user|has_group:"member" and request.user.membership.is_provisional == True %}
+      <!--members and is_provisional true-->
+      <h3 class="mb-3">Welcome to Karnataka Ophthalmic society.</h3>
+      <p>{{request.user.membership.membership_status.status}}</p>
+      {% elif request.user|has_group:"member" %}
+      <!--members-->
+      <h3 class="mb-3">Welcome to Karnataka Ophthalmic society.</h3>
+      {% elif request.user|has_group:"registered" and request.user.membership and request.user.membership.status != 'draft' %}
+      <!-- paid user-->
+      <h3>Welcome to Karnataka Ophthalmic society.</h3>
+      <p>{{request.user.membership.membership_status.status}}</p>
+      {% else %}
+      <!--any other-->
+      <h3 class="mb-3">Welcome to Karnataka Ophthalmic society.</h3>
+      {% endif %}
+      <div class="row">
+         {% comment %} <div class="col-sm-4">
+            <a href="{% url 'koscientific:register'%}">
+               <div class="temp-btn temp-btn-bg15 mb-10 divhover">
+                  <em class="fa fa-pencil-square temp-icon">&nbsp;</em>
+                  <h5 class="icon-box-title font-16">
+                     <p class="text-white"> KOS 2020 Registration</p>
+                  </h5>
+               </div>
+            </a>
+         </div> {% endcomment %}
+
+         <div class="col-sm-4">
+            {% if request.user|has_group:"registered" %}
+            <a href="{% url 'koscientific:profile'%}">
+               {% elif request.user|has_group:"member" %}
+               <a href="{% url 'koscientific:member_profile'%}">
+                  {% endif %}
+                  <div class="temp-btn temp-btn-bg15 mb-10 divhover">
+                     <em class="fa fa-sign-in temp-icon">&nbsp;</em>
+                     <h5 class="icon-box-title font-16">
+                        <p class="text-white"> My
+                           <br>Profile</p>
+                     </h5>
+                  </div>
+               </a>
+         </div>
+
+         <div class="col-sm-4 ">
+            <a href="{% url 'koscientific:change_password'%}">
+               <div class="temp-btn temp-btn-bg15 mb-10 divhover">
+                  <em class="fa fa-key temp-icon">&nbsp;</em>
+                  <h5 class="icon-box-title font-16">
+                     <p class="text-white">Change <br>
+                        Password</p>
+                  </h5>
+               </div>
+            </a>
+
+         </div>
+
+         <div class="col-sm-4 ">
+            <a data-target="#payment_detail" data-toggle="modal">
+               <div class="temp-btn temp-btn-bg15 mb-10 divhover">
+                  <em class="fa fa-inr  temp-icon">&nbsp;</em>
+                  <h5 class="icon-box-title font-16">
+                     <p class="text-white">Payment
+                        <br>
+                        Details </p>
+                  </h5>
+               </div>
+            </a>
+         </div>
+
+         <!-- second edit-->
+         <div class="col-sm-4">
+            <a href="{% url 'koscientific:eye_services' %}">
+               <div class="temp-btn temp-btn-bg15 mb-10 w-100 m-auto row divhover">
+                  <div class="col-2 p-0">
+                     <em class="fa fa-eye temp-icon">&nbsp;</em>
+                  </div>
+                  <div class="col-10">
+                     <h5 class="icon-box-title font-16">
+                        <p style="padding-bottom: 18px;" class="text-white">About Eye Care</p>
+                     </h5>
+                  </div>
+               </div>
+            </a>
+         </div>
+         {% if request.user|has_group:"registered" and request.user.membership.status != 'completed' %}
+         <div class="col-sm-4">
+            <a href="{% url 'koscientific:application_form' %}">
+               <div class="temp-btn temp-btn-bg15 mb-10 divhover">
+                  <em class="fa fa-user temp-icon">&nbsp;</em>
+                  <h5 class="icon-box-title font-16">
+                     <p class="text-white">Become KOS <br>
+                        Member</p>
+                  </h5>
+               </div>
+            </a>
+         </div>
+         {% endif %}
+         <div class="col-sm-4">
+            <a href="{% url 'koscientific:service_views' %}">
+               <div class="temp-btn temp-btn-bg15 mb-10 w-100 m-auto row divhover">
+                  <div class="col-2 p-0">
+                     <em class="fa fa-user-circle temp-icon">&nbsp;</em>
+                  </div>
+                  <div class="col-10">
+                     <h5 class="icon-box-title font-16">
+                        <p class="text-white"> Community Services of KOS</p>
+                     </h5>
+                  </div>
+               </div>
+            </a>
+         </div>
+         {% if perms.koscientific.member_dashboard %}
+         <div class="col-sm-4">
+            <a href="{% url 'koscientific:member_list_read_only' %}">
+               <div class="temp-btn temp-btn-bg15 mb-10 w-100 m-auto row divhover">
+                  <div class="col-2 p-0">
+                     <em class="fa fa-user-circle temp-icon">&nbsp;</em>
+                  </div>
+                  <div class="col-10">
+                     <h5 class="icon-box-title font-16">
+                        <p class="text-white">All KOS members {{member_count}}</p>
+                     </h5>
+                  </div>
+               </div>
+            </a>
+         </div>
+         {% endif %}
+         {% if perms.koscientific.member_dashboard %}
+         <div class="container">
+            <div class="row">
+
+               <div class="col-md-4">
+                  <h2 class="nomargintop margin10"></h2>
+                  <br>
+                  <div class="tile darkblue text-center">
+                     <div class="dropdown">
+                        <span class="buttoninfo float-right">Guidelines</span>
+                        <div class="dropdown-content">
+                           <a href="{% url 'koscientific:freePaper_guidelines' %}" class="buttoninfo float-right"
+                              role="button1">Free paper</a>
+                           <br>
+                           <br>
+                           <a href="{% url 'koscientific:Poster_guidelines' %}" class="buttoninfo float-right"
+                              role="button1">E-Poster</a>
+                           <br>
+                           <br>
+                           <a href="{% url 'koscientific:PhysicalPoster_guidelines' %}" class="buttoninfo float-right"
+                              role="button1">Physical-Poster</a>
+
+                        </div>
+                     </div>
+
+                     <img src="{% static  'koss/img/poster.png'%}" height="70%"></a>
+                     <p>
+                        <a href="{% url 'koscientific:add_free_paper' %}" class="button1" role="button1">Free
+                           Paper/Poster</a>
+                     </p>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <h2 class="nomargintop margin10 secondheding"></h2>
+                  <br>
+                  <div class="tile aquablue text-center">
+                     <a href="{% url 'koscientific:ins_guidelines' %}" class="buttoninfo float-right"
+                        role="button1">Guidelines</a>
+                     <img src="{% static  'koss/img/instruction_course.png'%}" height="70%"></a>
+                     <p>
+                        <a href="{% url 'koscientific:create_instruction' %}" class="button1" role="button1">Instruction
+                           course</a>
+                     </p>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <h2 class="nomargintop margin10 secondheding"></h2>
+                  <br>
+                  <div class="tile darkblue text-center">
+                     <a href="{% url 'koscientific:Video_guidelines' %}" class="buttoninfo float-right"
+                        role="button1">Guidelines</a>
+                     <img src="{% static  'koss/img/video.png'%}" height="70%"></a>
+                     <p>
+                        <a href="{% url 'koscientific:add_video' %}" class="button1" role="button1"> Video</a>
+                     </p>
+                  </div>
+               </div>
+
+            </div>
+         </div>
+         {% endif %}
+      </div>
+
+
+   </div>
+   <!--right profile card-->
+   <div class="col-md-3">
+      <br>
+      <div class="mt-4">
+         <div class="">
+            <div class="volunteer bg118  p-20">
+               <div class="thumb image-cropper">
+
+                  {% if profile.photo %}
+                  <img src="{{profile.photo.url}}" class="img-fullwidth my-picture" alt="">
+                  {% else %}
+                  <img src="{% static  'koss/img/user-icon.png'%}" class="img-fullwidth my-picture" alt="">
+                  {% endif %}
+
+               </div>
+               <div class="info">
+                  <div class="opening-hourse text-left">
+                     <ul class="list-unstyled">
+                        <li class="clearfix"> <span> Name: </span>
+                           <div class="value"> Dr {{first_name}} {{last_name}}</div>
+                        </li>
+                        <li class="clearfix"> <span> Mobile: </span>
+                           <div class="value">+91 {{mobile_number}} </div>
+                        </li>
+                        <li class="clearfix"> <span> Email: </span>
+                           <div class="value"> {{email}}</div>
+                        </li>
+                     </ul>
+                  </div>
+
+               </div>
+            </div>
+
+         </div>
+
+      </div>
+   </div>
+</div>
+
+
+
+<!--=====================================-->
+<!--==start of show payment detail=======-->
+<!--=====================================-->
+<!-- Modal -->
+<div class="modal fade" id="payment_detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+   aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalLabel"><b>Payment details</b></h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body payment_body">
+            {% if request.user.membership.member.all%}
+            {% for order in request.user.membership.member.all|order_by:"-created" %}
+            <div class="border p-2 mb-3">
+               <div>
+                  <span>Total amount</span>
+                  <span>:</span>
+                  <span>{{order.amount|divide:"100"}} {{RAZOR_PAY_CURRENCY}}</span>
+               </div>
+               <hr>
+               <div>
+                  <span>Payment status</span>
+                  <span>:</span>
+                  <span>{{order.status|title}}</span>
+               </div>
+               <hr>
+               <div>
+                  <span>Due amount</span>
+                  <span>:</span>
+                  <span>{{order.amount_due|divide:"100"}} {{RAZOR_PAY_CURRENCY}}</span>
+               </div>
+               <div>
+                  <span>Paid amount</span>
+                  <span>:</span>
+                  <span>{{order.amount_paid|divide:"100.00"}} {{RAZOR_PAY_CURRENCY}}</span>
+               </div>
+               <hr>
+               <div>
+                  <span>Order Id</span>
+                  <span>:</span>
+                  <span>{{order.order_id}}</span>
+               </div>
+               <div>
+                  <span>Order receipt</span>
+                  <span>:</span>
+                  <span>{{order.order_receipt}}</span>
+               </div>
+               <div>
+                  <span>Transaction Id</span>
+                  <span>:</span>
+                  <span>{{order.transaction}}</span>
+               </div>
+               <hr>
+               <div>
+                  <span>Create At</span>
+                  <span>:</span>
+                  <span>{{order.created}}</span>
+               </div>
+               <div>
+                  <span>Updated At</span>
+                  <span>:</span>
+                  <span>{{order.modified}}</span>
+               </div>
+            </div>
+
+            {% endfor %}
+            {% elif  not request.user.membership.member.all%}
+            <p>Payment details not available</p>
+            {% endif %}
+
+
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!--=====================================-->
+<!--==end of Show payment detail=======-->
+<!--=====================================-->
+{% endblock %}

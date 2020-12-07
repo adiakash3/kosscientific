@@ -1,0 +1,429 @@
+{% extends 'main/base.html'%}
+
+{% block title%}instruction course assign{% endblock %}
+
+{% block style%}
+
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+
+$(document).ready(function () {
+$('.dataTables-example').DataTable({
+pageLength: 10,
+responsive: true,
+dom: '<"html5buttons"B>lTfgitp',
+    buttons: []
+
+    });
+
+    });
+
+    {% endblock %}
+
+    {% block content %}
+    <!--write main content here-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h3>Instruction Course List</h3>
+                    
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                                <tr>
+                                        <th>Sl No</th>
+                                        <th>Unique ID</th>
+                                        <th>Name  </th>
+                                        <th>Paper </th>
+                                        <th>Presenting & Co author Name </span></th>
+                                        <th>Title</th>
+                                        <th>Section </th>
+                                        <th>Status </th>
+                                        <th>Select </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                    <tr>
+                                            <td>
+                                                <span id="rptr1_ctl01_lblslno">1</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl01_txtQ">IC4</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl01_txtchname">Dr Odeyar Ramanujam Balasaheb</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl01_txtpre">Instruction Course</span></td>
+                                           
+                                            <td>
+                                                <span id="rptr1_ctl01_lblpname"></span>,
+                                                <span id="rptr1_ctl01_lblcoa1">Samir Bagiwadi</span>,
+                                                <span id="rptr1_ctl01_lblcoa2">Sadanand Patane</span>,
+                                                 <span id="rptr1_ctl01_lblcoa3"></span>,
+                                                 <span id="rptr1_ctl01_lblcoa4"></span>,
+                                                 <span id="rptr1_ctl01_lblcoa5"></span>
+                    
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl01_txttit">PHACOIMULSIFICATION IN MATURE CATARACTS</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl01_txtsec">Cataract</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl01_txtsts">Selected</span></td>
+                                            <td>
+                                                <input id="rptr1_ctl01_chkbox" type="checkbox" name="rptr1$ctl01$chkbox" /><br />
+                    
+                                            </td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>
+                                                <span id="rptr1_ctl02_lblslno">2</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl02_txtQ">IC6</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl02_txtchname">Dr Sunil Ganekal</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl02_txtpre">Instruction Course</span></td>
+                                           
+                                            <td>
+                                                <span id="rptr1_ctl02_lblpname"></span>,
+                                                <span id="rptr1_ctl02_lblcoa1">Elankumaran P</span>,
+                                                <span id="rptr1_ctl02_lblcoa2">Arup chakrabarthi</span>,
+                                                 <span id="rptr1_ctl02_lblcoa3">Sunil Ganekal</span>,
+                                                 <span id="rptr1_ctl02_lblcoa4">Deepak Megur</span>,
+                                                 <span id="rptr1_ctl02_lblcoa5">Satyamurthy KV</span>
+                    
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl02_txttit">Phaconightmare -Conquering Cataract Catastrophes</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl02_txtsec">Cataract</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl02_txtsts">pending</span></td>
+                                            <td>
+                                                <input id="rptr1_ctl02_chkbox" type="checkbox" name="rptr1$ctl02$chkbox" /><br />
+                    
+                                            </td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>
+                                                <span id="rptr1_ctl03_lblslno">3</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl03_txtQ">IC10</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl03_txtchname">Dr Tanushree Lokesh Hegde</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl03_txtpre">Instruction Course</span></td>
+                                           
+                                            <td>
+                                                <span id="rptr1_ctl03_lblpname"></span>,
+                                                <span id="rptr1_ctl03_lblcoa1">DR MANJUNATH BA</span>,
+                                                <span id="rptr1_ctl03_lblcoa2">DR RAVINDRA KOLVEKAR</span>,
+                                                 <span id="rptr1_ctl03_lblcoa3">DR SHIVARAM K V</span>,
+                                                 <span id="rptr1_ctl03_lblcoa4">DR VISHWANATH ANKAD</span>,
+                                                 <span id="rptr1_ctl03_lblcoa5"></span>
+                    
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl03_txttit">TROUBLESHOOTING ASTIGMATISM</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl03_txtsec">Cataract</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl03_txtsts">pending</span></td>
+                                            <td>
+                                                <input id="rptr1_ctl03_chkbox" type="checkbox" name="rptr1$ctl03$chkbox" /><br />
+                    
+                                            </td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>
+                                                <span id="rptr1_ctl04_lblslno">4</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl04_txtQ">IC24</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl04_txtchname">Dr Srikanth Y N</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl04_txtpre">Instruction Course</span></td>
+                                           
+                                            <td>
+                                                <span id="rptr1_ctl04_lblpname"></span>,
+                                                <span id="rptr1_ctl04_lblcoa1">DR madhu kumar R</span>,
+                                                <span id="rptr1_ctl04_lblcoa2">DR kaushik hegde</span>,
+                                                 <span id="rptr1_ctl04_lblcoa3">dr aravind bhat</span>,
+                                                 <span id="rptr1_ctl04_lblcoa4"></span>,
+                                                 <span id="rptr1_ctl04_lblcoa5"></span>
+                    
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl04_txttit">caveats in cataract management with concurrent retinal diseases</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl04_txtsec">Cataract</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl04_txtsts">Selected</span></td>
+                                            <td>
+                                                <input id="rptr1_ctl04_chkbox" type="checkbox" name="rptr1$ctl04$chkbox" /><br />
+                    
+                                            </td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>
+                                                <span id="rptr1_ctl05_lblslno">5</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl05_txtQ">IC32</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl05_txtchname">Dr Kumar K S</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl05_txtpre">Instruction Course</span></td>
+                                           
+                                            <td>
+                                                <span id="rptr1_ctl05_lblpname"></span>,
+                                                <span id="rptr1_ctl05_lblcoa1">Dr A.S.Guruprasad</span>,
+                                                <span id="rptr1_ctl05_lblcoa2">dr N S Muralidhar</span>,
+                                                 <span id="rptr1_ctl05_lblcoa3">Dr Mahesh Shanmugam</span>,
+                                                 <span id="rptr1_ctl05_lblcoa4">dr Praveen murthy</span>,
+                                                 <span id="rptr1_ctl05_lblcoa5"></span>
+                    
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl05_txttit">Post cataract surgery endophthalmitis- preferred practice pattern</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl05_txtsec">Cataract</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl05_txtsts">Selected</span></td>
+                                            <td>
+                                                <input id="rptr1_ctl05_chkbox" type="checkbox" name="rptr1$ctl05$chkbox" /><br />
+                    
+                                            </td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>
+                                                <span id="rptr1_ctl06_lblslno">6</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl06_txtQ">IC41</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl06_txtchname">Dr Megur Deepak</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl06_txtpre">Instruction Course</span></td>
+                                           
+                                            <td>
+                                                <span id="rptr1_ctl06_lblpname"></span>,
+                                                <span id="rptr1_ctl06_lblcoa1">K V Satyamurthy</span>,
+                                                <span id="rptr1_ctl06_lblcoa2">DR H M Ravindranath</span>,
+                                                 <span id="rptr1_ctl06_lblcoa3">Dr Bharathi Megur</span>,
+                                                 <span id="rptr1_ctl06_lblcoa4">Dr C A P Prabhu</span>,
+                                                 <span id="rptr1_ctl06_lblcoa5">Dr Deepak Megur</span>
+                    
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl06_txttit">Phaco-Follies-  How I wished I had another chance..?</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl06_txtsec">Cataract</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl06_txtsts">pending</span></td>
+                                            <td>
+                                                <input id="rptr1_ctl06_chkbox" type="checkbox" name="rptr1$ctl06$chkbox" /><br />
+                    
+                                            </td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>
+                                                <span id="rptr1_ctl07_lblslno">7</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl07_txtQ">IC42</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl07_txtchname">Dr Megur Bharathi D</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl07_txtpre">Instruction Course</span></td>
+                                           
+                                            <td>
+                                                <span id="rptr1_ctl07_lblpname"></span>,
+                                                <span id="rptr1_ctl07_lblcoa1">Dr Bharathi megur</span>,
+                                                <span id="rptr1_ctl07_lblcoa2">Dr Deepak megur</span>,
+                                                 <span id="rptr1_ctl07_lblcoa3">Dr Krishnaprasad R</span>,
+                                                 <span id="rptr1_ctl07_lblcoa4">Dr Praveen murthy</span>,
+                                                 <span id="rptr1_ctl07_lblcoa5">Dr H MRavindranath</span>
+                    
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl07_txttit">Posterior Capsule Tear Management and Anterior Vitrectomy techniques – Mastering the Critical Skills.</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl07_txtsec">Cataract</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl07_txtsts">pending</span></td>
+                                            <td>
+                                                <input id="rptr1_ctl07_chkbox" type="checkbox" name="rptr1$ctl07$chkbox" /><br />
+                    
+                                            </td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>
+                                                <span id="rptr1_ctl08_lblslno">8</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl08_txtQ">IC43</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl08_txtchname">Dr Megur Bharathi D</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl08_txtpre">Instruction Course</span></td>
+                                           
+                                            <td>
+                                                <span id="rptr1_ctl08_lblpname"></span>,
+                                                <span id="rptr1_ctl08_lblcoa1">Dr Bharathi megur</span>,
+                                                <span id="rptr1_ctl08_lblcoa2">Dr Deepak megur</span>,
+                                                 <span id="rptr1_ctl08_lblcoa3">Dr Krishnaprasad R</span>,
+                                                 <span id="rptr1_ctl08_lblcoa4">Dr Praveen murthy</span>,
+                                                 <span id="rptr1_ctl08_lblcoa5">Dr H MRavindranath</span>
+                    
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl08_txttit">Posterior Capsule Tear Management and Anterior Vitrectomy techniques – Mastering the Critical Skills.</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl08_txtsec">Cataract</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl08_txtsts">Selected</span></td>
+                                            <td>
+                                                <input id="rptr1_ctl08_chkbox" type="checkbox" name="rptr1$ctl08$chkbox" /><br />
+                    
+                                            </td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>
+                                                <span id="rptr1_ctl09_lblslno">9</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl09_txtQ">IC44</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl09_txtchname">Dr Ravindra M S</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl09_txtpre">Instruction Course</span></td>
+                                           
+                                            <td>
+                                                <span id="rptr1_ctl09_lblpname"></span>,
+                                                <span id="rptr1_ctl09_lblcoa1"></span>,
+                                                <span id="rptr1_ctl09_lblcoa2"></span>,
+                                                 <span id="rptr1_ctl09_lblcoa3"></span>,
+                                                 <span id="rptr1_ctl09_lblcoa4"></span>,
+                                                 <span id="rptr1_ctl09_lblcoa5"></span>
+                    
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl09_txttit">Refine your MSICS. A step by step video upscaling of Phacosection.</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl09_txtsec">Cataract</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl09_txtsts">Selected</span></td>
+                                            <td>
+                                                <input id="rptr1_ctl09_chkbox" type="checkbox" name="rptr1$ctl09$chkbox" /><br />
+                    
+                                            </td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>
+                                                <span id="rptr1_ctl10_lblslno">10</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl10_txtQ">IC45</span>
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl10_txtchname">Dr Satya Murthy K V</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl10_txtpre">Instruction Course</span></td>
+                                           
+                                            <td>
+                                                <span id="rptr1_ctl10_lblpname"></span>,
+                                                <span id="rptr1_ctl10_lblcoa1">Dr.Krishnaprasad Kudlu        </span>,
+                                                <span id="rptr1_ctl10_lblcoa2">Dr. Deepak Megur                                                     Dr. Deepak Megur   </span>,
+                                                 <span id="rptr1_ctl10_lblcoa3">Dr. Deepak Megur             </span>,
+                                                 <span id="rptr1_ctl10_lblcoa4">Dr. Shreesha Kumar                </span>,
+                                                 <span id="rptr1_ctl10_lblcoa5">Dr.Elankumaran               </span>
+                    
+                                            </td>
+                                            <td>
+                                                <span id="rptr1_ctl10_txttit">                                       PERFECTING CAPSURHEXIS IN PREMIUM IOLS – A VIDEO COURSE</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl10_txtsec">Cataract</span></td>
+                                            <td>
+                                                <span id="rptr1_ctl10_txtsts">Selected</span></td>
+                                            <td>
+                                                <input id="rptr1_ctl10_chkbox" type="checkbox" name="rptr1$ctl10$chkbox" /><br />
+                    
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>
+                                                    <span id="rptr1_ctl10_lblslno">10</span>
+                                                </td>
+                                                <td>
+                                                    <span id="rptr1_ctl10_txtQ">IC45</span>
+                                                </td>
+                                                <td>
+                                                    <span id="rptr1_ctl10_txtchname">Dr Satya Murthy K V</span></td>
+                                                <td>
+                                                    <span id="rptr1_ctl10_txtpre">Instruction Course</span></td>
+                                               
+                                                <td>
+                                                    <span id="rptr1_ctl10_lblpname"></span>,
+                                                    <span id="rptr1_ctl10_lblcoa1">Dr.Krishnaprasad Kudlu        </span>,
+                                                    <span id="rptr1_ctl10_lblcoa2">Dr. Deepak Megur                                                     Dr. Deepak Megur   </span>,
+                                                     <span id="rptr1_ctl10_lblcoa3">Dr. Deepak Megur             </span>,
+                                                     <span id="rptr1_ctl10_lblcoa4">Dr. Shreesha Kumar                </span>,
+                                                     <span id="rptr1_ctl10_lblcoa5">Dr.Elankumaran               </span>
+                        
+                                                </td>
+                                                <td>
+                                                    <span id="rptr1_ctl10_txttit">                                       PERFECTING CAPSURHEXIS IN PREMIUM IOLS – A VIDEO COURSE</span></td>
+                                                <td>
+                                                    <span id="rptr1_ctl10_txtsec">Cataract</span></td>
+                                                <td>
+                                                    <span id="rptr1_ctl10_txtsts">Selected</span></td>
+                                                <td>
+                                                    <input id="rptr1_ctl10_chkbox" type="checkbox" name="rptr1$ctl10$chkbox" /><br />
+                        
+                                                </td>
+                                            </tr>
+                            </tbody>
+                        </table>
+                       <div style="float: right; margin-right:17px; margin-top: -60px">
+                            <a href="#" class="btn btn-primary">Submit</a>
+                            <a href={% url 'koscientific:assign_to_instruction_course' %} class="btn btn-danger">Cancel</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}

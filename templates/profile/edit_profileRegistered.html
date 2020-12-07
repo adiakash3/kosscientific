@@ -1,0 +1,167 @@
+{% extends 'main/base.html'%}
+
+{% block title%} edit profile{% endblock %}
+{% load static %}
+
+{% block style%}
+.profile_photo_holder {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #FFFFFF;
+    box-shadow: 0 0 8px 3px #B8B8B8;
+    position: relative;
+}
+.main_profile_image {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+.dummy_profile_image { 
+    border - radius: 50 %;
+    max-width: 240px;
+    max-height: 228px;
+}
+
+.profile_photo_holder i {
+    position: absolute;
+    top: 20px;
+    right: -7px;
+    /* border: 1px solid; */
+    border-radius: 50%;
+    /* padding: 11px; */
+    height: 30px;
+    width: 30px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: cornflowerblue;
+    box-shadow: 0 0 8px 3px #B8B8B8;
+}
+#imgInp {
+    display: none;
+}
+{% endblock style%}
+
+{% block script%}
+function imgError(image) {
+    image.onerror = "";
+    image.src = "{% static  'koss/img/profile_small.png'%}";
+    return true;
+}
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#profile_image').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$('.profile_image_edit_icon').click(function () {
+    $('#imgInp').click()
+})
+$('.dummy_profile_image').click(function () {
+    $('#imgInp').click()
+})
+$("#imgInp").change(function () {
+    readURL(this);
+});
+
+{% endblock %}
+
+{% block content %}
+<!--write main content here-->
+
+
+
+<div class="wrapper wrapper-content">
+    <div class="row animated fadeInRight">
+        <div class="col-md-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+
+                        </div>
+
+                    </div>
+                    <div style="text-align:center">
+                        <h3><strong>Profile Update</strong></h3>
+                    </div>
+                </div>
+                <form [formGroup]="editProfileForm" action="." method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        <div class="ibox-content no-padding text-center">
+                            
+                            {% if edit_profile.profile.photo %}
+                            <div class="profile_photo_holder m-auto">
+                            
+                                <img id="profile_image"  alt="image" class="img-fluid main_profile_image"
+                                    src="{{edit_profile.profile.photo.url}}" onerror="imgError(this);">
+                                    <i class="fa fa-edit profile_image_edit_icon pointer"></i>
+                                    
+                            </div>
+                            {% else %}
+                            <div class="profile_photo_holder m-auto">
+                                <img id="profile_image" alt="image" class="img-fluid main_profile_image dummy_profile_image pointer"
+                                    src="{% static  'koss/img/default.png'%}" onerror="imgError(this);">
+                                    <i class="fa fa-edit profile_image_edit_icon pointer"></i>
+                                </div>
+                            {% endif %}
+                                
+                            
+                            <div>
+                                <input type='file' name="profile_image" id="imgInp" accept="image/*" />
+                            </div>
+                        </div>
+                        
+                        <div class="ibox-content profile-content">
+
+                            <div class="user-button">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p>Registered email address:</p>
+                                        <input type="text" class="form-control" placeholder="" name="email"
+                                            value="{{edit_profile.email}}" formControlName="email" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <p>Registered mobile number:</p>
+                                        <input type="text" class="form-control" placeholder="Enter mobile number"
+                                            name="mobile_number" value="{{edit_profile.profile.mobile_number}}"
+                                            formControlName="mobile_number" #username>
+                                    </div>
+
+                                </div>
+
+                                <br>
+                                <div class="row">
+
+                                    <div class="col-sm-12" style="text-align:right;">
+
+                                        <button type="submit" class="btn btn-primary" style="margin-right: 10px">Save
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

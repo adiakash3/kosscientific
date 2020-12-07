@@ -1,0 +1,292 @@
+{% extends 'main/base.html'%}
+
+{% block title%} add poster{% endblock %}
+
+{% block style%}
+
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+
+{% endblock %}
+
+{% block content %}
+<!--write main content here-->
+{% load static %}
+<script src="{% static 'koss/js/jquery-3.1.1.min.js' %}"></script>
+<script>
+function textCounter(field,field2,maxlimit)
+{
+ var countfield = document.getElementById(field2);
+ if ( field.value.length > maxlimit ) {
+  field.value = field.value.substring( 0, maxlimit );
+  return false;
+ } else {
+  countfield.value = maxlimit - field.value.length;
+ }
+}
+</script>
+<script>
+$(document).on("change","#pre_poster_id", function(){
+        $.ajax({
+            method: 'get',
+            url: "{%url 'koscientific:new_func_for_ajaxget'%}",
+            dataType: 'json',
+            data: {
+                    "id": $(this).val()
+                  },
+            success: function(data){
+                $('#sel1').val(data.email)
+                $('#sel2').val(data.mobile)
+                $('#sel3').val(data.kos_no)
+            },
+            error: function(data){
+                alert('data.error');
+            },
+
+        });
+
+});
+$(document).on("change","#co_poster_id", function(){
+        $.ajax({
+            method: 'get',
+            url: "{%url 'koscientific:new_func_for_ajaxget'%}",
+            dataType: 'json',
+            data: {
+                    "id": $(this).val()
+                  },
+            success: function(data){
+                $('#sel4').val(data.email)
+                $('#sel5').val(data.mobile)
+                $('#sel6').val(data.kos_no)
+            }
+
+        });
+
+});
+
+
+</script>
+
+
+<div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h3>Submit Poster</h3>
+                    <span class="pull-right">
+                        <button type="button" class="btn btn-primary" data-toggle="model">
+    
+                            <a href="{% url 'koscientific:poster'%}" class="text-white">Poster List</a>
+    
+                        </button>
+                    </span>
+                </div>
+    
+                <!--            register here     -->
+                <div class="ibox-content">
+    
+                    <form id="" action="." method="post">
+                        {% csrf_token %}
+    
+                        <!-- Start Row Name and Date of Birth.-->
+    
+                        <div class="form-group  row">
+                                <label class="col-sm-2 col-form-label">Title Of the Abstract <span style="color: red;">*</span></label>
+        
+                                <div class="col-sm-10" style="color:#1c84c6">
+                                    Must not exceeds 100 characters * &nbsp<input disabled  maxlength="3" size="3" style="color:red" value="100" id="counter"> characters left
+                                    <input type="text" value="Enter Title Of the Abstract " class="form-control" required maxlength="100" onfocus="this.style.color='#000';this.value='';" style="color: #808080;"
+                                        name="title" formControlName="titleOfTheAbstraction" onkeyup="textCounter(this,'counter',100);">
+                                </div>
+                            </div>
+
+                        <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Poster type:<span style="color: red;">*</span></label>
+                        <div class="col-sm-10">
+                            <select required class="form-control" style="height:35px" id="Instruction_course_type" name="poster_type" style="color:#808080;">
+                                <option value="" selected="" disabled="" style="color:#808080;">Select poster type</option>
+                                <option>E Poster</option>
+                                <option>Physical Poster</option>
+
+
+                            </select>
+                        </div>
+                    </div>
+    
+                      
+    
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Section:<span style="color: red;">*</span></label>
+                            <div class="col-sm-10">
+                               
+                                    <select required id="clientID"  name="section" class="form-control select2_demo_1" style="color:#808080;">
+                            <option value="" selected="" disabled=""> Select Section</option>
+                                        {% for each in section_list %}
+                                            <option value="{{ each.id }}">{{ each }}</option>
+                                        {% endfor %}
+                                    </select>
+    
+                            </div>
+                        </div>
+                       
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Abstract:<span style="color: red;">*</span></label>
+                            <div class="col-sm-10" style="color:#1c84c6">
+                                <p>Do not mention any Institution/Hospital/Organisation names or any authors name in the text otherwise rejected automatically.</p>
+                                Must not exceeds 1000 characters * &nbsp<input disabled  maxlength="3" size="3" style="color:red" value="1000" id="counter2"> characters left
+                                <textarea rows="6" cols="70" type="text" id="abstract" class="form-control" name="abstract" required maxlength="1000"
+                                    formControlName="abstract" onkeyup="textCounter(this,'counter2',1000);"></textarea>
+    
+                            </div>
+                        </div>
+    
+                    {% if perms.koscientific.view_status %}
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Status</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="status" name="status" style="color:#808080;">
+                                        <option>Pending</option>
+                                        <option>Selected</option>
+                                      <option>Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        {% endif %}
+                    <div class="row" style="background-color: #f3f3f4;">
+         <div class="col-sm-12">
+                            <div class="ibox ">
+                                <div class="ibox-title">
+                        <div class="form-group  row">
+                                <label class="col-sm-2 col-form-label control-label">Presenting author's Name:</label>
+                                <div class="col-sm-10">
+                                    <select required id="pre_poster_id" style="width:50%;color:#808080;" name="presenting_poster_auther_name" class="form-control select2_demo_1">
+                            <option value="" selected="" disabled="">Select Presenting author's name</option>
+                                        {% for each in member_name_list %}
+                                            <option value="{{ each.id }}">{{ each }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                 <div class="ibox-content">
+                                        <div class="row" id="">
+                                            <label class="col-sm-3 col-form-label">
+                                                Presenting Author's E-mail</label>
+
+                                           <div class="col-sm-9"><input readonly type="text" id="sel1" class="form-control"></div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="row"><label class="col-sm-3 col-form-label">Author's
+                                                Mobile Number</label>
+
+                                            <div class="col-sm-9"><input readonly type="text" id="sel2" class="form-control"></div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="row"><label class="col-sm-3 col-form-label">
+                                                KOS Number</label>
+                                            <div class="col-sm-9"><input readonly type="text" id="sel3" class="form-control"></div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                             </div>
+                                </div>
+             </div>
+                         </div>
+                    <div class="row" style="background-color: #f3f3f4;">
+         <div class="col-sm-12">
+                            <div class="ibox ">
+                                <div class="ibox-title">
+                        <div class="form-group  row">
+                                <label class="col-sm-2 col-form-label control-label">Co author's Name:</label>
+                                <div class="col-sm-10">
+                                    <select required id="co_poster_id" style="width:50%;color:#808080;" name="coauther_poster_name" class="form-control select2_demo_1">
+                            <option value="" selected="" disabled="">Select Co authors's name</option>
+                                        {% for each in member_name_list %}
+                                            <option value="{{ each.id }}">{{ each }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                 <div class="ibox-content">
+                                        <div class="row" id="">
+                                            <label class="col-sm-3 col-form-label">
+                                                Presenting Author's E-mail</label>
+
+                                           <div class="col-sm-9"><input readonly type="text" id="sel4" class="form-control"></div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="row"><label class="col-sm-3 col-form-label">Author's
+                                                Mobile Number</label>
+
+                                            <div class="col-sm-9"><input readonly type="text" id="sel5" class="form-control"></div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="row"><label class="col-sm-3 col-form-label">
+                                                KOS Number</label>
+                                            <div class="col-sm-9"><input readonly type="text" id="sel6" class="form-control"></div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                             </div>
+                                </div>
+             </div>
+             </div>
+                         <div class="form-group  row">
+                        <p><span style="color:#1c84c6">NOTE</span>
+                        <br>
+                            <br>
+                            -Online submission will be taken as signed by the Chief Instructor<br>
+                            -This presentation may be recorded by the Society & distributed in any form to the delegates and others.<br>
+                            -Clicking on submit button will submit your abstract for further evaluation. Subsequent to this it will not be possible for you to edit your abstract<br>
+                            <br>
+                            <input type="checkbox" id="agree" name="agree" required>
+                            <label for="agree"><span style="color:#1c84c6">I have read & understood the <a href="https://member.kosonline.org/Poster/guidelines/ " onMouseOver="this.style.color='red'"
+        onMouseOut="this.style.color='#1c84c6'">Guidelines</a>.</span></label><br>
+                        </p>
+                    </div>
+
+
+
+
+                        <div class="form-group row">
+    
+                            <div class="col-sm-10 col-sm-offset-2 text-center">
+                             <button type="submit" class="btn btn-primary" name="draft"><strong>Save Draft</strong></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-primary" name="final"><strong>Final Submit</strong>
+                                </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    
+                                <button type="button" class="btn btn-danger "><strong><a
+                                    href="{% url 'koscientific:poster'%}"
+                                            class="text-white">Cancel</a></strong>
+    
+                                </button>
+
+                            </div>
+    
+                        </div>
+
+                    </form>
+
+    
+                </div>
+    
+                <!--   register end-->
+    
+    
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

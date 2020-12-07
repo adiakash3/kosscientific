@@ -1,0 +1,63 @@
+{% extends 'main/base.html'%}
+
+{% block title%}instruction course assign{% endblock %}
+
+{% block style%}
+
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+
+$(document).ready(function () {
+    $('.dataTables-example').DataTable({
+        pageLength: 10,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: []
+    });
+});
+
+{% endblock %}
+
+{% block content %}
+<!--write main content here-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h3>My invited session detail</h3>
+            </div>
+            <div class="ibox-content">
+                <div class="">
+                    <div>
+                        <h5>Abstract title</h5>
+                        <p>{{received_session.abstract_title}}</p>
+                    </div>
+                    <div>
+                        <h5>Name</h5>
+                        <p>{{received_session.name}}</p>
+                    </div>
+                    <div>
+                        <h5>Submission type</h5>
+                        <p>{{received_session.submission_type}}</p>
+                    </div>
+                    <div>
+                        <h5>Summary</h5>
+                        <p>{{received_session.summary}}</p>
+                    </div>
+                    <div>
+                        <h5>Sent from</h5>
+                        <p>{{received_session.created_by}}</p>
+                    </div>
+                    <div>
+                        <h5>Created at</h5>
+                        <p>{{received_session.created_at}}</p>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

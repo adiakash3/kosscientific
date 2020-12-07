@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	  <style>
+          p.double {
+            border-style: ridge;
+		    width: 100%;
+		    text-align: center;
+		    border: solid;
+		    border-color: black;
+		    align-content: center;
+		    }
+
+		  h3.pcr{
+            border-style: ridge;
+            width: 100%;
+		    text-align: center;
+		    border: solid;
+		    border-color: blue;
+		    align-content: center;
+
+		  }
+
+		  h4{
+		  margin-top: 5px;
+		  }
+
+					</style>
+
+
+    <meta charset="utf-8">
+    <title>Invoice</title>
+	  {% load static %}
+<!--	  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">-->
+<!--    <link rel="stylesheet" href="/home/sunny/Desktop/demo/style.css" media="all" />-->
+  </head>
+  <body>
+
+    <table width="100%">
+    <tr>
+
+        <td style="float:right">
+<!--          <img style="width: 170px; margin-top: -280px;height: 130px;float:right; margin-right: 195px;padding-left:4px;" src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'image/petbiotech.png' %}">-->
+      <img style="width: 170px; margin-top: -280px;height: 130px;float:right; margin-right: 195px;padding-left:4px;" src="/home/sunny/Documents/banner1_1.jpg">
+
+        </td>
+
+<!--        <td style="float:left;line-height: 0.5">-->
+<!--            <h2 style="color: blue" >{{organization_name}}</h2>-->
+<!--               <p style="color : blue">{{organization_addressFirst}}<br>{{organization_addressSecond}}</p>-->
+<!--            <p style="color:blue">GSTIN 29AQZPB3827F1ZH</p>-->
+<!--            <br>-->
+<!--       </td>-->
+
+        <td style="float:left;line-height: 0.5">
+            <h2 style="color: blue" >Karnataka opthalmic Society</h2>
+               <p style="color : blue">Sulekha apartment,near bhanshakri metro<br>Bangalore</p>
+            <p style="color:blue">GSTIN 29AQZPB3827F1ZH</p>
+            <br>
+       </td>
+
+        <td width="60%">
+
+        </td>
+
+
+    </tr>
+    </table>
+
+
+
+    <br>
+    <br>
+    <br>
+
+    <table width="100%" style="border-style:solid;padding-left:4px;padding-top: -10px">
+    <tr>
+           <td style="float:left">
+              <h4>Invoice number : {{invoice_number}}</h4>
+               <h4>Date : {{day1}}</h4>
+       </td>
+    </tr>
+    </table>
+    <br>
+    <br>
+        <br>
+
+    <table width="100%" cellspacing="5" style="border-style:solid;padding-top: -10px;padding-left:4px;line-height: 1.6;">
+        <tr>
+            <td>
+                <h4>Bill to : {{name}} </h4>
+                <h4>Address : {{recidence_Street_address}}<br>{{recidence_city}}<br>{{recidence_pincode}}</h4>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    <br>
+
+
+
+   <table>
+         <tr>
+            <td colspan="4" style="padding-top: 10px;padding-left: 3px;text-align:centre;border-style:solid;border-color:black;"><b> Membership fees :</b></td>
+            <td style="padding-top: 10px;padding-left: 3px;text-align:centre;border-style:solid;border-color:black;"><b>{{price}}</b></td>
+        </tr>
+    </table>
+
+    <table>
+         <tr>
+            <td colspan="4" style="padding-top: 10px;padding-left: 3px;text-align:centre;border-style:solid;border-color:black;"><b> Total Amount in words :{{amount_in_words}}</b></td>
+            <td style="padding-top: 10px;padding-left: 3px;text-align:centre;border-style:solid;border-color:black;"><b>Total amount:{{total_amount}}</b></td>
+        </tr>
+    </table>
+
+
+
+    <h3>Payment Mode:{{status}}</h3>
+    <h3>Transaction status:{{transaction}}</h3>
+
+
+
+
+
+    </main>
+    <footer>
+      Invoice was created on a computer and is valid without the signature and seal.
+    </footer>
+  </body>
+</html>

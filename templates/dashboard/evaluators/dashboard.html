@@ -1,0 +1,225 @@
+{% extends 'main/base.html'%}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title%}Evaluator Dashboard{% endblock %}
+{% block style%}
+<style>
+   .dropdown {
+      position: relative;
+      display: inline-block;
+   }
+
+   .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: green;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      padding: 25px 16px;
+      z-index: 1;
+   }
+
+   .dropdown:hover .dropdown-content {
+      display: block;
+   }
+
+   .myModal {
+      width: 8000px;
+      margin-left: -4000px;
+   }
+
+   .orange {
+      background: #ff6f00 !important;
+      color: #fff;
+   }
+
+   .button {
+      color: #ff0066 !important;
+      background-color: #ffffff;
+   }
+
+   .margin10 {
+      margin-bottom: 10px;
+   }
+
+   .nomargintop {
+      margin-top: 0px
+   }
+
+   .orange p {
+      color: #fff;
+      font-style: normal;
+      margin: 3px;
+      text-decoration: none;
+   }
+
+   .tile {
+      width: 100%;
+      padding: 15px;
+      height: 220px;
+      background: #efefef;
+      margin-bottom: 20px;
+   }
+
+   .secondheding {
+      font-size: 25px;
+      color: #4a148c;
+   }
+
+   /* second colum css */
+   .aquablue {
+      background: #00b8d4 !important;
+      color: #fff;
+   }
+
+   .button1 {
+      color: #ff0066;
+      background-color: #ffffff;
+      -ms-transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+      transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+      font-weight: 600;
+      font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, Verdana, sans-serif;
+      text-align: center;
+      vertical-align: middle;
+      text-transform: capitalize;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+      padding: 0 18px;
+      margin-right: 18px;
+      border: 0 none;
+      border-radius: 3px;
+      display: inline-block;
+      font-size: 13px;
+      height: 32px;
+      line-height: 32px;
+   }
+
+   .buttoninfo {
+      color: #ff0066;
+      background-color: #ffffff;
+      -ms-transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+      transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+      font-weight: 600;
+      font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, Verdana, sans-serif;
+      text-align: center;
+      vertical-align: middle;
+      text-transform: capitalize;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+      padding: 0 18px;
+      /* margin-right: 18px; */
+      border: 0 none;
+      border-radius: 3px;
+      display: inline-block;
+      font-size: 13px;
+      height: 32px;
+      line-height: 32px;
+   }
+
+   .darkblue {
+      background: #311b92 !important;
+      color: #fff;
+   }
+
+   .green {
+      background: #339933 !important;
+      color: #fff;
+   }
+
+   a:hover {
+      color: #ff0066;
+      text-decoration: none;
+   }
+</style>
+{% endblock style%}
+
+{% block content %}
+
+<div class="wrapper wrapper-content">
+   <!--====================Paper not evaluated yet=======================-->
+   <div class="row">
+      <div class="col-lg-3">
+         <div class="ibox ">
+            <div class="ibox-title">
+               <h5><a href="{% url 'koscientific:assign_to_instruction_course' %}"> INS COURSE</a></h5>
+            </div>
+            <div class="ibox-content">
+               <div class="ibox-tools"><span class="label label-success ">Under Evaluation</span></div>
+               <h1 class="no-margins">{{ic_paper_under_eval_count}}</h1>
+            </div>
+         </div>
+      </div>
+      <div class="col-lg-3">
+         <div class="ibox ">
+            <div class="ibox-title">
+               <h5><a href="{% url 'koscientific:assign_to_freepaper' %}"> FREE PAPER/POSTER</a></h5>
+            </div>
+            <div class="ibox-content">
+               <div class="ibox-tools"><span class="label label-success ">Under Evaluation</span></div>
+               <h1 class="no-margins">{{free_paper_under_eval_count}}</h1>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-3">
+         <div class="ibox ">
+            <div class="ibox-title">
+               <h5><a href="{% url 'koscientific:assign_to_video' %}"> VIDEO</a></h5>
+            </div>
+            <div class="ibox-content">
+               <div class="ibox-tools"><span class="label label-success ">Under Evaluation</span></div>
+               <h1 class="no-margins">{{video_paper_under_eval_count}}</h1>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!--======================Paper evaluated===================-->
+   <div class="row">
+      <div class="col-lg-3">
+         <div class="ibox ">
+            <div class="ibox-title">
+               <h5><a href="{% url 'koscientific:assign_to_instruction_course' %}"> INS COURSE</a></h5>
+            </div>
+            <div class="ibox-content">
+
+               <div class="ibox-tools"><span class="label label-success ">Evaluated</span></div>
+               <h1 class="no-margins">{{ic_paper_evaluated_count}}</h1>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-3">
+         <div class="ibox ">
+            <div class="ibox-title">
+               <h5><a href="{% url 'koscientific:assign_to_freepaper' %}"> FREE PAPER/POSTER </a></h5>
+            </div>
+            <div class="ibox-content">
+               <div class="ibox-tools"><span class="label label-success ">Evaluated</span></div>
+               <h1 class="no-margins">{{free_paper_evaluated_count}}</h1>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-3">
+         <div class="ibox ">
+            <div class="ibox-title">
+               <h5><a href="{% url 'koscientific:assign_to_video' %}"> VIDEO </a></h5>
+            </div>
+            <div class="ibox-content">
+               <div class="ibox-tools"><span class="label label-success ">Evaluated</span></div>
+               <h1 class="no-margins">{{video_paper_evaluated_count}}</h1>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock content%}

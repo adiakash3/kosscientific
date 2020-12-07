@@ -1,0 +1,83 @@
+{% extends 'main/base.html'%}
+
+{% block title%}FAQ{% endblock %}
+
+{% block style%}
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+
+$(document).ready(function () {
+$('.dataTables-example').DataTable({
+pageLength: 10,
+responsive: true,
+dom: '<"html5buttons"B>lTfgitp',
+buttons: []
+
+});
+
+});
+
+{% endblock %}
+
+     {% block crumbs %}
+ / <a href="">Help</a>
+ {% endblock %}
+
+{% block content %}
+
+    <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-sm-4">
+                    <h2>HELP</h2>
+
+                </div>
+         {% if perms.koscientific.help %}
+         <div class="col-sm-8">
+                    <div class="title-action">
+                        <a href="{% url 'koscientific:help_add' %}" class="btn btn-primary btn-sm">Add Help</a>
+                    </div>
+                </div>
+        {% endif %}
+
+                </div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1> Help List</h1>
+
+                        {% for each in help_list %}
+                        <div class="faq-item">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a data-toggle="collapse" href="#faq1_{{each.id}}" class="faq-question">{{each.title}}</a>
+                                </div>
+
+                                <div class="col-md-2 text-right">
+                                    <span class="small font-bold"> </span><br/>
+
+                                </div>
+                            </div>
+
+                                <div class="col-lg-12">
+                                    <div id="faq1_{{each.id}}" class="panel-collapse collapse ">
+                                        <div class="faq-answer">
+                                            <p>
+                                                {{each.description}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    	{% endfor %}
+
+            </div>
+
+
+</div>
+    </div>
+
+
+{% endblock %}

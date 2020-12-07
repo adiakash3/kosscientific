@@ -1,0 +1,76 @@
+{% extends 'main/base.html'%}
+
+{% block title%}Event detail{% endblock %}
+
+{% block style%}
+
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+
+
+
+{% endblock %}
+
+
+
+
+{% block content %}
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / <a href="{% url 'koscientific:event_list' %}">Events</a>
+        / Add/Edit
+
+    </div>
+{% endblock %}
+<!--write main content here-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h3>Event details</h3>
+            </div>
+            <div class="ibox-content">
+                <div class="">
+                    <div>
+                        <h5>Event name</h5>
+                        <p>{{event.name}}</p>
+                    </div>
+                    <div>
+                        <h5>Description</h5>
+                        <p>{{event.description}}</p>
+                    </div>
+                    <div>
+                        <h5>Start date</h5>
+                        <p>{{event.start_date}}</p>
+                    </div>
+                    <div>
+                        <h5>End date</h5>
+                        <p>{{event.end_date}}</p>
+                    </div>
+                    <div>
+                        <h5>Status</h5>
+                        <p>{{event.get_status_display}}</p>
+                    </div>
+                    <div>
+                        <h5>Created at</h5>
+                        <p>{{event.created_at}}</p>
+                    </div>
+                    <div>
+                        <h5>updated at</h5>
+                        <p>{{event.updated_at}}</p>
+                    </div>
+                    <div>
+                        <h5>Created by</h5>
+                        <p>{{event.created_by}}</p>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

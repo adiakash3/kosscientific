@@ -1,0 +1,83 @@
+{% extends 'main/base.html'%}
+
+{% block title%}{{membership.user.first_name}} {{membership.user.last_name}} profile details{% endblock %}
+
+{% block style%}
+
+<!--write here css-->
+{% endblock style%}
+{% block script%}
+$(document).ready(function () {
+
+});
+
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h3>Profile Details</h3>
+                <span class="pull-right">
+                    <a href="{% url 'koscientific:profile_update' membership.id %}" class="btn btn-primary">
+                        Request to update profile</a>
+                </span>
+                <div>Email : {{membership.user.email}}</div>
+                <div>First name: {{membership.user.first_name}} </div>
+                <div>Last name: {{membership.user.last_name}}</div>
+            </div>
+            <div class="ibox-content">
+            
+            <div class="text-center">
+                <p>
+                    <b> Profile last modified on: </b>
+                    <span>{{profile.updated_at}}</span>
+                </p>
+            </div>
+            <hr>
+            {% if profile_watchers %}
+                {% for profile_watcher in profile_watchers %}
+                    <div>
+                        <p>
+                            <span><b>{{ forloop.counter }}. Admin requested at :</b> </span>
+                            <span>{{profile_watcher.created_at}}</span>
+                        </p>
+                        <p>
+                            <span>SMS sent : </span>
+                            <span>{{profile_watcher.is_sms_sent}}</span>
+                        </p>
+                        <p>
+                            <span>Email sent : </span>
+                            <span>{{profile_watcher.is_mail_sent}}</span>
+                        </p>
+                        <p>
+                            <span>Is user updated : </span>
+                            <span>{{profile_watcher.is_recently_updated}}</span>
+                        </p>
+                        
+                        {% if profile_watcher.commnet %}
+                            <p>
+                                <span>Profile commnet : </span>
+                                <span>{{profile_watcher.commnet}}</span>
+                            </p>
+                        {% endif %}
+                            
+                        {% if profile_watcher.is_recently_updated == True %}
+                            <p>
+                                <span>User updated on : </span>
+                                <span>{{profile_watcher.updated_at}}</span>
+                            </p>                            
+                        {% endif %}
+                        
+                    </div>
+                    <hr>
+                {% endfor %}
+            {% endif %}
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

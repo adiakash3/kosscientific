@@ -1,0 +1,128 @@
+{% extends 'main/base.html'%}
+
+{% block title%}Dashboard{% endblock %}
+
+{% block style%}
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+
+
+
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+
+
+    <link href="{% static 'koss/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    {% if perms.koscientific.complete_payment %}
+    <center>
+    <h1> <b><u>Payment Pending</u></b></h1>
+    <br>
+    <br>
+    <br>
+    <h3 style="text-align:left">Hello {{name}},</h3>
+    <h3 style="text-align:left">Thank you for registering to Karnataka opthalmic society </h3>
+    <h3 style="text-align:left">You have outstanding payment ,please complete the payment to proceed further.</h3>
+    <br>
+    <h3 style="text-align:left">Thanks and best regards, </h3>
+    <h3 style="text-align:left"> KOS response team.</h3>
+    <br>
+    <br>
+    <div style="text-align:center">
+                    <button type="button" class="btn btn-primary text-center" id="rzp-button1" style="width:100px">Pay</button>
+                </div>
+    </center>
+    {% endif %}
+
+            </div>
+     </div>
+
+<!-- <div class="from-group row">-->
+<!--                <label class="col-sm-5 col-form-label">Membership Price: <span>&#8377;</span>20-->
+
+<!--                    <button type="button" class="btn btn-primary" id="rzp-button1">Pay</button>-->
+
+
+
+<!--            </div>-->
+
+<style>
+
+    #rzp-button1 {
+    background: #4E4E91;
+    color: white;
+    padding: 11px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+</style>
+
+
+<script src="{% static 'koss/js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'koss/js/popper.min.js' %}"></script>
+<script src="{% static 'koss/js/bootstrap.min.js' %}"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "rzp_test_YQA2XSlHVofsT5",
+    "amount": "2000", // 2000 paise = INR 20
+    "name": "Merchant Name",
+    "description": "Purchase Description",
+    "image": "/your_logo.png",
+    "handler": razorpaymentcapture,
+
+    "prefill": {
+        "name": "Harshil Mathur",
+        "email": "harshil@razorpay.com"
+    },
+    "notes": {
+        "address": "Hello World"
+    },
+    "theme": {
+        "color": "#F37254"
+    }
+};
+var rzp1 = new Razorpay(options);
+
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+function razorpaymentcapture(transaction){
+            $.ajax({
+            method: 'post',
+            url: "{% url 'koscientific:capture_payment' %}",
+            dataType: 'json',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                "razorpay_payment_id": transaction.razorpay_payment_id
+            },
+            success: function (data) {
+                alert('Transaction Successful');
+                $('#paymentorder').val(data.razor_payment_id);
+
+            },
+            error: function (data) {
+                alert('Transaction Failed');
+
+            }
+
+            });
+        }
+</script>
+
+
+</html>
+{% endblock %}

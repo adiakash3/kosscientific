@@ -1,0 +1,193 @@
+{% extends 'main/base.html'%}
+{% load has_group %}
+
+{% block title%} Edit free paper{% endblock %}
+
+{% block style%}
+
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+$(document).ready(function () {
+    $(".select2_demo_1").select2();
+});
+function textCounterr(field, maxlimit) {
+    var countfield = $(field).prev("input");
+    console.log(countfield);
+    if (field.value.length > maxlimit) {
+        field.value = field.value.substring(0, maxlimit);
+        return false;
+    } else {
+        countfield.val(maxlimit - field.value.length);
+    }
+}
+{% endblock %}
+
+{% block content %}
+<!--write main content here-->
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h3>Submit Free Paper</h3>
+                <span class="pull-right">
+                    <button type="button" class="btn btn-primary" data-toggle="model">
+
+                        <a href="{% url 'koscientific:free_paper'%}" class="text-white">Free Paper/E-Poster/Physical Poster List</a>
+
+                    </button>
+                </span>
+            </div>
+
+            <!--            register here     -->
+            <div class="ibox-content">
+
+                <form id="member" action="." method="post">
+                    {% csrf_token %}
+                    <div class="form-group  row">
+                        <br>
+                        <label for="event" class="col-sm-2 col-form-label">Event<span
+                                style="color: red;">*</span>
+                        </label>
+                        <div class="col-sm-10">
+                            <select id="event" style="color:#808080;" name="event" class="form-control select2_demo_2">
+                                <option value="" selected="" disabled="">select an event</option>
+
+                                {% for event in events %}
+                                <option value="{{event.id}}" {% if event.id == inst_freepap.event.id %} selected {% endif %} >{{event.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Title Of the Abstract<span
+                            style="color: red;">*</span></label>
+
+                        <div class="col-sm-10">
+                            Must not exceeds 100 characters * &nbsp<input  maxlength="3" size="3"
+                                                style="color:red" value="100" > characters left
+                            <input type="text" placeholder="Enter Title Of the Abstract " class="form-control"
+                                name="title" value="{{inst_freepap.title}}" required maxlength="100" onkeyup="textCounterr(this,100);">
+                        </div>
+                    </div>
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Types of presentation:<span
+                            style="color: red;">*</span></label>
+                        <div class="col-sm-10">
+                            <select id="clientID" style="width:auto" name="type_of_presentation" class="form-control select2_demo_1">
+                                {% for t_val, t_name in type_of_presentations %}
+                                <option value="{{ t_val }}" {% if t_val ==  inst_freepap.type_of_presentation %}selected{% endif %}>{{ t_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Section:<span
+                            style="color: red;">*</span></label>
+                        <div class="col-sm-10">
+                            <select id="clientID" style="width:auto" name="section" class="form-control select2_demo_1">
+                                <option value="" selected="" disabled="">{{ inst_freepap.section.section_name }}
+                                </option>
+                                {% for each in section_list %}
+                                <option value="{{ each.id }}" {% if each.id ==  inst_freepap.section.id %}selected{% endif %}>{{ each }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Synopsis:<span
+                            style="color: red;">*</span></label>
+                        <div class="col-sm-10">
+                            <p style="color:#1c84c6">Do not mention any Institution/Hospital/Organisation names or any authors name in the
+                                text otherwise rejected automatically.</p>
+                                Must not exceeds 100 characters * &nbsp<input  maxlength="4" size="4"
+                                                style="color:red" value="1000" > characters left
+                            <textarea rows="6" cols="70" type="text" id="synopsis" class="form-control" name="synopsis"
+                            required maxlength="1000" onkeyup="textCounterr(this,1000);" >{{ inst_freepap.synopsis }}</textarea>
+
+                        </div>
+                    </div>
+
+
+                   
+                    {% if request.user|has_group:"admin" %}
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label control-label">Chief author's Name:</label>
+                            <div class="col-sm-10">
+                                <select id="" style="width:auto" name="chief_author_name"
+                                    class="form-control select2_demo_1">
+            
+                                    {% for each in members %}
+                                    <option value="{{ each.id }}" {% if each.id ==  inst_freepap.chief_author.id %}selected{% endif %}>{{ each }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>                      
+                    {% endif %}
+
+                       
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label control-label">Presenting author's Name:</label>
+                        <div class="col-sm-10">
+                            <select id="" style="width:auto" name="presenting_auther_name"
+                                class="form-control select2_demo_1">
+        
+                                {% for each in member_name_list %}
+                                <option value="{{ each.id }}" {% if each.id ==  inst_freepap.presenting_auther_name.id %}selected{% endif %}>{{ each }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>   
+                    
+                    {% for coauther_name in inst_freepap.coauther_name.all %}
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label control-label">Co author's Name:</label>
+                            <div class="col-sm-10">
+                                <select id="" style="width:auto" name="coauther_name" class="form-control select2_demo_1">
+                                    {% for each in member_name_list %}
+                                    <option value="{{ each.id }}" {% if each.id ==  coauther_name.id %}selected{% endif %}>{{ each }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                        
+                    <div class="form-group row">
+
+                        <div class="col-sm-10 col-sm-offset-2 text-center">
+                            <button type="submit" class="btn btn-primary" name="draft"><strong>Save
+                                    Draft</strong></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-primary" name="final"><strong>Final Submit</strong>
+
+                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <button type="button" class="btn btn-danger "><strong><a
+                                        href="{% url 'koscientific:free_paper' %}"
+                                        class="text-white">Cancel</a></strong>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+
+            </div>
+
+            <!--   register end-->
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

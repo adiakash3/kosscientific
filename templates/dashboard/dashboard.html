@@ -1,0 +1,604 @@
+{% extends 'main/base.html'%}
+{% load crispy_forms_tags %}
+
+{% block title%}Dashboard{% endblock %}
+{% block style%}
+<style>
+
+
+   .dropdown {
+     position: relative;
+     display: inline-block;
+   }
+
+   .dropdown-content {
+     display: none;
+     position: absolute;
+     background-color: green;
+     min-width: 160px;
+     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+     padding: 25px 16px;
+     z-index: 1;
+   }
+
+   .dropdown:hover .dropdown-content {
+     display: block;
+   }
+
+   .myModal {
+   width: 8000px;
+   margin-left: -4000px;
+   }
+   .orange {
+   background: #ff6f00 !important;
+   color: #fff;
+   }
+   .button {
+   color: #ff0066 !important;
+   background-color: #ffffff;
+   }
+   .margin10 {
+   margin-bottom: 10px;
+   }
+   .nomargintop {
+   margin-top: 0px
+   }
+   .orange p {
+   color: #fff;
+   font-style: normal;
+   margin: 3px;
+   text-decoration: none;
+   }
+   .tile {
+   width: 100%;
+   padding: 15px;
+   height: 220px;
+   background: #efefef;
+   margin-bottom: 20px;
+   }
+   .secondheding {
+   font-size: 25px;
+   color: #4a148c;
+   }
+   /* second colum css */
+   .aquablue {
+   background: #00b8d4 !important;
+   color: #fff;
+   }
+   .button1 {
+   color: #ff0066;
+   background-color: #ffffff;
+   -ms-transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+   transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+   font-weight: 600;
+   font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, Verdana, sans-serif;
+   text-align: center;
+   vertical-align: middle;
+   text-transform: capitalize;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   -moz-user-select: none;
+   user-select: none;
+   white-space: nowrap;
+   overflow: hidden;
+   padding: 0 18px;
+   margin-right: 18px;
+   border: 0 none;
+   border-radius: 3px;
+   display: inline-block;
+   font-size: 13px;
+   height: 32px;
+   line-height: 32px;
+   }
+   .buttoninfo {
+   color: #ff0066;
+   background-color: #ffffff;
+   -ms-transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+   transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+   font-weight: 600;
+   font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, Verdana, sans-serif;
+   text-align: center;
+   vertical-align: middle;
+   text-transform: capitalize;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   -moz-user-select: none;
+   user-select: none;
+   white-space: nowrap;
+   overflow: hidden;
+   padding: 0 18px;
+   /* margin-right: 18px; */
+   border: 0 none;
+   border-radius: 3px;
+   display: inline-block;
+   font-size: 13px;
+   height: 32px;
+   line-height: 32px;
+   }
+   .darkblue {
+   background: #311b92 !important;
+   color: #fff;
+   }
+   .green {
+   background: #339933 !important;
+   color: #fff;
+   }
+   a:hover {
+   color: #ff0066;
+   text-decoration: none;
+   }
+</style>
+{% endblock style%}
+{% block script%}
+{% endblock %}
+<html>
+   <head>
+      <!--write main content here-->
+      {% block content %}
+      {% load static %}
+      
+      <div class="wrapper wrapper-content">
+         <div class="row">
+            {% if perms.koscientific.inc_count %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:instruction_course' %}"> INS COURSE</a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:create_instruction' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                     <div class="ibox-tools"><span class="label label-success ">Under Evaluated</span></div>
+                     <h1 class="no-margins">{{ins_undereval_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            {% if perms.koscientific.inc_count %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:freepaper_list' %}"> FREE PAPER/POSTER</a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:add_free_paper' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                     <div class="ibox-tools"><span class="label label-success ">Under Evaluated</span></div>
+                     <h1 class="no-margins">{{FreePaper_undereval_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            
+            {% if perms.koscientific.inc_count %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:video' %}"> VIDEO</a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:add_video' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                     <div class="ibox-tools"><span class="label label-success ">Under Evaluated</span></div>
+                     <h1 class="no-margins">{{Video_undereval_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+         </div>
+         <div class="row">
+            {% if perms.koscientific.inc_count %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:instruction_course_evaluated' %}"> INS COURSE</a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:create_instruction' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                     <div class="ibox-tools"><span class="label label-success ">Evaluated</span></div>
+                     <h1 class="no-margins">{{ins_eval_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            {% if perms.koscientific.inc_count %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:free_paper_evaluated' %}"> FREE PAPER/POSTER </a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:add_free_paper' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                     <div class="ibox-tools"><span class="label label-success ">Evaluated</span></div>
+                     <h1 class="no-margins">{{FreePaper_eval_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            
+            {% if perms.koscientific.inc_count %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:video_evaluated' %}"> VIDEO </a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:add_video' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                     <div class="ibox-tools"><span class="label label-success ">Evaluated</span></div>
+                     <h1 class="no-margins">{{Video_eval_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+         </div>
+         <div class="row">
+            {% if perms.koscientific.inc_count %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:instruction_course_selected' %}"> INS COURSE</a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:create_instruction' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                     <div class="ibox-tools"><span class="label label-success ">Selected</span></div>
+                     <h1 class="no-margins">{{ins_selected_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            {% if perms.koscientific.inc_count %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:free_paper_selected' %}"> FREE PAPER/POSTER </a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:add_free_paper' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                     <div class="ibox-tools"><span class="label label-success ">Selected</span></div>
+                     <h1 class="no-margins">{{FreePaper_selected_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            
+            {% if perms.koscientific.inc_count %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:video_selected' %}"> VIDEO </a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:add_video' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                     <div class="ibox-tools"><span class="label label-success ">Selected</span></div>
+                     <h1 class="no-margins">{{Video_selected_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+         </div>
+         {% if perms.koscientific.dashboad_exceptMember %}
+         <div class="row">
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:member_list' %}"> MEMBER </a> </h5>
+                  </div>
+                  <div class="ibox-content">
+                     <h1 class="no-margins">{{total_members_count}}</h1>
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:register' %}" class="btn btn-primary">
+                     Apply</a>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:evaluter_list' %}"> EVALUATOR </a> </h5>
+                  </div>
+                  <div class="ibox-content">
+                     <h1 class="no-margins">{{evaluator}}</h1>
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:evalutor_add' %}" class="btn btn-primary">
+                     Apply</a>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5>UNDER EVALUATION</h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="#" class="btn btn-primary">
+                     Apply</a>
+                     {% elif perms.koscientific.inc_count %}
+                     <div class="ibox-tools">
+                        <span class="label label-success ">Total Under Evaluated</span>
+                     </div>
+                     <h1 class="no-margins">{{all_papers_status_under_evaluation_count}}</h1>
+                     {% else %}
+                     <!--for admin-->
+                     <h1 class="no-margins">{{total_under_evaluated}}</h1>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5>EVALUATED</h5>
+                  </div>
+                  <div class="ibox-content">
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:add_video' %}" class="btn btn-primary">
+                     Apply</a>
+                     {% elif perms.koscientific.inc_count %}
+                     <div class="ibox-tools"><span class="label label-success ">Total Evaluated</span></div>
+                     <h1 class="no-margins">{{all_papers_status_evaluated_count}}</h1>
+                     {% else %}
+                     <!--for admin-->
+                     <h1 class="no-margins">{{total_evaluated}}</h1>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+         </div>
+         {% endif %}
+         <div class="row">
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:instruction_course' %}">  INSTRUCTION COURSE</a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     <h1 class="no-margins">{{ins_count}}</h1>
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:create_instruction' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:freepaper_list' %}"> FREE PAPER/POSTER </a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     <h1 class="no-margins">{{FreePaper_count}}</h1>
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:add_free_paper' %}" class="btn btn-primary">
+                     Apply</a>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+            
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:video' %}"> VIDEO </a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     <h1 class="no-margins">{{Video_count}}</h1>
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:add_video' %}" class="btn btn-primary">
+                     Apply</a>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:registered_user' %}"> REGISTERED MEMBER</a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     <h1 class="no-margins">{{user}}</h1>
+                     {% if perms.koscientific.apply_papers %}
+                     <a href="{% url 'koscientific:create_instruction' %}" class="btn btn-primary">Apply</a>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+
+         </div>
+        
+         <!--==========================================================-->
+         <!--==========================paper settings==================-->
+         <!--==========================================================-->
+         {% if perms.koscientific.paper_authors_limit %}
+            <div class="row">
+               <div class="col-md-4">
+                  <div class="ibox shadow">
+                     <div class="ibox-title">
+                        <h5>Free paper</h5>
+                     </div>
+                     <form action="." method="POST">
+                        {% csrf_token %}
+                        <div class="ibox-content">
+                           {{free_paper_author_form|crispy}}
+                           <input type="submit" name="free_paper" value="Save" class="btn btn-primary">
+                        </div>
+                     </form>
+                     
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="ibox shadow">
+                     <div class="ibox-title">
+                        <h5>Instruction Course</h5>
+                     </div>
+                     <form action="." method="POST">
+                        {% csrf_token %}
+                        <div class="ibox-content">
+                           {{ic_paper_author_form|crispy}}
+                           <input type="submit" name="ic_paper" value="Save" class="btn btn-primary">
+                        </div>
+                     </form>
+                     
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="ibox shadow">
+                     <div class="ibox-title">
+                        <h5>Video</h5>
+                     </div>
+                     <form action="." method="POST">
+                        {% csrf_token %}
+                        <div class="ibox-content">
+                           {{video_paper_author_form|crispy}}
+                           <input type="submit" name="video_paper" value="Save" class="btn btn-primary">
+                        </div>
+                     </form>
+                     
+                  </div>
+               </div> 
+            </div>
+         {% endif %}
+         <!--===========================================================-->
+         <!--=====================end paper settings====================-->
+         <!--===========================================================-->
+         <div class="row">
+            {% if perms.koscientific.apply_papers %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:instruction_course' %}"> INS COURSE</a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     <a href="{% url 'koscientific:create_instruction' %}" class="btn btn-primary">Apply</a>
+                     <h1 class="no-margins">{{ins_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            {% if perms.koscientific.apply_papers %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:freepaper_list' %}"> FREE PAPER/POSTER</a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     <a href="{% url 'koscientific:add_free_paper' %}" class="btn btn-primary">Apply</a>
+                     <h1 class="no-margins">{{FreePaper_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            
+            {% if perms.koscientific.apply_papers %}
+            <div class="col-lg-3">
+               <div class="ibox ">
+                  <div class="ibox-title">
+                     <h5><a href="{% url 'koscientific:video' %}"> VIDEO</a></h5>
+                  </div>
+                  <div class="ibox-content">
+                     <a href="{% url 'koscientific:add_video' %}" class="btn btn-primary">Apply</a>
+                     <h1 class="no-margins">{{Video_count}}</h1>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            {% if perms.koscientific.member_dashboard %}
+            <div class="container">
+               <div class = "row">
+                  
+<!--                  <div class="col-sm-3">-->
+<!--                     <h2 class="nomargintop margin10 secondheding"></h2>-->
+<!--                     <br>-->
+<!--                     <div class="tile darkblue text-center">-->
+<!--                        <a href="{% url 'koscientific:freePaper_guidelines' %}" class="buttoninfo float-right" role="button1">Guidelines</a>-->
+<!--                        <img src="{% static  'koss/img/free_paper.png'%}" height="70%"></a>-->
+<!--                        <p>-->
+<!--                           <a href="{% url 'koscientific:add_free_paper' %}" class="button1" role="button1">Free paper</a>-->
+<!--                        </p>-->
+<!--                     </div>-->
+<!--                  </div>-->
+                  <div class="col-sm-3">
+                     <h2 class="nomargintop margin10"></h2>
+                     <br>
+                     <div class="tile green text-center">
+                        <div class="dropdown">
+                          <span class="buttoninfo float-right">Guidelines</span>
+                          <div class="dropdown-content">
+                             <a href="{% url 'koscientific:freePaper_guidelines' %}" class="buttoninfo float-right" role="button1">Free paper</a>
+                             <br>
+                             <br>
+                          <a href="{% url 'koscientific:Poster_guidelines' %}" class="buttoninfo float-right" role="button1">E-Poster</a>
+                               <br>
+                             <br>
+                          <a href="{% url 'koscientific:PhysicalPoster_guidelines' %}" class="buttoninfo float-right" role="button1">Physical-Poster</a>
+
+                          </div>
+                        </div>
+<!--                        <a href="{% url 'koscientific:Poster_guidelines' %}" class="buttoninfo float-right" role="button1">Guidelines for e-Poster</a>-->
+<!--                        <a href="{% url 'koscientific:PhysicalPoster_guidelines' %}" class="buttoninfo float-centre" role="button1">Guidelines for Physical-Poster</a>-->
+                        <img src="{% static  'koss/img/poster.png'%}" height="70%"></a>
+                        <p>
+                           <a href="{% url 'koscientific:add_free_paper' %}" class="button1" role="button1">Free Paper/Poster</a>
+                        </p>
+                     </div>
+                  </div>
+
+                  <div class="col-sm-3 ">
+                     <h2 class="nomargintop margin10 secondheding"></h2>
+                     <br>
+                     <div class="tile aquablue text-center">
+                        <a href="{% url 'koscientific:ins_guidelines' %}" class="buttoninfo float-right" role="button1">Guidelines</a>
+                        <img src="{% static  'koss/img/instruction_course.png'%}" height="70%"></a>
+                        <p>
+                           <a href="{% url 'koscientific:create_instruction' %}" class="button1" role="button1">Instruction course</a>
+                        </p>
+                     </div>
+                  </div>
+                  
+                  <div class="col-sm-3">
+                     <h2 class="nomargintop margin10 secondheding"></h2>
+                     <br>
+                     <div class="tile darkblue text-center">
+                        <a href="{% url 'koscientific:Video_guidelines' %}" class="buttoninfo float-right" role="button1">Guidelines</a>
+                        <img src="{% static  'koss/img/instruction_course.png'%}" height="70%"></a>
+                        <p>
+                           <a href="{% url 'koscientific:add_video' %}" class="button1" role="button1"> Video</a>
+                        </p>
+                     </div>
+                  </div>
+                  <div class="col-sm-3">
+                     <h2 class="nomargintop margin10 secondheding"></h2>
+                     <br>
+                     <div class="tile darkblue text-center">
+                        <a href="{% url 'koscientific:member_list_read_only' %}" class="buttoninfo float-right" role="button1">All Members</a>
+                        <img src="{% static  'koss/img/instruction_course.png'%}" height="70%"></a>
+                        <p>
+                        <h1 style="margin-top:-13px;"> {{total_members_count}}</h1>
+                        </p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+         </div>
+      </div>
+   </head>
+</html>
+{% endblock %}

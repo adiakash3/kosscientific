@@ -1,0 +1,236 @@
+[
+{
+    "model": "koscientific.mail",
+    "pk": 10,
+    "fields": {
+        "name": "user_registration",
+        "email_subject": "Your account created successfully",
+        "email_body": "<p>Your account has been successfully registered with<strong> KOS</strong></p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 11,
+    "fields": {
+        "name": "user_membership_submission_introducer_message",
+        "email_subject": "{{user_full_name}} KOS membership  form pending",
+        "email_body": "<p>Dear Doctor {{introducer_full_name}}</p>\r\n\r\n<p><br />\r\n{{user_full_name}} has applied for the KOS membership and suggested your name as an introducer.</p>\r\n\r\n<p>Please click here to Accept</p>\r\n\r\n<p>{{accept}}</p>\r\n\r\n<p>or click here to Reject</p>\r\n\r\n<p>{{reject}}.</p>\r\n\r\n<p><br />\r\nNote: This link is valid for one time ONLY</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 12,
+    "fields": {
+        "name": "membership_confirmation_submission_to_user",
+        "email_subject": "Your account has been created successfully",
+        "email_body": "<p>You have successfully completed your KOS membership form and your <strong>provisional</strong> <strong>KOS membership number is :</strong> {{provisional_membership_id}}</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 13,
+    "fields": {
+        "name": "ic_paper_submission_to_applicant",
+        "email_subject": "Instruction Course",
+        "email_body": "<p>Your instruction course has been successfully submitted and the course number is :{{paper_id}}</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 14,
+    "fields": {
+        "name": "free_paper_submission_to_applicant",
+        "email_subject": "Free Paper",
+        "email_body": "<p>Your free paper has been successfully submitted and the course number is :{{paper_id}}</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 15,
+    "fields": {
+        "name": "video_paper_submission_to_applicant",
+        "email_subject": "Video Paper",
+        "email_body": "<p>Your video paper has been successfully submitted and the course number is :{{paper_id}}</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 16,
+    "fields": {
+        "name": "ic_paper_submission_to_evaluator",
+        "email_subject": "Instruction Course",
+        "email_body": "<p>Dear Dr. {{evaluator_full_name}}, The instruction course assigned to you for evaluation is&nbsp;&nbsp;&nbsp; _______ and the course number is :{{private_paper_id}}</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 17,
+    "fields": {
+        "name": "free_paper_submission_to_evaluator",
+        "email_subject": "Free Paper",
+        "email_body": "<p>Dear Dr. {{evaluator_full_name}}, The free paper assigned to you for evaluation is&nbsp;&nbsp;&nbsp; _______ and the paper number is :{{private_paper_id}}</p>\r\n\r\n<p>&nbsp;</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 18,
+    "fields": {
+        "name": "video_paper_submission_to_evaluator",
+        "email_subject": "Video Paper",
+        "email_body": "<p>Dear Dr. {{evaluator_full_name}}, The video paper assigned to you for evaluation is&nbsp;&nbsp;&nbsp; _______ and the course number is :{{private_paper_id}}</p>\r\n\r\n<p>&nbsp;</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 19,
+    "fields": {
+        "name": "kos_evaluator_invite",
+        "email_subject": "Invitation to Evaluator",
+        "email_body": "<p>Dear Dr. {{user_full_name}}&nbsp;, You have been invited to be an evaluator at https://member.kosonline.org. Please click this {{link}} to confirm.</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 20,
+    "fields": {
+        "name": "non_kos_evaluator_invite",
+        "email_subject": "Invitation to Evaluator",
+        "email_body": "<p>Dear Dr. {{user_full_name}}&nbsp;, You have been invited to be an evaluator at https://member.kosonline.org. Please click this {{link}} to confirm.</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 21,
+    "fields": {
+        "name": "payment_capture_to_user",
+        "email_subject": "Payment successful",
+        "email_body": "<p>Your membership fee has been successfully received by KOS. Thank you</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 22,
+    "fields": {
+        "name": "payment_capture_to_kos_info",
+        "email_subject": "payment captured",
+        "email_body": "<p>User {{member_full_name}} has paid the membership fee successfully.</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 23,
+    "fields": {
+        "name": "force_user_to_profile_update",
+        "email_subject": "Profile update",
+        "email_body": "<p>We are happy to announce that out official website is ready and it is on live. We have updated your details on the website whatever was submitted by you at the time of membership registration.Now we have made a provision to update the profile if there are any changes in the same.Request you to visit https://member.kosonline.org/ and register yourselves by creating an account. You can go to &ldquo;My profile&rdquo; and edit if there are any changes needed.</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 24,
+    "fields": {
+        "name": "introducer_accept_or_reject_response_to_user",
+        "email_subject": "Membership application status from introducer",
+        "email_body": "<p>Introducer&nbsp;{{introducer_full_name}} has {{opinion}} your application</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 25,
+    "fields": {
+        "name": "membership_form_confiramtion_to_secretary",
+        "email_subject": "{{user_full_name}} membership  need approval",
+        "email_body": "<p>Dr. {{user_full_name}} has applied for a KOS membership.<br />\r\nIntroducer one {{introducer_one_full_name}} has accepted the membership.<br />\r\nIntroducer two {{introducer_two_full_name}} has accepted the membership.<br />\r\nPlease click here to Accept</p>\r\n\r\n<p>{{accept}}</p>\r\n\r\n<p>or Reject</p>\r\n\r\n<p>{{reject}}</p>\r\n\r\n<p><br />\r\nNote: this link is valid for one time</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 26,
+    "fields": {
+        "name": "after_sceretary_approve_kos_number_to_user",
+        "email_subject": "Membership application status from  secretary",
+        "email_body": "<p>Congratulations! Your membership has been accepted and your <strong>KOS membership number is</strong> : {{kos_number}}</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 27,
+    "fields": {
+        "name": "after_sceretary_not_approve_membership_to_user",
+        "email_subject": "The KOS Secretary has rejected your membership application",
+        "email_body": "<p>The KOS Secretary has rejected your membership application</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 28,
+    "fields": {
+        "name": "marks_difference_to_admin",
+        "email_subject": "Marks difference alert",
+        "email_body": "<p>For the paper {{paper_id}}, evaluator {{evaluator_full_name}} given marks {{marks}}, which is making difference of more than {30%} compare to others already given marks that is {{others already given marks}}</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 29,
+    "fields": {
+        "name": "ratify_membership_by_agm_to_agm",
+        "email_subject": "Members need to be ratified",
+        "email_body": "<p>Hi, These members {{members_full_name}} need to be ratified</p>\r\n\r\n<p>click here to Accept</p>\r\n\r\n<p>{{accept}}</p>\r\n\r\n<p>or reject here</p>\r\n\r\n<p>{{reject}}</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 30,
+    "fields": {
+        "name": "ratify_membership_by_agm_approve_to_user",
+        "email_subject": "Your membership is ratified",
+        "email_body": "<p>Hi, Your membership is ratified successfully by KOS AGM.</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 31,
+    "fields": {
+        "name": "ratify_membership_by_agm_unapprove_to_user",
+        "email_subject": "Your membership is not ratified",
+        "email_body": "<p>Hi, Your membership is not ratified by KOS AGM</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 32,
+    "fields": {
+        "name": "member_deceased",
+        "email_subject": "{{member_full_name}} deceased",
+        "email_body": "<p>Hi, {{member_full_name}} and KOS number {{kos_number}} &nbsp;has been deceased, this deceased member can&#39;t able to login further.</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 33,
+    "fields": {
+        "name": "member_resign",
+        "email_subject": "{{member_full_name}} resigned",
+        "email_body": "<p>Hi {{member_full_name}} and kos number {{kos_number}}, user resigned, resigned member can&#39;t able to login further, please contact admin for further details</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 34,
+    "fields": {
+        "name": "forgot_password_otp_request",
+        "email_subject": "Password reset OTP",
+        "email_body": "<p>OTP is {{otp}} to reset password</p>"
+    }
+},
+{
+    "model": "koscientific.mail",
+    "pk": 35,
+    "fields": {
+        "name": "resend_otp_request",
+        "email_subject": "OTP resend for the reset password",
+        "email_body": "<p>The verification code from KOS is {{otp}} for user name {{username}}.</p>"
+    }
+}
+]

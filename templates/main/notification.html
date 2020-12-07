@@ -1,0 +1,23 @@
+
+{% if message_count == 0 %}
+    <div class="text-center"><span>Notification is empty</span></div>
+    
+{%endif %}
+
+{% for message in  messages %}
+
+<li>
+    <a href="#" class="dropdown-item">
+        <div>
+            <i class="fa fa-envelope fa-fw"></i> {{message.message}}
+            <span class="float-right text-muted small">{{message.created_at}}</span>
+        </div>
+    </a>
+</li>
+
+<li class="dropdown-divider"></li>
+
+{% endfor %}
+{% if message_count > 5 %}
+    <span>Load more...</span>
+{%endif %}

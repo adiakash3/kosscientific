@@ -1,0 +1,71 @@
+{% extends 'main/base.html'%}
+{% block title%}Mail Content edit{% endblock %}
+{% block style%}
+<!--write here css-->
+{% endblock style%}
+{% block script%}
+{% endblock %}
+{% block content %}
+<!--write main content here-->
+
+<div class="row" style="background-color: white">
+    <div class="col-lg-12" style="margin-bottom:900px">
+
+        <div class="ibox-title">
+            <center>
+                <h2><b>Edit MailContent</b></h2>
+            </center>
+            <span class="pull-right"><a href="{% url 'koscientific:mail_list' %}" class="btn btn-primary">Mail List</a>
+            </span>
+        </div>
+        <hr size="30">
+
+        <form id="" action="." method="post">
+            {% csrf_token %}
+    
+            <div class="col-sm-4">
+                <label class="col-sm-2"><b>Name</b><span style="color: red;">&nbsp;*&nbsp;</span></label>
+                <div class="col-sm-4">
+                    <textarea type="text" placeholder="your content" class="form-control" name="email_subject"
+                        style="width:400px;height:45px">{{mail_update.name}}</textarea>
+                </div>
+                <br>
+
+                <label class="col-sm-2"><b>Mail subject</b><span style="color: red;">&nbsp;*&nbsp;</span></label>
+                <div class="col-sm-4">
+                    <textarea type="text" placeholder="your content" class="form-control" name="email_subject"
+                        style="width:400px;height:45px">{{mail_update.email_subject}}</textarea>
+                </div>
+                <br>
+
+                <label class="col-sm-2"><b>Mail body</b><span style="color: red;">&nbsp;*&nbsp;</span></label>
+                <div class="col-sm-4">
+                    <textarea type="text" placeholder="your content" class="form-control" name="email_body"
+                        style="width:400px;height:200px">{{mail_update.email_body}}</textarea>
+                </div>
+                <br>
+
+                <div class="col-sm-4">
+                    <h6>now: {{mail_update.email_attachment}}</h6>
+                    <input type="file" class="form-control" name="email_attachment" value=""
+                        style="width:400px;height:45px">
+                </div>
+                <br>
+
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-primary"><strong>Update</strong>
+                    </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-danger "><strong><a href="{% url 'koscientific:mail_list' %}"
+                                class="text-white">Cancel</a></strong>
+                    </button>
+                </div>
+            </div>
+
+            <br />
+
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

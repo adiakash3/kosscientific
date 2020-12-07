@@ -1,0 +1,201 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Kos billing details{% endblock %}
+
+{% block style %}
+
+< !--write here css-->
+<style>
+        div.dataTables_wrapper div.dataTables_info {
+            position: absolute;
+            left: 24%;
+            top: 75px;
+        }
+
+        .title {
+            color: #2679bf;
+        }
+
+        .title:hover {
+            color: #023866;
+        }
+
+        .align-right {
+            margin-right: 16px;
+        }
+
+        div.dataTables_wrapper div.dataTables_paginate {
+            display: none;
+        }
+
+        div.dataTables_wrapper div.dataTables_length label {
+            display: none;
+        }
+
+        div.dataTables_wrapper div.dataTables_info {
+            display: none;
+        }
+        .btn {
+            color: white !important;
+        }
+</style>
+
+{% endblock style %}
+
+{% block script %}
+
+    $(document).ready(function () {
+    $('.dataTables-example').DataTable({
+    pageLength: 10,
+    responsive: true,
+    dom: '<"html5buttons"B>lTfgitp',
+    buttons: []
+    });
+    });
+
+{% endblock %}
+
+     {% block crumbs %}
+ / <a href="">Billings</a>
+ {% endblock %}
+
+
+{% block content %}
+    <div class="row">
+            <!--write main content here-->
+
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h3>Users billing details</h3>
+                        <span class="pull-right">
+                            <!-- <a id="export_voter_list" href="{% url 'koscientific:export_voter_list' %}" class="btn btn-primary">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        Export voter list
+                    </a> -->
+                        </span>
+                    </div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Sl no</th>
+                                            <th>Name</th>
+                                            <th>Kos no</th>
+                                            <th>Payment id</th>
+                                            <th>Payment status</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for paid_membership in paid_memberships %}
+                                            <tr>
+                                                <td>{{ forloop.counter0|add:paid_memberships.start_index }}</td>
+                                                <td>{{ paid_membership.user.first_name}} {{paid_membership.user.last_name}}
+                                                </td>
+                                                <td>{{ paid_membership.kos_no }}</td>
+                                        
+                                                <td>
+                                                    
+                                                    {% if paid_membership.member.all %}
+                                                        {% for order in paid_membership.member.all %}
+                                                        
+                                                            {% if order.transaction %}
+                                                                <li>{{order.transaction}}</li>
+                                                            {% else %}
+                                                                <li>Unavailable</li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        Unavailable
+                                                    {% endif %}
+                                                        
+                                                        
+                                                </td>
+                                                <td>
+                                                    {% if paid_membership.member.all %}
+                                                        {% for order in paid_membership.member.all %}
+                                                        <li>{{order.status}}</li>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        Unavailable
+                                                    {% endif %}
+                                                        
+                                                    
+                                                </td>
+                                                <td>
+                                                    {% if paid_membership.member.all %}
+                                                        {% for order in paid_membership.member.all %}
+                                                        <li>{{order.created}}</li>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        Unavailable
+                                                    {% endif %}
+                                                    
+                                                </td>
+                                                <td>
+                                                    <center>
+                                                        <a href="{% url 'koscientific:billing_detail' paid_membership.id  %}" class="btn btn-primary m-1 shadow">View</a>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                                {% if paid_memberships.has_other_pages %}
+                                <div style="margin-left:13px;">
+
+                                    <b style="margin-left: 6px;">Page</b>
+                                    <span><b>{{ paid_memberships.number }}</b></span>
+                                    <b>of</b>
+                                    <span> <b>{{ end_index}}</b></span>
+
+                                </div>
+                                <div class="text-center">
+                                    <ul class="pagination pagination-lg text-center" style="margin-left: 19px;">
+
+                                        {% if paid_memberships.has_previous %}
+                                        <li><a href="?page={{ paid_memberships.previous_page_number }}">&laquo;</a></li>
+                                        {% else %}
+                                        <li class="disabled"><span>&laquo;</span></li>
+                                        {% endif %}
+
+                                        {% if start_index %}
+                                        <li><a href="?page={{ start_index }}">{{ start_index }}</a></li>
+                                        <li class="disabled"><span>&mldr;</span></li>
+                                        {% endif %}
+
+                                        {% for i in page_range %}
+                                        {% if paid_memberships.number == i %}
+                                        <li class="active" style=""><span
+                                                style="border-color:#252a2d;font-weight:900">{{ i }} <span
+                                                    class="sr-only">(current)</span></span></li>
+                                        {% else %}
+                                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+
+
+                                        {% if paid_memberships.has_next %}
+                                        <li><a href="?page={{ paid_memberships.next_page_number }} ">&raquo;</a></li>
+                                        {% else %}
+                                        <li class="disabled"><span>&raquo;</span></li>
+                                        {% endif %}
+                                    </ul>
+
+                                </div>
+
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+{% endblock %}

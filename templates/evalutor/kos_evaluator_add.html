@@ -1,0 +1,166 @@
+{% extends 'main/base.html'%}
+{% load crispy_forms_tags %}
+{% load evaluators %}
+
+{% block title%}Add Evaluter{% endblock %}
+{% block style%}
+h2 {
+    font-size: 20px;
+}
+
+{% endblock style%}
+{% block script%}
+
+$(document).ready(function () {
+    $(".select2_demo_1").select2();
+});
+$(document).ready(function () {
+    $('.dataTables-example').DataTable({
+        pageLength: 10,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: []
+    });
+});
+{% endblock %}
+
+
+{% block content %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / <a href="{% url 'koscientific:evaluter_list' %}">Evaluators</a>
+        / Add
+
+    </div>
+{% endblock %}
+
+<div class="row" style="background-color: white">
+    <div class="col-lg-12" style="margin-bottom:900px">
+
+        <div style="margin-left: 10px;">
+            <h2>Add evaluators from KOS member list</h2>
+
+            <span class="pull-right" style="margin-top: -40px;">
+                <button type="button" class="btn btn-primary dim"><a 
+                    href="{% url 'koscientific:evaluter_list' %}" style="color: white;"
+                  >Evaluator List</a></button> </span>
+        </div>
+        <hr size="30">
+        <div class="row">
+            <div class="col-md-4">
+                <form id="" action="." method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div style="margin-left: 10px;">
+                        <div class="col">
+                            {{form|crispy}}
+                        </div>
+                        
+                        <br />
+
+                        <br />
+                        <div class="form-group  row" style="margin-left: 10px;">
+                            <button type="submit" class="btn btn-primary dim"
+                                name="invite"><b>Invite</b></button>
+                                <button type="button" class="btn btn-danger dim"><a href="{% url 'koscientific:evaluter_list' %}" 
+                                style="color: white;"><b>Cancel</b></a></button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <div class="table-responsive border shadow pt-3">
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Section</th>
+                            <th>KOS Member</th>
+                            <th>Non KOS Member</th>
+                            <th>Total evaluator</th>
+                            <th>Section Ready</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for section in sections %}
+                        <tr class="gradeX">
+                            <td>{{ forloop.counter}}</td>
+                            <td>
+                                {{section.section_name}}
+                            </td>
+                            <td>
+                                {{section.evaluators.all|evaluator_active_count}}/{{section.evaluators.all|evaluator_all_count}}
+                            </td>
+                            <td>
+                                {{section.evaluators.all|non_member_evaluator_active_count}}/{{section.evaluators.all|non_member_evaluator_all_count}}
+                            </td>
+                            <td>
+                                {{section.evaluators.all|total_active_evaluator}}/{{section.evaluators.all|total_evaluator}}
+                            </td>
+                            <td>
+                                
+                                {% if section.evaluators.all|total_active_evaluator >= 10 %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                                    
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script_link%}
+
+<script>
+    //===================================================
+    //==========members drop down=====================
+    //===================================================
+    $(document).ready(function () {
+        var members = "{{members | safe | escapejs}}";
+        members = JSON.parse(members);
+        for (let obj of members) {
+            obj['text'] = obj['user__first_name'];
+            obj['text'] = obj['text'] + " "+ obj['user__last_name'];
+            obj['text'] = obj['text'] + " | " +obj['kos_no'];
+            obj['text'] = obj['text'] + " | " + obj['user__profile__mobile_number'];
+            delete obj['user__first_name'];
+            delete obj['user__last_name'];
+            delete obj['kos_no'];
+            delete obj['user__profile__mobile_number'];
+        }
+        console.log(members);
+        console.log(typeof(members));
+        $('.select2_demo_1').select2({
+            data: JSON.parse(JSON.stringify(members)),
+        });
+
+        // multi select place holder
+        $('.select2multiplewidget').select2({placeholder: "Select a Section"});
+
+        var selected_membership_ids = JSON.parse("{{already_selected_members}}");
+        console.log('already_selected_members ', selected_membership_ids);
+
+        for (let index = 0; index < selected_membership_ids.length; index++) {
+            const membership_id_disabled = selected_membership_ids[index];
+            $(".select2_demo_1>option[value=" + membership_id_disabled + "]").prop('disabled', true);
+
+        }
+        $('.select2_demo_1').select2();
+    });
+
+</script>
+{% endblock script_link%}

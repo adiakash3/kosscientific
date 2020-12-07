@@ -1,0 +1,180 @@
+{% extends 'main/base.html'%}
+
+{% block title%}view poster{% endblock %}
+
+{% block style%}
+
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+
+$(document).ready(function () {
+$('.dataTables-example').DataTable({
+pageLength: 10,
+responsive: true,
+dom: '<"html5buttons"B>lTfgitp',
+buttons: []
+
+});
+
+});
+
+{% endblock %}
+
+{% block content %}
+<!--write main content here-->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h3>Poster Details</h3>
+                <span class="pull-right">
+                        <button type="button" class="btn btn-primary" data-toggle="model">
+
+                            <a href="{% url 'koscientific:poster'%}" class="text-white">Poster List</a>
+                        </button>
+                    </span>
+            </div>
+
+            <!--                table-start-here-->
+            <div class="ibox-content">
+                                        <div class="ibox ">
+                                <div class="ibox-title">
+                        <div class="form-group  row">
+                                <label class="col-sm-2 col-form-label control-label">Presenting Author's name:</label>
+                                <div class="col-sm-10">
+                                     <div class="col-sm-9"> <input readonly value="{{poster_view.presenting_poster_auther_name.user.first_name}}" type="text" id="seel5" class="form-control"></div>
+                                </div>
+                            </div>
+                                     <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                         <div class="ibox-content">
+                                        <div class="row" id="">
+                                            <label class="col-sm-3 col-form-label">
+                                                E-mail</label>
+
+                                           <div class="col-sm-9"><input readonly value="{{poster_view.presenting_poster_auther_name.user.email}}" type="text" id="sel4" class="form-control"></div>
+                                        </div>
+<!--                                        <div class="hr-line-dashed"></div>-->
+                                        <div class="row"><label class="col-sm-3 col-form-label">
+                                                Mobile Number</label>
+
+                                            <div class="col-sm-9"><input readonly value="{{poster_view.presenting_poster_auther_name.mobile}}" type="text" id="sel5" class="form-control"></div>
+                                        </div>
+<!--                                        <div class="hr-line-dashed"></div>-->
+                                        <div class="row"><label class="col-sm-3 col-form-label">
+                                                KOS Number</label>
+                                            <div class="col-sm-9"><input value="{{poster_view.presenting_poster_auther_name.kos_no}}" readonly type="text" id="sel6" class="form-control"></div>
+                                        </div>
+<!--                                        <div class="hr-line-dashed"></div>-->
+                              <div class="row"><label class="col-sm-3 col-form-label">
+                                                Gender</label>
+                                            <div class="col-sm-9"><input value="{{poster_view.presenting_poster_auther_name.gender}}" readonly type="text" id="sel6" class="form-control"></div>
+                                        </div>
+                             </div>
+                                </div>
+
+
+                 <div class="ibox ">
+                                <div class="ibox-title">
+                        <div class="form-group  row">
+                                <label class="col-sm-2 col-form-label control-label">Co Author's name:</label>
+                                <div class="col-sm-10">
+                                     <div class="col-sm-9"> <input readonly value="{{poster_view.coauther_poster_name.user.first_name}}" type="text" id="seel5" class="form-control"></div>
+                                </div>
+                            </div>
+                                     <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                         <div class="ibox-content">
+                                        <div class="row" id="">
+                                            <label class="col-sm-3 col-form-label">
+                                                E-mail</label>
+
+                                           <div class="col-sm-9"><input readonly value="{{poster_view.coauther_poster_name.user.email}}" type="text" id="sel4" class="form-control"></div>
+                                        </div>
+<!--                                        <div class="hr-line-dashed"></div>-->
+                                        <div class="row"><label class="col-sm-3 col-form-label">
+                                                Mobile Number</label>
+
+                                            <div class="col-sm-9"><input readonly value="{{poster_view.coauther_poster_name.mobile}}" type="text" id="sel5" class="form-control"></div>
+                                        </div>
+<!--                                        <div class="hr-line-dashed"></div>-->
+                                        <div class="row"><label class="col-sm-3 col-form-label">
+                                                KOS Number</label>
+                                            <div class="col-sm-9"><input value="{{poster_view.coauther_poster_name.kos_no}}" readonly type="text" id="sel6" class="form-control"></div>
+                                        </div>
+<!--                                        <div class="hr-line-dashed"></div>-->
+                              <div class="row"><label class="col-sm-3 col-form-label">
+                                                Gender</label>
+                                            <div class="col-sm-9"><input value="{{poster_view.coauther_poster_name.gender}}" readonly type="text" id="sel6" class="form-control"></div>
+                                        </div>
+                             </div>
+                                </div>
+
+
+
+
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <tbody>
+
+                        <tr>
+                            <th width="30%" class="p-1">Title Of the Abstract</th>
+                            <td width="70%">{{poster_view.title}}</td>
+                        </tr>
+                         <tr>
+                                <th width="30%" class="p-1">Poster Type</th>
+                            <td width="70%">{{poster_view.poster_type}}</td>
+                        </tr>
+
+
+                        <tr>
+                            <th width="30%" class="p-1">Section</th>
+                            <td width="70%">{{poster_view.section.section_name}}</td>
+                        </tr>
+
+                        <tr>
+                            <th width="30%" class="p-1">Status</th>
+                            <td width="70%">
+                                {{poster_view.status}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%" class="p-1">Date</th>
+                            <td width="70%">
+                                {{poster_view.created_at}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%" class="p-1">Unique ID</th>
+                            <td width="70%">
+                                {{poster_view.unique_id}}
+                            </td>
+                        </tr>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!--                table ends here-->
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

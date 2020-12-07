@@ -1,0 +1,170 @@
+[
+{
+    "model": "koscientific.smsbody",
+    "pk": 9,
+    "fields": {
+        "smskey": "user_registration",
+        "smscontent": "Your account has been successfully registered with KOS"
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 10,
+    "fields": {
+        "smskey": "user_resend_otp",
+        "smscontent": "The verification code from KOS is {{otp}} for user name {{username}}."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 11,
+    "fields": {
+        "smskey": "user_forgot_otp_request",
+        "smscontent": "The verification code from KOS to change the password is {{otp}} for user name {{username}}."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 12,
+    "fields": {
+        "smskey": "user_registration_otp_verification",
+        "smscontent": "The verification code from KOS is {{otp}} for user name {{username}}"
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 13,
+    "fields": {
+        "smskey": "user_membership_submission_introducer_message",
+        "smscontent": "You are a suggested introducer for KOS membership by {{applicant_mail_id}}"
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 14,
+    "fields": {
+        "smskey": "user_membership_submission",
+        "smscontent": "You have successfully completed your KOS membership form."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 15,
+    "fields": {
+        "smskey": "free_paper_submission_to_applicant",
+        "smscontent": "Your submitted free paper number is {{paper_id}} ."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 16,
+    "fields": {
+        "smskey": "ic_paper_submission_to_applicant",
+        "smscontent": "Your submitted instruction course number is {{paper_id}} ."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 17,
+    "fields": {
+        "smskey": "video_paper_submission_to_evaluator",
+        "smscontent": "{{private_paper_id}} assigned a video paper to you for evaluation."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 18,
+    "fields": {
+        "smskey": "kos_evaluator_invite",
+        "smscontent": "You have been invited as evaluator by KOS admin"
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 19,
+    "fields": {
+        "smskey": "non_kos_evaluator_invite",
+        "smscontent": "You have been invited as an evaluator by KOS admin."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 20,
+    "fields": {
+        "smskey": "payment_capture_to_user",
+        "smscontent": "The membership fee paid by you has been received by KOS."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 21,
+    "fields": {
+        "smskey": "force_user_to_profile_update",
+        "smscontent": "Hi Dr. {{user_full_name}}. Please update your profile by logging in to  https://member.kosonline.org"
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 22,
+    "fields": {
+        "smskey": "free_paper_submission_to_evaluator",
+        "smscontent": "{{private_paper_id}} assigned an Free Paper to you for evaluation."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 23,
+    "fields": {
+        "smskey": "ic_paper_submission_to_evaluator",
+        "smscontent": "{{private_paper_id}} assigned an instruction course to you for evaluation."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 24,
+    "fields": {
+        "smskey": "non_kos_evaluator_invite_otp_message",
+        "smscontent": "The verification code from KOS is {{otp}}"
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 25,
+    "fields": {
+        "smskey": "video_paper_submission_to_applicant",
+        "smscontent": "Your submitted Video paper number is {{paper_id}} ."
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 26,
+    "fields": {
+        "smskey": "common_otp_message",
+        "smscontent": "The verification code from KOS is {{otp}}"
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 27,
+    "fields": {
+        "smskey": "free_paper_submission_to_preseting_co_author_non_kos_member",
+        "smscontent": "Hi, Dr. {{user_full_name}} submitted the free paper"
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 28,
+    "fields": {
+        "smskey": "ic_paper_submission_to_preseting_co_author_non_kos_member",
+        "smscontent": "Hi, {{user_full_name}} submitted the ic paper"
+    }
+},
+{
+    "model": "koscientific.smsbody",
+    "pk": 29,
+    "fields": {
+        "smskey": "video_paper_submission_to_preseting_co_author_non_kos_member",
+        "smscontent": "Hi, {{user_full_name}} submitted the video paper"
+    }
+}
+]

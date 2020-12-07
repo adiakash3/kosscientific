@@ -1,0 +1,174 @@
+{% extends 'main/base.html'%}
+
+{% block title%}poster assign{% endblock %}
+
+{% block style%}
+.section{
+position: absolute;
+left: 45%;
+}
+
+
+{% endblock style%}
+
+{% block script%}
+
+$(document).ready(function () {
+$('.dataTables-example').DataTable({
+pageLength: 10,
+responsive: true,
+dom: '<"html5buttons"B>lTfgitp',
+buttons: []
+
+});
+
+});
+
+{% endblock %}
+
+{% block content %}
+<!--write main content here-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title row">
+                <div>
+                    <h3> Assigned Evaluator List For Poster </h3>
+
+                </div>
+
+            </div>
+            <div class="ibox-content">
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <div class="section">
+                            <form action="{% url 'koscientific:assign_to_poster' %}" method="get">
+                                <select required id="clientID" style="width:120px;margin-right: 10px;" name="section"
+                                        class="btn btn-success col-sm-12">
+                                    <option value="1">Choose Section</option>
+                                    {% for each in sec%}
+                                    <option value="{{each.id}}">{{each.section_name}}</option>
+                                    {% endfor %}
+
+                                </select>
+                                <input type="submit" value="Filter" class="btn btn-success"/>
+                                <a href="{% url 'koscientific:assign_to_poster'%}" class="btn btn-danger "> Reset</a>
+                            </form>
+
+
+                        </div>
+
+
+                        <thead>
+                        <tr>
+                            <th>Sl. no</th>
+                            <th>Unique id</th>
+                            <th>Evaluator Name</th>
+                            <th>Section</th>
+                            <th>Status</th>
+                            <th>Marks</th>
+                            <th>Action</th>
+
+                        </tr>
+                        </thead>
+                        <tbody id="ev">
+
+                        {% for each in inst_assign %}
+
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{each.ps.unique_id}}</td>
+                            <td>{{each.evaluator.membership.user.first_name}}</td>
+                            <td>{{each.evaluator.section.section_name}}</td>
+                            <td>{{each.status}}</td>
+                            <td>{{each.marks}}</td>
+                            <td>
+                                {% if perms.koscientific.reassign_evaluator %}
+                                <a class="btn btn-primary" href="#" data-toggle="modal"
+                                   data-target="#reassign_{{each.id}}">Reassign</a>
+
+                                <div class="modal inmodal" id="reassign_{{ each.id }}" tabindex="-1" role="dialog"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+
+                                        <div class="modal-content animated bounceInRight">
+                                            <form action="" method="post" enctype="multipart/form-data">
+
+                                                <div class="modal-header">
+                                                    <button type="button" class="close"
+                                                            data-dismiss="modal"><span
+                                                            aria-hidden="true">&times;</span><span
+                                                            class="sr-only">Close</span></button>
+
+                                                    <h4 class="modal-title">Reassign Evaluator</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {% csrf_token %}
+                                                    <input type="text" name="id" hidden value="{{ each.id }}">
+
+                                                    <div class="form-group">
+                                                        <label for="">
+                                                            <b> Free Paper : </b>
+                                                        </label>
+                                                    </div>
+                                                    <p> Unique Id: <span>{{each.ps.unique_id}}</span></p>
+                                                    <p> Title: <span>{{each.ps.title}}</span></p>
+
+
+                                                    <div class="form-group">
+                                                        <label for="">
+                                                            <b>Evaluator: </b>
+                                                        </label>
+                                                    </div>
+                                                    <select required name="evulator"
+                                                            class="form-control select2_demo_1" id="videoType">
+                                                        <option value="{{ each.evulator_id}}">
+                                                            {{each.evaluator.membership.user.first_name}}
+                                                        </option>
+                                                        {% for each in eva %}
+                                                        <option value="{{ each.id }}">
+                                                            {{each.membership.user.first_name}}
+                                                        </option>
+                                                        {% endfor %}
+                                                    </select>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Save changes
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-white"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% endif %}
+                                {% if perms.koscientific.add_marks %}
+                                <a href="{% url 'koscientific:add_marks_poster' each.id %}" class="btn btn-primary">Add
+                                    marks</a>
+                                {% endif %}
+
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

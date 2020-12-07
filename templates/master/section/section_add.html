@@ -1,0 +1,66 @@
+{% extends 'main/base.html'%}
+{% block title%}add Section{% endblock %}
+{% block style%}
+<!--write here css-->
+{% endblock style%}
+{% block script%}
+{% endblock %}
+
+
+
+{% block content %}
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / <a href="{% url 'koscientific:section_list' %}">Sections</a>
+        / Add
+
+    </div>
+{% endblock %}
+<!--write main content here-->
+<div class="row" style="background-color: white">
+    <div class="col-lg-12" style="margin-bottom:900px">
+
+                <div class="ibox-title">
+                <center><h2><b>Add Section</b></h2></center>
+                        <span class="pull-right"><a href="{% url 'koscientific:section_list' %}" class="btn btn-primary">Section List</a> </span>
+                </div>
+        <hr size="30">
+
+        <form id="" action="." method="post">
+            {% csrf_token %}
+                <center><div class="row">
+                    <div class="col-sm-1">
+
+                    </div>
+                    <div class="col-sm-4">
+                        <strong><label>Section Name</label></strong>
+                        <input type="text" placeholder="Name" class="form-control" name="section_name"  >
+                    </div>
+                    <div class="col-sm-4">
+
+                                    <strong><label for="">Status</label></strong>
+                                    <select name="status" id="StatusId"  class="form-control select2_demo_1" >
+                                        <option value="Active">Active</option>
+                                        <option value="InActive">InActive</option>
+                                    </select>
+                    </div>
+
+                </div></center>
+                <br/>
+            <center>
+                            <div class="form-group row">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <button type="submit" class="btn btn-primary"><strong>Add</strong>
+                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-danger "><strong><a
+                                    href="{% url 'koscientific:section_list' %}" class="text-white">Cancel</a></strong>
+                            </button>
+                        </div>
+                    </div></center>
+            </form>
+
+    </div>
+</div>
+{% endblock %}

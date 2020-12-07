@@ -1,0 +1,68 @@
+{% extends 'main/base.html'%}
+{% block title%}add push message{% endblock %}
+{% block style%}
+<!--write here css-->
+{% endblock style%}
+{% block script%}
+{% endblock %}
+{% block content %}
+<!--write main content here-->
+<div class="row" style="background-color: white">
+    <div class="col-lg-12" style="margin-bottom:900px">
+
+        <div style="margin-left: 20px;">
+            <h1><b></b></h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a>Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a>notification</a>
+                </li>
+                <li class="breadcrumb-item active">
+                  <strong>Add notification message</strong>
+                </li>
+              </ol>
+            <span class="pull-right" style="margin-top: -40px;"><a href="{% url 'koscientific:list_Notification' %}" class="btn btn-primary">Notification List</a> </span>
+        </div>
+        <hr size="30">
+        <form id="" action="." method="post">
+            {% csrf_token %}
+
+            <div style="margin-left: 20px;">
+                <br />
+                <div class="col-sm-8 row">
+                    <label class="col-sm-2"><b>Subject</b><span style="color: red;">&nbsp;*&nbsp;</span></label>
+                    <div class="col-sm-4">
+                        <input type="text" placeholder="your content" class="form-control" name="subject" style="width:400px;height:40px" >
+                    </div>
+                </div>
+                <br>
+                <div class="col-sm-8 row">
+                    <label class="col-sm-2"><b>Body</b><span style="color: red;">&nbsp;*&nbsp;</span></label>
+                    <div class="col-sm-4">
+                        <textarea type="text" placeholder="your content" class="form-control" name="body" style="width:400px;height:200px" ></textarea>
+                    </div>
+                </div>
+<br>
+                <br>
+                <div class="form-group row">
+
+                        <div class="col-sm-10 row">
+                            <label class="col-sm-2"><b></b><span style="color: red;">&nbsp;&nbsp;</span></label>
+                            <button type="submit" class="btn btn-primary"><strong>submit</strong>
+                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-danger "><strong><a
+                                    href="{% url 'koscientific:sms_message_list' %}" class="text-white">Cancel</a></strong>
+                            </button>
+                        </div>
+                    </div>
+                <br/>
+            </div>
+
+
+
+        </form>
+    </div>
+</div>
+{% endblock %}

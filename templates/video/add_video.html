@@ -1,0 +1,869 @@
+{% extends 'main/base.html'%}
+{% load maths %}
+
+{% block title%}
+{% if free_paper %}
+Editing video paper
+{% else %}
+Submit video paper
+{% endif %}
+
+{% endblock %}
+
+{% block style%}
+
+.text-blue {
+color: #1c84c6;
+}
+
+.text-blue {
+color: #1c84c6;
+}
+.presenting_author .ibox-title, .presenting_author .ibox-content{
+background-color: #71c4eda6;
+}
+.presenting_author .ibox{
+color: white;
+font-weight: 600;
+}
+.presenting_author .form-control {
+color: black;
+}
+
+{% endblock style%}
+
+{% block script%}
+
+{% endblock %}
+
+     {% block crumbs %}
+ / <a href="{% url 'koscientific:video' %}">Video List</a>
+ {% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / <a href="{% url 'koscientific:video' %}">Video</a>
+        / Submit
+
+    </div>
+{% endblock %}
+<!--write main content here-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h3>Submit Video </h3>
+                <span class="pull-right">
+                    <button type="button" class="btn btn-primary" data-toggle="model">
+
+                        <a href="{% url 'koscientific:video'%}" class="text-white">Video List</a>
+
+                    </button>
+                </span>
+            </div>
+
+            <div class="ibox-content">
+
+                <form id="video_paper_form" action="." method="post">
+                    {% csrf_token %}
+                    <!--==========================================-->
+                    <!--=====================event================-->
+                    <!--==========================================-->
+                    <div class="form-group  row">
+                        <br>
+                        <label for="event" class="col-sm-2 col-form-label">Event<span style="color: red;">*</span>
+                        </label>
+                        <div class="col-sm-10">
+                            <select id="event" style="color:#808080;" name="event" class="form-control select2_demo_2">
+                                <option value="" selected="" disabled="">select an event</option>
+                                {% for event in events %}
+                                <option value="{{event.id}}" {% if video_paper.event.id == event.id %} selected
+                                    {% endif %}>{{event.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--==========================================-->
+                    <!--==================title===================-->
+                    <!--==========================================-->
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Title of the Course<span
+                                style="color: red;">*</span></label>
+
+                        <div class="col-sm-10" style="color:#1c84c6">
+                            Must not exceeds 100 characters &nbsp<input disabled maxlength="3" size="3"
+                                style="color:red" value="100" id="counter"> characters left
+                            <input type="text" placeholder="Enter the title of the course" class="form-control"
+                                id="title" required maxlength="100" onfocus="this.style.color='#000';this.value='';"
+                                style="color: #808080;" name="title" value="{{video_paper.title|default_if_none:''}}"
+                                onkeyup="textCounter(this,'counter',100);">
+                        </div>
+
+                    </div>
+                    <!--==========================================-->
+                    <!--===========Video film category============-->
+                    <!--==========================================-->
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Video film category<span
+                                style="color: red;">*</span></label>
+
+                        <div class="col-sm-10">
+                            <select required class="form-control select2_demo_2" id="video_type" name="video_type"
+                                style="color:#808080;">
+                                <option value="" selected="" disabled="" style="color:red">
+                                    <h3 style="color:red">Select video film category</h3>
+                                </option>
+                                <option {% if video_paper.video_type == 'Anterior Segment' %} selected {% endif %}>
+                                    Anterior Segment</option>
+                                <option {% if video_paper.video_type == 'General Film' %} selected {% endif %}>General
+                                    Film</option>
+                                <option {% if video_paper.video_type == 'Posterior Segment' %} selected {% endif %}>
+                                    Posterior Segment</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--==========================================-->
+                    <!--==================section=================-->
+                    <!--==========================================-->
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Section:<span style="color: red;">*</span></label>
+                        <div class="col-sm-10">
+
+                            <select required id="clientID" name="section" class="form-control select2_demo_2"
+                                style="color:#808080;">
+                                <option value="" selected="" disabled="">Select Section</option>
+                                {% for section in section_list %}
+                                <option value="{{ section.id }}" {% if video_paper.section.id ==  section.id %} selected
+                                    {% endif %}>{{ section }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <!--=========================================-->
+                    <!--==================synopsis===============-->
+                    <!--=========================================-->
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Synopsis:<span style="color: red;">*</span></label>
+                        <div class="col-sm-10" style="color:#1c84c6">
+                            <p style="color : red">Do not mention any Institution/Hospital/Organisation names or any
+                                authors name in the text otherwise rejected automatically.</p>
+                            Must not exceeds 250 words &nbsp<input disabled maxlength="3" size="3" style="color:red"
+                                value="250" id="counter2"> words left
+                            <textarea rows="6" cols="70" type="text" id="abstract" class="form-control" name="abstract"
+                                required
+                                onkeyup="wordCounter(this,'counter2',250);"> {{video_paper.abstract|default_if_none:''}} </textarea>
+
+                        </div>
+                    </div>
+                    <!--************************************************-->
+                    <!--****************save to draft*******************-->
+                    <!--************************************************-->
+                    <div class="form-group">
+                        <div class="text-center">
+                            <input type="submit" formnovalidate="formnovalidate"
+                                class="btn btn-primary pt-2 pb-2 pl-5 pr-5" name="draft" value="Save Draft">
+
+                        </div>
+                    </div>
+
+                    <!--===================================================-->
+                    <!--============start of chief author==================-->
+                    <!--===================================================-->
+                    <div class="row" style="background-color: #f3f3f4;">
+                        <div class="col-sm-12">
+                            <div class="ibox mt-3">
+                                <div class="ibox-title">
+                                    <div class="form-group  row">
+                                        <p class="text-blue m-3">Instructions: Please fill the details of the Authors
+                                            and the Presenter. You can choose upto <b>{{video_paper_max_member}}</b>
+                                            number of authors. The authors should be KOS members. Maximum of
+                                            <b>{{video_paper_max_non_member}}</b> non KOS member as author(s) is
+                                            permitted.</p>
+
+                                        <label class="col-sm-2 col-form-label control-label">Chief Author's
+                                            Name:</label>
+                                        <div class="col-sm-10">
+                                            <!--hidden user membership pk-->
+                                            <input readonly type="text" class="form-control d-none"
+                                                name="chief_author_id" value="{{request.user.membership.id}}" />
+                                            <input readonly style="background-color: #f5fff8;" type="text"
+                                                class="form-control"
+                                                value="{{request.user.first_name}} {{request.user.last_name}}" />
+                                            <!--hidden-->
+                                            <input type="text" id="chief_author_permanent" class="d-none"
+                                                value="{{request.user.membership.id}}" />
+
+                                        </div>
+                                    </div>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="row" id="">
+                                        <label class="col-sm-3 col-form-label">
+                                            Chief Author's E-mail
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <input readonly style="background-color: #f5fff8;" type="text"
+                                                class="form-control" value="{{request.user.email}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <label class="col-sm-3 col-form-label">
+                                            KOS Number
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <input readonly style="background-color: #f5fff8;" type="text"
+                                                class="form-control" value="{{request.user.membership.kos_no|default_if_none:'N/A'}}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--===================================================-->
+                    <!--============start of presenting author=============-->
+                    <!--===================================================-->
+                    <div class="presenting_author">
+                        <div class="row" style="background-color: #f3f3f4;">
+                            <div class="col-sm-12">
+                                <div class="ibox ">
+                                    <div class="ibox-title">
+                                        <div class="form-group  row">
+                                            <p class="m-3 text-blue">Please choose the presenting Author. It can be the
+                                                Chief Author too. Once selected, it can not be changed without written
+                                                permission from the Chairman, Scientific Committee.</p>
+                                            <label class="col-sm-3 col-form-label control-label">Presenting Author's
+                                                Name:</label>
+                                            <div class="col-sm-9">
+                                                <select required id="presenting_author_id"
+                                                    style="width:50%;color:#808080;" name="presenting_author_id"
+                                                    class="form-control select2_demo_1">
+                                                    <option value="" selected="" disabled=""> Select Presenting Author's
+                                                        Name
+                                                    </option>
+                                                    {% for each in member_name_list %}
+                                                    <option value="{{ each.id }}">{{ each.user.first_name}}
+                                                        {{each.user.last_name}} | {{each.kos_no }}
+                                                        {%if each.user.profile.mobile_number %} |
+                                                        {{each.user.profile.mobile_number}}{%endif%}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="row" id="">
+                                            <label class="col-sm-3 col-form-label">
+                                                Presenting Author's E-mail</label>
+
+                                            <div class="col-sm-9"><input readonly type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="row"><label class="col-sm-3 col-form-label">Author's
+                                                Mobile Number</label>
+
+                                            <div class="col-sm-9"><input readonly type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="row"><label class="col-sm-3 col-form-label">
+                                                KOS Number</label>
+                                            <div class="col-sm-9"><input readonly type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <!--=============hide the membership id=============-->
+                                        <div class="row d-none">
+                                            <label class="col-sm-3 col-form-label">hidden membership id</label>
+                                            <div class="col-sm-9">
+                                                <input readonly type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--===================================================-->
+                    <!--============start of co-author=====================-->
+                    <!--===================================================-->
+                    <div class="input_fields_wrap co_authors_form_place_holder">
+                        <div class="row" style="background-color: #f3f3f4;">
+                            <div class="col-sm-12">
+                                <div class="ibox ">
+                                    <div class="ibox-title">
+                                        <div class="form-group  row">
+                                            <label class="col-sm-3 col-form-label control-label">Co Author's
+                                                Name:</label>
+                                            <div class="col-sm-9">
+                                                <select required id="presenting_author_id"
+                                                    style="width:50%;color:#808080;" name="co_author_membership_id"
+                                                    class="form-control select2_demo_1">
+                                                    <option value="" selected="" disabled=""> Select Co Author's Name
+                                                    </option>
+                                                    {% for each in co_members %}
+                                                    <option value="{{ each.id }}">{{ each.user.first_name}}
+                                                        {{each.user.last_name}} | {{each.kos_no }}
+                                                        {%if each.user.profile.mobile_number %} |
+                                                        {{each.user.profile.mobile_number}}{%endif%}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="row" id="">
+                                            <label class="col-sm-3 col-form-label">
+                                                Co Author's E-mail</label>
+
+                                            <div class="col-sm-9"><input readonly type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="row"><label class="col-sm-3 col-form-label">Author's
+                                                Mobile Number</label>
+
+                                            <div class="col-sm-9"><input readonly type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="row"><label class="col-sm-3 col-form-label">
+                                                KOS Number</label>
+                                            <div class="col-sm-9"><input readonly type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <!--=============hide the membership id=============-->
+                                        <div class="row d-none">
+                                            <label class="col-sm-3 col-form-label">hidden membership id</label>
+                                            <div class="col-sm-9">
+                                                <input readonly type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row" style="background-color: #f3f3f4;">
+                        <div class="col-sm-12">
+                            <div class="ibox">
+                                <div class="ibox-content">
+                                    <div class="mt-3 mb-4">
+                                        <div>
+                                            <button type="button" class="btn btn-success add_non_member">Add Co-Author
+                                                (Non KOS member)</button>
+                                            <button type="button" name="add" id="add"
+                                                class="btn btn-success add_member">Add Co-Author (KOS member)</button>
+                                        </div>
+                                        <div>
+                                            <small>You can add upto {{video_paper_max_member}} Co-Authors of which only
+                                                {{video_paper_max_non_member|num2words}} can be Non-KOS member.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="background-color: #f3f3f4;">
+                        <div class="col-sm-12">
+                            <div class="ibox">
+                                <div class="ibox-content">
+                                    <p><span style="color:#1c84c6">NOTE</span>
+                                        <br>
+                                        <br>
+
+                                        >Online submission will be taken as signed by the Presenting Author.<br>
+                                        >Clicking on submit button will submit your abstract for further evaluation.
+                                        Subsequent to this it will not be possible for you to edit your abstract.<br>
+                                        >The video is produced by me & above co-authors only. I understand that once
+                                        submitted the video becomes the property of AIOS & we permit them to reprodurce
+                                        and
+                                        distribute the videos in any manner they deem to be neccessary.<br>
+                                        >We declare that myself and co-authors are involved actively in the above
+                                        research
+                                        video. The work is solely done by myself and the co-authors.<br>
+                                        <br>
+                                        <input type="checkbox" id="agree" name="agree" required>
+                                        <label for="agree"><span style="color:#1c84c6">I have read & understood the <a
+                                                    href="https://member.kosonline.org/Video/guidelines/ "
+                                                    onMouseOver="this.style.color='red'"
+                                                    onMouseOut="this.style.color='#1c84c6'">Guidelines</a>.</span></label><br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ibox-content row">
+
+                        <div class="col-sm-10 col-sm-offset-2 text-center">
+                            <input type="button" value="Submit" id="submitBtn" class="btn btn-primary" />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <button type="button" class="btn btn-danger "><strong><a
+                                        href="{% url 'koscientific:video'%}" class="text-white">Cancel</a></strong>
+
+                            </button>
+                        </div>
+                        <!--***************************************-->
+                        <!--*******start of confirm dialog*********-->
+                        <!--***************************************-->
+                        <div class="modal fade" id="confirm-submit" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header ">
+                                        Confirm paper submit
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>Are you sure you want to submit this paper for evaluation?</h3>
+                                        <h5>Click Submit to submit the paper now, or Cancel to continue working.</h5>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button id="cancel_pop_up" type="button" class="btn btn-default"
+                                            data-dismiss="modal">Cancel</button>
+                                        <input id="submit_pop_up" type="submit" name="final" value="submit"
+                                            class="btn btn-success success" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--***************************************-->
+                        <!--*******end of confirm dialog***********-->
+                        <!--***************************************-->
+                    </div>
+                </form>
+            </div>
+            <!--register end-->
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script_link%}
+<script type="text/javascript">
+    // paper auto save
+    var timeOut;
+    $(document).ready(function () {
+        // Configure to save every 60 seconds
+        timeOut = window.setInterval(saveDraft, '{{auto_save_in}}');
+    });
+
+    var form = $('#video_paper_form');
+    var original = form.serialize();
+
+    // The magic happens here...
+    function saveDraft() {
+        console.log('paper auto saving');
+        //e.preventDefault(); // avoid to execute the actual submit of the form.
+
+        var form = $("#video_paper_form");
+
+        console.log('form = ', form.serializeArray());
+
+        $.ajax({
+            type: "POST",
+            url: '{% url "koscientific:ajax_video_paper" %}',
+            data: form.serialize(), // serializes the form's elements.
+            success: function (data) {
+                if (data['status']) {
+                    console.log('ajax success data = ', data);
+                    //console.log('paper auto saving success res', data); // show response from the  script.
+                    if (!$("#is_darft").length && data['paper_id']) {
+                        console.log("paper_id input hidden not found so create")
+                        var html = '';
+
+                        html += '<input id="is_darft" type="text" name="paper_id" class="form-control m-input d-none" >';
+
+                        $('#video_paper_form').append(html);
+                        $("#is_darft").val(data['paper_id']);
+                    }
+                } else {
+                    console.log('do not auto save => ', data);
+                    clearInterval(timeOut);
+                }
+            },
+            error: function (data) {
+                console.log('An error occurred.');
+                console.log('ajax error data = ', data);
+                console.log(data);
+                clearInterval(timeOut);
+            },
+        });
+    }
+</script>
+
+<script>
+
+    $(document).on("keyup", ".non_mem_co_instructor_mobile_number", function () {
+        var k = $(this);
+        var mobile_number = $(this).val();
+        console.log("mobile == >", mobile_number);
+        $.ajax({
+            url: '{% url "koscientific:field_validation" "mobile_number" %}',
+            data: {
+                'mobile_number': mobile_number
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.is_taken) {
+                    if (!k.parent().find("div").length) {
+                        k.parent().append('<div class="invalid-feedback d-block">This mobile number already present in KOS member database</div>');
+                    }
+                } else {
+                    k.parent().find("div").remove();
+                }
+            }
+        });
+
+    });
+
+
+    $(document).on("keyup", ".non_mem_co_instructor_email", function () {
+        var em = $(this);
+        var email = $(this).val();
+
+        $.ajax({
+            url: '{% url "koscientific:field_validation" "email" %}',
+            data: {
+                'email': email
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.is_taken) {
+                    if (!em.parent().find("div").length) {
+                        em.parent().append('<div class="invalid-feedback d-block">This email already present in KOS member database</div>');
+                    }
+                } else {
+                    em.parent().find("div").remove();
+                }
+            }
+        });
+
+    });
+
+</script>
+
+<script>
+    function textCounter(field, field2, maxlimit) {
+        var countfield = document.getElementById(field2);
+        if (field.value.length > maxlimit) {
+            field.value = field.value.substring(0, maxlimit);
+            return false;
+        } else {
+            countfield.value = maxlimit - field.value.length;
+        }
+    }
+
+    function wordCounter(field, field2, maxlimit) {
+        var countfield = document.getElementById(field2);
+        var wordsCount = field.value.trim().split(" ").length;
+        console.log('words count till now ', wordsCount);
+        if (wordsCount > maxlimit) {
+            // showing words in the input
+            field.value = field.value.split(" ").splice(0, maxlimit).join(" ");
+            return false;
+        } else {
+            // showing remaining number
+            countfield.value = maxlimit - wordsCount;
+        }
+    }
+</script>
+
+<script>
+
+    //===================================================
+    //==========co author dropdown call back=============
+    //===================================================
+    $(document).ready(function () {
+        var selected_membership_ids = [];
+        $(document).on('change', '.select2_demo_1', function () {
+
+            var email = $(this).closest(".ibox").find('input[type=text]:first');
+            var mobile_number = $(this).closest(".ibox").find('input[type=text]:eq(1)');
+            var kos_number = $(this).closest(".ibox").find('input[type=text]:eq(2)');
+            var membership_pk = $(this).closest(".ibox").find('input[type=text]:eq(3)');
+
+            console.log('previous membership_pk ===>', membership_pk[0].value);
+            if (membership_pk[0].value) {
+                // Remove item changed member from array
+                selected_membership_ids = selected_membership_ids.filter(function (e) { return e !== membership_pk[0].value });
+                // enable previous member
+                $(".select2_demo_1>option[value=" + membership_pk[0].value + "]").prop('disabled', false);
+                $('.select2_demo_1').select2();
+            }
+
+            $.ajax({
+                method: 'get',
+                url: "{%url 'koscientific:new_func_for_ajaxget'%}",
+                dataType: 'json',
+                data: {
+                    "id": $(this).val()
+                },
+                success: function (data) {
+                    console.log('data from co-instructor', data)
+                    email.val(data.email);
+                    mobile_number.val(data.mobile);
+                    kos_number.val(data.kos_no);
+                    membership_pk.val(data.membership_pk);
+
+                },
+                error: function (data) {
+                    alert(data.error)
+                }
+
+            });
+            var selecting_id = $(this).val();
+            console.log('current membership_pk ===>', membership_pk[0].value);
+            console.log("selected membershi id ", selecting_id);
+            selected_membership_ids.push(selecting_id);
+            $(".select2_demo_1>option[value=" + selecting_id + "]").prop('disabled', true);
+            $('.select2_demo_1').select2();
+        });
+
+        // Adding dynamic co-author members to form
+        $(document).ready(function () {
+            var given_author_limit = '{{video_paper_max_member}}';
+            var already_presented_authors = 3;
+            var max_fields = given_author_limit - already_presented_authors; // maximum input boxes allowed
+            if (max_fields == 0) {
+                // disable the extra co-authors is zero
+                $(".add_non_member").prop('disabled', true);
+                $(".add_member").prop('disabled', true);
+            }
+            var wrapper = $(".input_fields_wrap"); //Fields wrapper
+            var add_button = $(".add_member"); //Add button ID
+            var x = 0; // initlal mem count
+            var y = 0; // initlal non mem count
+            $(add_button).click(function (e) { //on add input button click
+                e.preventDefault();
+                console.log("selected_membership_ids ============>", selected_membership_ids);
+                if (x < max_fields) { //max input box allowed
+                    x++; // increment member count
+                    console.log(" x val when add member btn click", x);
+                    console.log(" max_fields val when add member btn click", max_fields);
+                    console.log("===============================================");
+                    if ((x + y) == max_fields) {
+                        $(".add_member").prop('disabled', true);
+                        $(".add_non_member").prop('disabled', true);
+                    }
+
+                    $(wrapper).append('<div class="row dynamic-co-instructor-member" style="background-color: #f3f3f4;"> <div class="col-sm-12"> <div class="ibox " > <div class="ibox-title"> <div class="form-group row"> <label class="col-sm-3 col-form-label control-label">Co Author name:</label> <div class="col-sm-9"> <select required id="co_inst_id" style="width:50%" name="co_author_membership_id" class="form-control select2_demo_1"> <option value="" selected="" disabled="">Select Co Authors Name</option> {% for each in co_members %} <option value="{{ each.id }}">{{ each.user.first_name}} {{each.user.last_name}} | {{each.kos_no }}{%if each.user.profile.mobile_number %} | {{each.user.profile.mobile_number}}{%endif%}</option> {% endfor %} </select> </div> </div><div class="ibox-tools"> <button type="button" class="btn btn-success remove_member_field">Remove</button> </td> <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a> </div> </div><div class="ibox-content"><div class="row"> <label class="col-sm-3 col-form-label">Co Author E-Mail :</label> <div class="col-sm-9"><input readonly style="background-color: #e9ecef;" type="text" id="select6" class="form-control"></div> </div> <div class="hr-line-dashed"></div> <div class="row"> <label class="col-sm-3 ">Author Mobile Number:</label> <div class="col-sm-9"><input readonly style="background-color: #e9ecef;" type="text" id="select7" class="form-control"></div> </div> <div class="hr-line-dashed"></div> <div class=" row"> <label class="col-sm-3 col-form-label">KOS Number:</label> <div class="col-sm-9"><input readonly style="background-color: #e9ecef;" type="text" id="select8" class="form-control"></div> </div> <div class="row d-none"><label class="col-sm-3 col-form-label">hidden membership id</label><div class="col-sm-9"><input readonly type="text" class="form-control"></div></div><div class="hr-line-dashed"></div></div> </div> </div> </div>'); //add input box
+                    for (let index = 0; index < selected_membership_ids.length; index++) {
+                        const membership_id_disabled = selected_membership_ids[index];
+                        $(".select2_demo_1>option[value=" + membership_id_disabled + "]").prop('disabled', true);
+
+                    }
+                    $('.select2_demo_1').select2();
+
+                }
+            });
+
+            //=================================================
+            // Adding dynamic co author non-kos-members to form
+            //=================================================
+
+            var max_non_member_fields = '{{video_paper_max_non_member}}'; // maximum input boxes allowed
+            var wrapper_non = $(".input_fields_wrap"); //Fields wrapper_non
+            var add_button_non = $(".add_non_member"); //Add button ID
+            $(add_button_non).click(function (e) { //on add input button click
+                e.preventDefault();
+                if (y < max_non_member_fields) { //max input box allowed
+                    y++; // increment non member count
+                    // x++; // increment member count
+                    console.log("x val when add non-mem-btn-click", x);
+                    console.log("y val when add non-mem-btn-click", y);
+                    console.log("max_fields add val when non-mem-btn-click", max_fields);
+                    console.log("max_non_member_fields add val when non-mem-btn-click", max_non_member_fields);
+
+                    console.log("==================================");
+                    if (y == max_non_member_fields || (x + y) == max_fields) {
+                        $(".add_non_member").prop('disabled', true);
+
+                    }
+                    if ((x + y) == max_fields) {
+                        $(".add_member").prop('disabled', true);
+                    }
+                    $(wrapper_non).append('<!--===================================================--><!--==========start of non member co-instructor========--><!--===================================================--><div class="input_fields_wrap dynamic-co-instructor-non-member non_mem_co_ins"><div class="row" style="background-color: #d9f1d9;"><div class="col-sm-12"><div class="ibox" style="margin:10px;"><div class="ibox-title"><div class="row" ><div class="col-6 text-left"><h5>For non members</h5></div><div class="col-6 text-right"><button type="button"class="btn btn-success remove_non_member_field">Remove</button></div></div></div><div class="ibox-content"><div class="row"><label class="col-sm-3 col-form-label">First name :</label><div class="col-sm-9"><input required style="background-color: #f5fff8;" type="text"class="form-control" name="non_mem_co_instructor_first_name"></div></div><div class="hr-line-dashed"></div><div class="row"><label class="col-sm-3 col-form-label">Last name :</label><div class="col-sm-9"><input required style="background-color: #f5fff8;" type="text"class="form-control" name="non_mem_co_instructor_last_name"></div></div><div class="hr-line-dashed"></div><div class="row"><label class="col-sm-3 col-form-label">Mobile number :</label><div class="col-sm-9"><input required style="background-color: #f5fff8;" type="number" class="form-control non_mem_co_instructor_mobile_number"  maxlength="10" name="non_mem_co_instructor_mobile_number"></div></div><div class="hr-line-dashed"></div><div class="row"><label class="col-sm-3 col-form-label">E-Mail :</label><div class="col-sm-9"><input required style="background-color: #f5fff8;" type="text" name="non_mem_co_instructor_email" class="form-control non_mem_co_instructor_email"></div></div><div class="hr-line-dashed"></div><div class="row"><label class="col-sm-3 col-form-label">Qualification :</label><select required  style="width:50%;color:#808080;"name="non_mem_co_instructor_qualification"class="form-control select2_demo_2"><option value="" selected disabled hidden>Choose here</option>{% for val, name in non_member_qualifications %}<option value="{{val}}">{{name}}</option>{% endfor %}</select></div></div></div></div></div></div><!--===================================================--><!--==========end of non member co-instructor==========--><!--===================================================-->'); //add input box
+                    $(".select2_demo_2").select2();
+                }
+            });
+            //========================
+            // Member remove btn
+            //========================
+            $(wrapper).on("click", ".remove_member_field", function (e) {
+                e.preventDefault(); $(this).closest('.dynamic-co-instructor-member').remove(); x--;
+                // enable member btn
+                $(".add_member").prop('disabled', false);
+                console.log("x val member remove btn", x);
+                console.log("y val member remove btn", y);
+                console.log("max_fields add val when non-mem-btn-click", max_fields);
+                console.log("max_non_member_fields val member remove btn", max_non_member_fields);
+                console.log("==================================");
+                if (y != max_non_member_fields) {
+                    // enable non member btn
+                    $(".add_non_member").prop('disabled', false);
+                }
+                // get removed memvership pk
+                var membership_pk_remove_btn = $(this).closest(".ibox").find('input[type=text]:eq(3)');
+
+                if (membership_pk_remove_btn[0].value) {
+                    console.log("removed membershi pk when removed btn click+++> ", membership_pk_remove_btn[0].value);
+                    // Remove item changed member from array
+                    selected_membership_ids = selected_membership_ids.filter(function (e) { return e !== membership_pk_remove_btn[0].value });
+                    $(".select2_demo_1>option[value=" + membership_pk_remove_btn[0].value + "]").prop('disabled', false);
+                }
+                $(".select2_demo_1").select2();
+
+            });
+            //========================
+            // non member remove btn
+            //========================
+            $(wrapper_non).on("click", ".remove_non_member_field", function (e) {
+                e.preventDefault(); $(this).closest('.dynamic-co-instructor-non-member').remove(); y--;
+                console.log("x val non member remove btn click ", x);
+                console.log("y val non member remove btn click", y);
+                console.log("==================================");
+                // enable non member btn
+                $(".add_non_member").prop('disabled', false);
+                // enable member btn
+                $(".add_member").prop('disabled', false);
+            });
+
+            var chief_author_permanent_val = $('#chief_author_permanent').val();
+            console.log(" chief_author_permanent_val  = >", chief_author_permanent_val);
+            // copy co-author limit
+            var default_max_fields = max_fields;
+
+            $("#presenting_author_id").change(function () {
+                console.log("x val drop down changes ", x);
+                console.log("y val drop down changes ", y);
+                console.log("=============beore=====================");
+                // get memebership id
+                var presenting_author_mem_val = this.value;
+                console.log(" presenting_author_mem_val  = >", presenting_author_mem_val);
+
+                // if same user give one more author to form
+                if (chief_author_permanent_val == presenting_author_mem_val) {
+                    console.log(" max_fields before = >", max_fields);
+                    max_fields++;
+                    console.log(" max_fields after = >", max_fields);
+                    console.log("==================================");
+                    // enable adding buttons if those disabled
+                    $(".add_member").prop('disabled', false);
+                    if (y == max_non_member_fields) {
+                        $(".add_non_member").prop('disabled', true);
+                    } else {
+                        $(".add_non_member").prop('disabled', false);
+                    }
+
+                } else {
+                    console.log(" max_fields before1 = >", max_fields);
+                    if (max_fields > default_max_fields) {
+                        // if limit increased by the drop down then only decrease the limit
+                        console.log("decrease the max_fields")
+                        console.log("==================================");
+                        max_fields--;
+                        if ($('.co_authors_form_place_holder').children().last().is('.non_mem_co_ins')) {
+                            // non member is the last
+                            console.log("non member last item removed");
+                            y--;
+                        } else {
+                            // member is the last
+                            console.log(" member last item removed");
+                            x--;
+                        }
+                        $('.co_authors_form_place_holder').children("div:last").remove();
+                    }
+                    console.log("x val drop down else ", x);
+                    console.log("y val drop down else ", y);
+                    console.log(" max_fields after else = >", max_fields);
+                    console.log("=============else=====================");
+
+
+                }
+                console.log("x val drop down last ", x);
+                console.log("y val drop down last ", y);
+                console.log(" max_fields after last = >", max_fields);
+                console.log("=============last=====================");
+            });
+        });
+
+        // initilize validate plug in
+        $("#video_paper_form").validate();
+
+        // temp submit btn click
+        $('#submitBtn').on('click', function () {
+
+            // remove lock for drop down
+            $(".select2_demo_1>option").prop('disabled', false);
+            $('.select2_demo_1').select2();
+
+            if ($("#video_paper_form").valid()) {
+                // show model
+                $('#confirm-submit').modal('show');
+            } else {
+                console.log("invalid");
+            }
+
+            // add lock for drop down
+            for (let index = 0; index < selected_membership_ids.length; index++) {
+                const membership_id_disabled = selected_membership_ids[index];
+                $(".select2_demo_1>option[value=" + membership_id_disabled + "]").prop('disabled', true);
+
+            }
+            $('.select2_demo_1').select2();
+        });
+        $('#submit_pop_up').on('click', function () {
+
+            //event.preventDefault(); //this will prevent the default submit
+
+            // your code here (But not asynchronous code such as Ajax because it does not wait for response and move to next line.)
+            $(".select2_demo_1>option").prop('disabled', false);
+            $('.select2_demo_1').select2();
+
+            $('#video_paper_form').submit(); // continue the submit unbind preventDefault
+        });
+
+    });
+
+</script>
+
+{% endblock script_link%}

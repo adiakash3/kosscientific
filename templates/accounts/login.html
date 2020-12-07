@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login</title>
+
+    <link href="{% static 'koss/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+
+    <link href="{% static 'koss/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/css/style.css' %}" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+        </div>
+
+        {% endfor %}
+        {% endif %}
+
+
+        {% if form.errors %}
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div>
+            <div> <img src="{% static  'koss/img/profile_small.png'%}" alt="pic" height="200" width="200"> </div>
+            <h3>Welcome to Karnataka Ophthalmic Society</h3>
+            <p>Login to continue</p>
+            <small>KOS members can login with their registered e-mail ID</small>
+            <form class="m-t" role="form" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="email"  autofocus name="username" class="form-control"
+                        placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Password"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">Login</button> <a
+                    href="{% url 'koscientific:main_forgot_password'%}"><small>Get password on registered email/ Forgot
+                        Password ?</small></a>
+                <br>
+
+                <p class="text-muted text-center"><small>Do not have an account?</small></p>
+                <a class="btn btn-sm btn-primary btn-block" href="{% url 'koscientific:main_register'%}">Create an
+                    account</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="{% static 'koss/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'koss/js/popper.min.js' %}"></script>
+    <script src="{% static 'koss/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'koss/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+    <script src="{% static 'koss/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+
+    <!-- Custom and plugin javascript -->
+    <script src="{% static 'koss/js/inspinia.js' %}"></script>
+    <script src="{% static 'koss/js/plugins/pace/pace.min.js' %}"></script>
+
+
+</body>
+
+</html>

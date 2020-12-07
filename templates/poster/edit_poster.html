@@ -1,0 +1,153 @@
+{% extends 'main/base.html'%}
+
+{% block title%} edit poster{% endblock %}
+
+{% block style%}
+
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+
+{% endblock %}
+
+{% block content %}
+<!--write main content here-->
+
+
+
+<div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h3>Submit Poster</h3>
+                    <span class="pull-right">
+                        <button type="button" class="btn btn-primary" data-toggle="model">
+
+                            <a href="{% url 'koscientific:poster'%}" class="text-white">Poster List</a>
+
+                        </button>
+                    </span>
+                </div>
+
+                <!--            register here     -->
+                <div class="ibox-content">
+
+                    <form id="" action="." method="post">
+                        {% csrf_token %}
+
+                        <!-- Start Row Name and Date of Birth.-->
+
+                        <div class="form-group  row">
+                                <label class="col-sm-2 col-form-label">Title Of the Abstract</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" placeholder="Enter Title Of the Abstract " class="form-control"
+                                        name="title" value="{{edit_poster.title}}" formControlName="titleOfTheAbstraction">
+                                </div>
+                            </div>
+                        <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Poster Type:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" style="height:35px" id="Instruction_course_type" name="poster_type">
+                                <option>{{edit_poster.poster_type}}</option>
+                                <option>E Poster</option>
+                                <option>Physical Poster</option>
+
+
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Section:</label>
+                            <div class="col-sm-10">
+
+                                    <select id="clientID" style="width:auto" name="section" class="form-control select2_demo_1">
+                            <option value="" selected="" disabled="">{{ edit_poster.section.section_name }}</option>
+                                        {% for each in section_list %}
+                                            <option value="{{ each.id }}">{{ each }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Abstract:</label>
+                            <div class="col-sm-10">
+                                <textarea rows="6" cols="70" type="text" id="abstract" class="form-control" name="abstract"
+                                    formControlName="abstract">{{edit_poster.abstract}}</textarea>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Status</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="status" name="status">
+                                        <option>{{edit_poster.status}}</option>
+                                        <option>Pending</option>
+                                        <option>Selected</option>
+                                      <option>Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group  row">
+                                <label class="col-sm-2 col-form-label control-label">Presenting author's Name:</label>
+                                <div class="col-sm-10">
+                                    <select id="" style="width:auto" name="presenting_poster_auther_name" class="form-control select2_demo_1">
+                            <option value="" selected="" disabled="">{{edit_poster.presenting_poster_auther_name}}</option>
+                                        {% for each in member_name_list %}
+                                            <option value="{{ each.id }}">{{ each }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        <div class="form-group  row">
+                                <label class="col-sm-2 col-form-label control-label">Co author's Name:</label>
+                                <div class="col-sm-10">
+                                    <select id="" style="width:auto" name="coauther_poster_name" class="form-control select2_demo_1">
+                            <option value="" selected="" disabled="">{{edit_poster.coauther_poster_name}}</option>
+                                        {% for each in member_name_list %}
+                                            <option value="{{ each.id }}">{{ each }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                        <div class="form-group row">
+
+                            <div class="col-sm-10 col-sm-offset-2 text-center">
+                             <button type="submit" class="btn btn-primary" name="draft"><strong>Save Draft</strong></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-primary" name="final"><strong>Final Submit</strong>
+
+                                </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                <button type="button" class="btn btn-danger "><strong><a
+                                    href="{% url 'koscientific:poster'%}"
+                                            class="text-white">Cancel</a></strong>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+
+                </div>
+
+                <!--   register end-->
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

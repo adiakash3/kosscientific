@@ -1,0 +1,19 @@
+<html>
+
+<body>
+    Dear Dr. {{evaluator.membership.user.first_name}} {{evaluator.membership.user.last_name}},
+    <p>
+        You have been invited to be an evaluator at https://member.kosonline.org. For the below sections
+    </p>
+    <p>
+        {% for section in sections %}
+        <li>{{section.section_name}}</li>
+        {% endfor %}
+    </p>
+    <p>
+        Please click this to 
+        <a href="{{accept_url}}" class="btn">Accept</a> or 
+        <a href="{{reject_url}}" class="btn">Reject</a>
+    </p>
+</body>
+</html>

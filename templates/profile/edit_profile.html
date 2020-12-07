@@ -1,0 +1,365 @@
+{% extends 'main/base.html'%}
+
+{% block title%} edit profile{% endblock %}
+{% load static %}
+
+{% block style%}
+.profile_photo_holder {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #FFFFFF;
+    box-shadow: 0 0 8px 3px #B8B8B8;
+    position: relative;
+}
+.main_profile_image {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+.dummy_profile_image { 
+    border - radius: 50 %;
+    max-width: 240px;
+    max-height: 228px;
+}
+
+.profile_photo_holder i {
+    position: absolute;
+    top: 20px;
+    right: -7px;
+    /* border: 1px solid; */
+    border-radius: 50%;
+    /* padding: 11px; */
+    height: 30px;
+    width: 30px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: cornflowerblue;
+    box-shadow: 0 0 8px 3px #B8B8B8;
+}
+
+#imgInp {
+display: none;
+}
+{% endblock style%}
+
+{% block script%}
+
+
+function imgError(image) {
+    image.onerror = "";
+    image.src = "{% static  'koss/img/profile_small.png'%}";
+    return true;
+}
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#profile_image').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$('.profile_image_edit_icon').click(function () {
+    $('#imgInp').click()
+})
+$('.dummy_profile_image').click(function () {
+    $('#imgInp').click()
+})
+$("#imgInp").change(function () {
+    readURL(this);
+});
+
+$(document).ready(function () {
+    $(".select2_demo_1").select2();
+
+});
+{% endblock %}
+
+
+
+{% block content %}
+<!--write main content here-->
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / <a href="{% url 'koscientific:profile' %}">Profile</a>
+        / Edit
+
+    </div>
+{% endblock %}
+
+
+<div class="wrapper wrapper-content">
+    <div class="row animated fadeInRight">
+        <div class="col-md-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+
+                        </div>
+
+                    </div>
+                    <div style="text-align:center">
+                        <h3><strong>Profile Update</strong></h3>
+                    </div>
+                </div>
+                <form [formGroup]="editProfileForm" action="." method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        <div class="ibox-content text-center">
+                            {% if  edit_profile.profile.photo %}
+                            <div class="profile_photo_holder m-auto">
+                            
+                                <img id="profile_image"  alt="image" class="img-fluid main_profile_image"
+                                    src="{{edit_profile.profile.photo.url}}" onerror="imgError(this);">
+                                    <i class="fa fa-edit profile_image_edit_icon pointer"></i>
+                                    
+                            </div>
+                            {% else %}
+                            <div class="profile_photo_holder m-auto">
+                                <img id="profile_image" alt="image" class="img-fluid main_profile_image dummy_profile_image pointer"
+                                    src="{% static  'koss/img/default.png'%}" onerror="imgError(this);">
+                                    <i class="fa fa-edit profile_image_edit_icon pointer"></i>
+                                </div>
+                            {% endif %}
+                            <div>
+                                <input type='file' name="profile_image" id="imgInp" accept="image/*" />
+                            </div>
+
+                        </div>
+                        <br>
+                        <br>
+
+                        <div class="ibox-content profile-content">
+
+                            <div class="user-button">
+
+                                <div class="row">
+
+
+                                    <div class="col-sm-6">
+                                        <p>First Name:</p>
+                                        <input type="text" class="form-control" placeholder="Enter first name"
+                                            name="first_name" value="{{edit_profile.first_name}}"
+                                            formControlName="first_name" readonly>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p>Last Name:</p>
+                                        <input type="text" class="form-control" placeholder="Enter User Name"
+                                            name="last_name" value="{{edit_profile.last_name}}"
+                                            formControlName="last_name" readonly>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+
+                                    <div class="col-sm-6">
+                                        <p>Registered email address:</p>
+                                        <input type="text" class="form-control" placeholder="" name="email"
+                                            value="{{edit_profile.email}}" formControlName="email" readonly>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p>Registered mobile number:</p>
+                                        <input type="text" class="form-control" placeholder="Enter mobile number"
+                                            name="mobile_number" value="{{number.mobile_number}}"
+                                            formControlName="mobile_number" #username>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 mt-2">
+                                    {{ form.as_p }}
+                                    </div>
+                                </div>
+                                
+
+                                <br>
+
+                                <br>
+                                <h3><b>Update Office Address</b></h3>
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <p>Street Address:</p>
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter office street address" name="office_Street_address"
+                                            value="{{ membership.office_Street_address }}">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p>Address Line 2:</p>
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter recidence address line 2" name="office_address_line_2"
+                                            value="{{membership.office_address_line_2}}"
+                                            formControlName="office_address_line_2" #username>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <p>Pincode:</p>
+                                        <input type="text" class="form-control" placeholder="Enter office pincode"
+                                            name="office_pincode" value="{{ membership.office_pincode }}">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="id_city">City:</label>
+                                        <input type="text" class="form-control" placeholder="City"
+                                            name="office_city" value="{{ membership.office_city.name }}">
+                                        {% comment %} <select id="id_city" name="office_city" class="form-control select2_demo_1">
+                                            {% for each in citylist %}
+                                            <option value="{{ each.pk }}" {% if membership.office_city.id == each.pk %}
+                                                selected {% endif %}>{{ each.name }}</option>
+                                            {% endfor %}
+                                        </select> {% endcomment %}
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <label for="id_city">State:</label>
+                                        <input type="text" class="form-control" placeholder="State"
+                                            name="office_state" value="{{ membership.office_state.name }}">
+                                        {% comment %} <select id="id_city" name="office_state" class="form-control select2_demo_1">
+                                            {% for each in statelist %}
+                                            <option value="{{ each.pk }}" {% if membership.office_state.id == each.pk %}
+                                                selected {% endif %}>{{ each.name }}</option>
+                                            {% endfor %}
+                                        </select> {% endcomment %}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="id_city">Country:</label>
+                                        <input type="text" class="form-control" placeholder="Country"
+                                            name="office_country" value="{{ membership.office_country.name }}">
+                                        {% comment %} <select id="id_city" name="office_country" class="form-control select2_demo_1">
+                                            {% for each in countrylist %}
+                                            <option value="{{ each.pk }}"
+                                                {% if membership.office_country.id == each.pk %} selected {% endif %}>
+                                                {{ each.name }}</option>
+                                            {% endfor %}
+                                        </select> {% endcomment %}
+                                    </div>
+                                </div>
+
+                                <br>
+                                <br>
+
+                                <h3><b>Update Residence Address</b></h3>
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <p>Street Address:</p>
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter recidence street address" name="recidence_Street_address"
+                                            value="{{ membership.recidence_Street_address }}">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p>Address Line 2:</p>
+                                        <input type="text" class="form-control"
+                                            placeholder="Enter recidence address line 2" name="recidence_address_line_2"
+                                            value="{{membership.recidence_address_line_2}}"
+                                            formControlName="recidence_address_line_2" #username>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="id_city">City:</label>
+                                        <input type="text" class="form-control" placeholder="City"
+                                            name="recidencecity" value="{{ membership.recidencecity.name }}">
+                                        {% comment %} <select id="id_city" name="recidencecity" class="form-control select2_demo_1">
+                                            <option value="">{{membership.recidencecity}}</option>
+                                            {% for each in citylist %}
+                                            <option value="{{ each.pk }}"
+                                                {% if membership.recidencecity.id == each.pk %} selected {% endif %}>
+                                                {{ each.name }}</option>
+                                            {% endfor %}
+                                        </select> {% endcomment %}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p>Pincode:</p>
+                                        <input type="text" class="form-control" placeholder="Enter recidence pincode"
+                                            style="height:32px" name="recidence_pincode"
+                                            value="{{ membership.recidence_pincode }}" #username>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <label for="id_city">State:</label>
+                                        <input type="text" class="form-control" placeholder="State"
+                                            name="recidencestate" value="{{ membership.recidencestate.name }}">
+                                        {% comment %} <select id="id_state" name="recidencestate" class="form-control select2_demo_1">
+                                            {% for each in statelist %}
+                                            <option value="{{ each.pk }}"
+                                                {% if membership.recidencestate.id == each.pk %} selected {% endif %}>
+                                                {{ each.name }}</option>
+                                            {% endfor %}
+                                        </select> {% endcomment %}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="id_city">Country:</label>
+                                        <input type="text" class="form-control" placeholder="Country"
+                                            name="recidencecountry" value="{{ membership.recidencecountry.name }}">
+                                        {% comment %} <select id="id_state" name="recidencecountry"
+                                            class="form-control select2_demo_1">
+                                            {% for each in countrylist %}
+                                            <option value="{{ each.pk }}"
+                                                {% if membership.recidencecountry.id == each.pk %} selected {% endif %}>
+                                                {{ each.name }}</option>
+                                            {% endfor %}
+                                        </select> {% endcomment %}
+                                    </div>
+                                </div>
+
+
+                                <br>
+                                <div class="row">
+
+                                    <div class="col-sm-12" style="text-align:right;">
+
+                                        <button type="submit" class="btn btn-primary" style="margin-right: 10px">Save
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{ form.media.js }}
+<script>
+    //$(document).ready(function () {
+     //   $('.django-select2').select2({placeholder: 'Select an option'});
+    
+    //});
+</script>
+    
+
+{% endblock %}

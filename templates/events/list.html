@@ -1,0 +1,167 @@
+{% extends 'main/base.html'%}
+
+{% block title%}Event list{% endblock %}
+
+{% block style%}
+<!--write here css-->
+<style>
+    .mb-10 {
+        width:53px;
+    }
+   div.dataTables_wrapper div.dataTables_info {
+        position: absolute;
+        left: 24%;
+        top: 75px;
+    }
+
+    .title {
+        color: #2679bf;
+    }
+
+    .title:hover {
+        color: #023866;
+    }
+
+    .align-right {
+        margin-right: 16px;
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate {
+        display: none;
+    }
+
+    div.dataTables_wrapper div.dataTables_length label {
+        display: none;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        display: none;
+    }
+</style>
+{% endblock style%}
+
+{% block script%}
+$(document).ready(function () {
+    $('.dataTables-example').DataTable({
+        pageLength: 10,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgitp',
+        buttons: []
+    });
+});
+
+
+{% endblock %}
+
+
+
+{% block content %}
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / Events
+
+
+    </div>
+{% endblock %}
+<!--write main content here-->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h3>Events</h3>
+                <span class="pull-right">
+                    <a href="{% url 'koscientific:event_add' %}" class="btn btn-primary">
+                        Add Event</a>
+                </span>
+            </div>
+            <div class="ibox-content">
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+
+                            <tr>
+                                <th style="width:40px">Sl. no</th>
+                                <th>Name</th>
+                                <th>Start date</th>
+                                <th>End date</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in events %}
+                            <tr class="gradeX">
+                                <td>{{forloop.counter0|add:events.start_index}}</td>
+                                <td>{{event.name}}</td>
+                                <td>{{event.start_date}}</td>
+                                <td>{{event.end_date}}</td>
+                                <td>{{event.get_status_display}}</td>
+                                <td>
+                                    <center>
+
+                                        <a href="{% url 'koscientific:event_details' event.id %}"
+                                            class="btn btn-primary mb-10">View</a>
+                                        
+                                        <a href="{% url 'koscientific:event_edit' event.id %}"
+                                            class="btn btn-primary mb-10">Edit</a>
+                                    </center>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if events.has_other_pages %}
+                    <div style="margin-left:13px;">
+
+                        <b style="margin-left: 6px;">Page</b> <span><b>{{ events.number }}</b></span> <b>of</b>
+                        <span> <b>{{ end_index}}</b></span>
+
+                    </div>
+                    <div class="text-center">
+                        <ul class="pagination pagination-lg text-center" style="margin-left: 19px;">
+
+                            {% if events.has_previous %}
+                            <li><a href="?page={{ events.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                            <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+
+                            {% if start_index %}
+                            <li><a href="?page={{ start_index }}">{{ start_index }}</a></li>
+                            <li class="disabled"><span>&mldr;</span></li>
+                            {% endif %}
+
+                            {% for i in page_range %}
+                            {% if events.number == i %}
+                            <li class="active" style=""><span style="border-color:#252a2d;font-weight:900">{{ i }} <span
+                                    class="sr-only">(current)</span></span></li>
+                            {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+
+
+                            {% if events.has_next %}
+                            <li><a href="?page={{ events.next_page_number }} ">&raquo;</a></li>
+                            {% else %}
+                            <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+
+                    </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

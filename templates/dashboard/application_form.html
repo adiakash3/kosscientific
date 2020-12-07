@@ -1,0 +1,1059 @@
+{% extends 'main/base.html'%}
+{% load static %}
+{% load has_group %}
+{% load maths %}
+
+{% block title%}Application form{% endblock %}
+
+{% block style%}
+   .ibox  {
+      color: #292929;
+   }
+
+   .mb-10 {
+      margin-bottom: 10px !important;
+   }
+
+   .temp-btn-bg15 {
+      background: #118bfc;
+   }
+
+   .temp-btn {
+      position: relative;
+      padding: 15px;
+      margin-bottom: 10px !important;
+      border-radius: 10px;
+
+
+   }
+
+   .temp-icon {
+      opacity: 0.9;
+      font-size: 40px !important;
+      position: relative;
+      float: left;
+      color: #ff9900;
+   }
+
+   .fa {
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+   }
+
+   .temp-btn h5 a {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 20px;
+      color: #fff;
+      text-decoration: none;
+   }
+
+   .font-16 {
+      font-size: 16px !important;
+   }
+
+   .marginbothside {
+      margin-left: 16px;
+   }
+
+   .widget {
+      margin-bottom: 20px;
+   }
+
+   .p-20 {
+      padding: 20px !important;
+   }
+
+   .bg118 {
+      background: #6187b4;
+      border-radius: 4px;
+      border: #9cd1ff 0px solid;
+      -webkit-box-shadow: 0 8px 6px -6px black;
+      -moz-box-shadow: 0 8px 6px -6px black;
+      box-shadow: 0 8px 6px -6px black;
+      background-color: #d4d4d4;
+      background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#d4d4d4), to(#f3f3f3));
+      background: -webkit-linear-gradient(top, #d4d4d4, #f3f3f3);
+   }
+
+   .image-cropper {
+      height: auto;
+      position: relative;
+   }
+
+   .list-unstyled {
+      padding-left: 0;
+      list-style: none;
+   }
+
+   .opening-hourse ul li {
+      border-bottom: 1px solid #edb700;
+      padding: 10px 0;
+      margin-bottom: 0 !important;
+   }
+
+   .widget ul li {
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+   }
+
+   .my-picture {
+      display: block;
+      margin: 0 auto;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      width: 100%;
+   }
+
+   .opening-hourse ul li .value {
+      float: right;
+   }
+
+   .divhover:hover {
+      cursor: pointer;
+      background-color: #0054a2;
+
+   }
+
+   .select2-container {
+      width: 77% !important;
+   }
+
+   .select2-dropdown {
+      z-index: 99999;
+   }
+
+   .error{
+      border: 1px solid red !important;
+   }
+
+   .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+ 
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: green;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      padding: 25px 16px;
+      z-index: 1;
+    }
+ 
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+ 
+    .myModal {
+    width: 8000px;
+    margin-left: -4000px;
+    }
+    .orange {
+    background: #ff6f00 !important;
+    color: #fff;
+    }
+    .button {
+    color: #ff0066 !important;
+    background-color: #ffffff;
+    }
+    .margin10 {
+    margin-bottom: 10px;
+    }
+    .nomargintop {
+    margin-top: 0px
+    }
+    .orange p {
+    color: #fff;
+    font-style: normal;
+    margin: 3px;
+    text-decoration: none;
+    }
+    .tile {
+    width: 100%;
+    padding: 15px;
+    height: 220px;
+    background: #efefef;
+    margin-bottom: 20px;
+    }
+    .secondheding {
+    font-size: 25px;
+    color: #4a148c;
+    }
+    /* second colum css */
+    .aquablue {
+    background: #00b8d4 !important;
+    color: #fff;
+    }
+    .button1 {
+    color: #ff0066;
+    background-color: #ffffff;
+    -ms-transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+    transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+    font-weight: 600;
+    font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, Verdana, sans-serif;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: capitalize;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 18px;
+    margin-right: 18px;
+    border: 0 none;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 13px;
+    height: 32px;
+    line-height: 32px;
+    }
+    .buttoninfo {
+    color: #ff0066;
+    background-color: #ffffff;
+    -ms-transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+    transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
+    font-weight: 600;
+    font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, Verdana, sans-serif;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: capitalize;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 18px;
+    /* margin-right: 18px; */
+    border: 0 none;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 13px;
+    height: 32px;
+    line-height: 32px;
+    }
+    .darkblue {
+    background: #311b92 !important;
+    color: #fff;
+    }
+    .green {
+    background: #339933 !important;
+    color: #fff;
+    }
+    a:hover {
+    color: #ff0066;
+    text-decoration: none;
+    }
+    .payment_body {
+      font-size: 16px;
+    }
+    .ibox-content {
+      background-color: #f3f7ff;
+    }
+{% endblock style%}
+
+{% block script%}
+
+
+{% endblock %}
+
+{% block content %}
+
+   <div class="row">
+      <div class="col-lg-12">
+         <div class="ibox ">
+            <div class="ibox-content">
+               <form id="registrationForm" method="POST" data-state-url="ajax/load-state/" data-city-url="ajax/load-city/"
+                  enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <!-- {{ form.as_p}} -->
+                  {% if messages %}
+                  {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }}" role="alert">
+                     {{ message }}
+                  </div>
+                  {% endfor %}
+                  {% endif %}
+                  <div style="text-align:center">
+                     <h3><strong>KOS Membership Application Form</strong></h3>
+                  </div>
+                  <!--            <div class="hr-line-dashed "></div>-->
+                  <hr style="0.5px dashed black">
+                  <!-- Start Row Name and Date of Birth.-->
+                  <div class="form-group  row">
+                     <div class="col-sm-6">
+                        <input type="text" placeholder="First Name" class="form-control" name="first_name"
+                           formControlName="Name" value="{{request.user.first_name}}" required>
+                     </div>
+                     <div class="col-sm-6">
+                        <input type="text" placeholder="Last Name" class="form-control" name="last_name"
+                           formControlName="last_name" value="{{request.user.last_name}}" required>
+                     </div>
+                  </div>
+                  <div class="form-group  row">
+                     <label class="col-sm-2 col-form-label">Date Of Birth:<span style="color: red;">*</span></label>
+                     <div class="col-sm-3">
+                        <input type="text" placeholder="YYYY-MM-DD" class="form-control" name="dob" id="dob" required
+                           autocomplete="off">
+                        <span id="bod_error_msg" style="visibility: hidden;"><small class="text-danger">date format:
+                              YYYY-MM-DD</small></span>
+                     </div>
+   
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     <!---==========================================-->
+                     <!---===============GENDER start===============-->
+                     <!--===========================================-->
+                     <label class="col-sm-1">Gender:<span style="color: red;">*</span></label>
+                     <div class="col-sm-1">
+                        <input type="radio" name="gender" id="male" value="Male" required
+                           {% if membership.gender == 'Male' %} checked="checked" {% endif %}>&nbsp;Male
+                     </div>
+                     <div class="col-sm-2">
+                        <input type="radio" name="gender" id="female" value="female" required
+                           {% if membership.gender == 'female' %} checked="checked" {% endif %}>&nbspFemale
+                     </div>
+                     <!---==========================================-->
+                     <!---===============GENDER end===============-->
+                     <!--===========================================-->
+                  </div>
+                  <div class="form-group row">
+                     <!--<label class="col-sm-2 col-form-label"> Address:<span style="color: red;">*</span></label>-->
+                     <label class="col-sm-2 col-form-label" style="margin-left:-18px"><b>
+                           <strong><u>Residence Address</u></strong></b><span style="color: red;">*</span></label>
+                     <div class="col-sm-10" style="margin-left:18px">
+                        <input type="text" placeholder="Enter Street Address" class="form-control" id="streetAddress"
+                           required name="recidence_Street_address" {% if membership.recidence_Street_address %}
+                           value="{{membership.recidence_Street_address}}" {% endif %}>
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <!--<label class="col-sm-2 col-form-label">Street Address Line 2:<span style="color: red;">*</span></label>-->
+                     <label class="col-sm-2 col-form-label"> <u></u><span style="color: red;"></span></label>
+                     <div class="col-sm-10">
+                        <input type="text" placeholder="Enter Street Address Line 2" class="form-control"
+                           id="streetaddress2" name="recidence_address_line_2" {% if membership.recidence_address_line_2 %}
+                           value="{{membership.recidence_address_line_2}}" {% endif %}>
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <label class="col-sm-2 col-form-label"><span style="color: red;padding-left:110%;">*</span></label>
+                     <div class="col-sm-4">
+                        <select id="id_country" name="recidencecountry" class="form-control">
+                           <option value="" disabled selected>-- Select country --</option>
+                           {% for each in country %}
+                           <option value="{{each.pk}}" {% if membership.recidencecountry.id == each.pk %} selected
+                              {% endif %}>{{each.name}}</option>
+                           {% endfor %}
+                        </select>
+                     </div>
+                     <label class="col-sm-2 col-form-label"><span style="color: red;padding-left:110%;">*</span></label>
+                     <div class="col-sm-4">
+                        <select id="recidence_cstate" name="recidencesstate" class="form-control">
+                           <option value="" disabled selected>-- Select state --</option>
+                           {% for each in residence_states %}
+                           <option value="{{ each.pk }}"
+                           {% if membership.recidencestate.id == each.pk %} 
+                           selected
+                           {% endif %}>{{ each.name }}</option>
+                           {% endfor %}
+                        </select>
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <label for="id_city" class="col-sm-2 col-form-label"><span
+                           style="color: red;padding-left:110%;">*</span></label>
+                     <div class="col-sm-4">
+                        <select id="id_city" name="recidencecity" class="form-control">
+                           <option value="">-- Select City --</option>
+                           {% for each in residence_cities %}
+                           <option value="{{ each.pk }}"
+                           {% if membership.recidencecity.id == each.pk %} 
+                           selected
+                           {% endif %}>{{ each.name }}</option>
+                           {% endfor %}
+                        </select>
+                     </div>
+                     <label class="col-sm-2 col-form-label"><span style="color: red;padding-left:110%;">*</span></label>
+                     <div class="col-sm-4">
+                        <input type="text" placeholder="Enter ZIP / Postal Code" class="form-control" id="postalCode"
+                           name="recidence_pincode" {% if membership.recidence_pincode %}
+                           value="{{membership.recidence_pincode}}" {% endif %}>
+                     </div>
+                  </div>
+                  <div style="text-align:left">
+                     <h4><strong><u>Office Address</u></strong></h4>
+                     <input type="checkbox" name="address_condition " id="filladdress" value="True" />Same as previous
+                  </div>
+                  <div class="officeAddress">
+                     <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Office Address:<span style="color: red;">*</span></label>
+                        <div class="col-sm-10">
+                           <input type="text" placeholder="Enter Street Address" class="form-control" id="officeaddress1"
+                              required name="office_Street_address" {% if membership.office_Street_address %}
+                              value="{{membership.office_Street_address}}" {% endif %}>
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Office Address Line 2:</label>
+                        <div class="col-sm-10">
+                           <input type="text" placeholder="Enter Address Line 2" class="form-control" id="officeaddress2"
+                              name="office_address_line_2" {% if membership.office_address_line_2 %}
+                              value="{{membership.office_address_line_2}}" {% endif %}>
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"><span style="color: red;padding-left:110%;">*</span></label>
+                        <div class="col-sm-4">
+                           <select id="id_country_office" name="office_country" class="form-control">
+                              <option value="" disabled selected>--Select country--</option>
+                              {% for each in country %}
+                              <option value="{{each.pk}}" {% if membership.office_country.id == each.pk %} selected
+                                 {% endif %}>{{each.name}}</option>
+                              {% endfor %}
+                           </select>
+                        </div>
+                        <label class="col-sm-2 col-form-label"><span style="color: red;padding-left:110%;">*</span></label>
+                        <div class="col-sm-4">
+                           <select id="recidence_cstate_office" name="office_state" class="form-control">
+                              <option value=''>--Select State --</option>
+                              {% for each in region %}
+                              <option value="{{ each.pk }}" 
+                              {% if membership.office_state.id == each.pk %}
+                                selected
+                              {% endif %}>{{ each.name }}</option>
+                              {% endfor %}
+                           </select>
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"><span style="color: red;padding-left:110%;">*</span></label>
+                        <div class="col-sm-4">
+                           <select id="id_city_office" name="office_city" class="form-control">
+                              <option value=''>--Select City --</option>
+                              {% for each in city %}
+                              <option value="{{ each.pk }}"
+                              {% if membership.office_city.id == each.pk %}
+                                selected
+                              {% endif %}>{{ each.name }}</option>
+                              {% endfor %}
+                           </select>
+                        </div>
+                        <label class="col-sm-2 col-form-label"><span style="color: red;padding-left:110%;">*</span></label>
+                        <div class="col-sm-4">
+                           <input type="text" placeholder="Enter ZIP / Postal Code" class="form-control" id="postalCode"
+                              name="office_pincode" {% if membership.office_pincode %}
+                              value="{{membership.office_pincode}}" {% endif %}>
+                        </div>
+                     </div>
+                  </div>
+                  <div style="text-align:left">
+                     <h4><strong><u>Contacts</u></strong></h4>
+                  </div>
+                  <div class="">
+                     <div class="form-group row">
+                        <label class="col-md-2 col-form-label"><span style="color: red;"></span>&nbsp</label>
+                        <div class="col">
+                           <input type="text" placeholder="Enter Home Phone NO" class="form-control" id="homePhoneNo"
+                              name="home_phone" {% if membership.home_phone %} value="{{membership.home_phone}}" {% endif %}>
+                        </div>
+                        <label class="col-md-2  col-form-label"><span style="color: red;"></span>&nbsp</label>
+                        <div class="col">
+                           <input type="text" placeholder="Enter Office Phone NO" class="form-control" id="officePhoneNO"
+                              name="office_phone" {% if membership.office_phone %} value="{{membership.office_phone}}"
+                              {% endif %}>
+                        </div>
+                     </div>
+                  </div>
+                  <!--            <div class="hr-line-dashed" ></div>-->
+                  <hr style="0.5px dashed black">
+                  <div style="text-align:left">
+                     <h4><strong><u>Qualifications</u></strong></h4>
+                  </div>
+   
+                  <!--===============================================================-->
+                  <!--====================Qualification start========================-->
+                  <!--===============================================================-->
+                  <table class="table form-table table-bordered table-sm">
+                     <thead class="text-center" style="background-color:red;">
+                        <col width="130">
+                        <col width="180">
+                        <col width="130">
+                        <col width="180">
+                        <tr>
+                           <th style="font-weight: normal;">Degree</th>
+                           <th style="font-weight: normal;">Year</th>
+                           <th style="font-weight: normal;">University</th>
+                           <th></th>
+                        </tr>
+                     </thead>
+                     {{ qualification_formset.management_form }}
+   
+                     {% for form_data in qualification_formset %}
+                     <tr class="link-formset">
+                        <td><span style="color: red;">*</span>
+                           {{ form_data.degree }}
+                        </td>
+                        <td style="width:50px"><span style="color: red;">*</span>
+                           {{ form_data.year }}
+                        </td>
+                        <td><span style="color: red;">*</span>
+                           {{ form_data.college }}
+                        </td>
+                        <td class="text-center align-bottom"></td>
+   
+                     </tr>
+   
+                     {% endfor %}
+   
+                     {% if qualification_formset.non_form_errors %}
+                     {% for error in qualification_formset.non_form_errors %}
+                     {{ error|escape }}
+                     {% endfor %}
+                     {% endif %}
+                  </table>
+                  <!--===============================================================-->
+                  <!--====================Qualification end==========================-->
+                  <!--===============================================================-->
+
+                  <!--===============================================================-->
+                  <!--======start Medical Council Registration Credentials===========-->
+                  <!--===============================================================-->
+                  <hr>
+                  <div style="text-align:left">
+                     <h4><strong><p><u>Medical Council Registration Credentials</u></p></strong></h4>
+                  </div>
+                  <div class="form-group row">
+                     <div class="col-sm-6">
+                        <input type="text" placeholder="Enter Medical Council Registration No" class="form-control"
+                           required id="medicalCouncilRegistration" name="medical_registration_no"
+                           {% if membership.medical_registration_no %} value="{{membership.medical_registration_no}}"
+                           {% endif %}>
+                     </div>
+                     <div class="col-sm-5">
+                        Upload certificate
+                        <!--<label class="col-form-label">Photocopy of Medical Council Registration Certificate:<span style="color: red;">*</span></label>-->
+                        <input type="file" class="file" id="addressLine2" required name="certificate"
+                           placeholder="Photocopy of Medical Council Registration Certificate">
+                     </div>
+                     <div class="col-sm-12">
+                        <div class="form-group row">
+                           <div class="col-sm-6">
+                              <!--<label for="country">Country</label>-->
+                              <select id="reg_country" name="reg_country" class="form-control">
+                                 <option value="" disabled selected>--Select country--</option>
+                                 {% for each in country %}
+                                 <option value="{{each.pk}}" 
+                                 {% if membership.reg_country.id == each.pk %}
+                                  selected
+                                    {% endif %}>{{each.name}}</option>
+                                 {% endfor %}
+                              </select>
+                           </div>
+                           <div class="col-sm-6">
+                              <!--<label class="col-form-label">State /Province /Region</label>-->
+                              <select id="reg_state" name="reg_state" class="form-control">
+                                 <option value="" disabled selected>--Select state--</option>
+                                 {% for each in reg_states %}
+                                 <option value="{{ each.pk }}"
+                                 {% if membership.reg_state.id == each.pk %}
+                                  selected
+                                 {% endif %}>{{ each.name }}</option>
+                                 {% endfor %}
+                              </select>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--===============================================================-->
+                  <!--======end Medical Council Registration Credentials=============-->
+                  <!--===============================================================-->
+   
+                  <hr style="0.5px dashed black">
+                  <div style="text-align:left">
+                     <h4><strong><u>Introduced by:</u></strong></h4>
+                  </div>
+                  <div class="form-group row">
+   
+                     <div class="table-responsive">
+                        <table class="table" id="dynamic_field1">
+                           <tr>
+                              <th style="font-weight: normal;">Member Name:<span style="color: red;">*</span>
+                              </th>
+                              <th style="font-weight: normal;">KOS Number</th>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <select id="memberID1" style="width:auto;background-color: white;"
+                                    name="membership_introducedby" class="form-control name_list select_introducer">
+                                    <option value="" selected="" disabled="">Choose member</option>
+                                    {% for each in members %}
+                                       <option value="{{ each.id }}"
+                                       {% if membership.membership_detail.introducer_one.id == each.id %}
+                                       selected
+                                       {% endif %}>{{ each.user.first_name }} {{ each.user.last_name }} |
+                                          {{ each.kos_no }} | {{ each.user.profile.mobile_number }}</option>
+                                    {% endfor %}
+                                 </select>
+                              </td>
+                              <td><input readonly type="" id="select5"
+                                 {% if membership.membership_detail.introducer_one %}
+                                      value="{{membership.membership_detail.introducer_one.kos_no}}"
+                                 {% endif %}>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <select id="memberID2" style="width:auto;background-color: white;"
+                                    name="membership_introducedby2" class="form-control name_list select_introducer">
+                                    <option value="" selected="" disabled="">Choose member</option>
+                                    {% for each in members %}
+                                    <option value="{{ each.id }}"
+                                    {% if membership.membership_detail.introducer_two.id == each.id %}
+                                      selected
+                                    {% endif %}>{{ each.user.first_name }} {{ each.user.last_name }} |
+                                       {{ each.kos_no }} | {{ each.user.profile.mobile_number }}</option>
+                                    {% endfor %}
+                                 </select>
+                              </td>
+                              <td><input readonly type="" id="select6"
+                                 {% if membership.membership_detail.introducer_two %}
+                                 value="{{membership.membership_detail.introducer_two.kos_no}}"
+                            {% endif %}> </td>
+                           </tr>
+                        </table>
+   
+                     </div>
+   
+                  </div>
+   
+                  <hr style="0.5px dashed black;">
+                  <!--<div class="hr-line-dashed"></div>-->
+                  <div class=" from-group row">
+                     <label class="col-sm-2 col-form-label">Photograph:<span style="color: red;">*</span></label>
+                     <div class="col-sm-3 fileinputs">
+                        <input type="file" class="file" id="addressLine2" required name="photo">
+                     </div>
+                  </div>
+                  <div class="fro-group row">
+                     <!--<label class="col-sm-1 col-form-label" ><span style="color: red;padding-left:150%;">*</span></label>-->
+                     <div class="col-sm-4">
+                        <input type="checkbox" name="agree" value="True" required id="agree" {% if membership.agree %}
+                           checked {% endif %} />
+                        <label class="col-sm-1 col-form-label"><span style="color: red;padding-left:-50%;">*</span></label>
+                        I agree to the privacy policy.
+   
+                     </div>
+                  </div>
+   
+                  <div class="fro-group row">
+                  </div>
+                  <div class="form-group row">
+                     <div class="col-md-12 text-right">
+                        <span class="mr-2">Membership Fees {{RAZOR_PAY_AMOUNT|divide:"100"}} {{RAZOR_PAY_CURRENCY}}</span>
+                        <input id="submit" type="submit" class="btn btn-primary" name="submit" value="Proceed to payment">
+   
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <script src="{% static 'koss/js/jquery-3.1.1.min.js' %}"></script>
+   <script src="{% static 'koss/js/popper.min.js' %}"></script>
+   <script src="{% static 'koss/js/bootstrap.min.js' %}"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+   <script src="{% static 'koss/js/jquery-3.1.1.min.js' %}"></script>
+   <script src="{% static 'koss/js/popper.min.js' %}"></script>
+   <script src="{% static 'koss/js/bootstrap.min.js' %}"></script>
+   <script src="{% static 'koss/js/bootstrap-datepicker.js' %}"></script>
+   <script>
+      $(document).ready(function () {
+         $("#filladdress").on("click", function () {
+            if (this.checked) {
+               $("#officeaddress1").val($("#streetAddress").val());
+               $("#officeaddress2").val($("#streetaddress2").val());
+               console.log($("#streetAddress").val())
+               $(".officeAddress").hide();
+            }
+
+            else {
+
+               $(".officeAddress").show();
+
+
+            }
+         });
+      });
+   </script>
+   <script>
+      $(document).ready(function () {
+         $('#dob').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            onSelect: function(selectedDate, b) {
+               console.log(selectedDate, b);
+         }
+         }).datepicker("setDate", '{{membership.dob|date:"Y-m-d"}}');;
+         $('#date').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+         });
+      });
+
+   </script>
+   <script type="text/javascript">
+      function updateElementIndex(el, prefix, ndx) {
+         var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+         var replacement = prefix + '-' + ndx + '-';
+         if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+            replacement));
+         if (el.id) el.id = el.id.replace(id_regex, replacement);
+         if (el.name) el.name = el.name.replace(id_regex, replacement);
+      }
+
+      function addForm(btn, prefix) {
+         var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+         if (formCount < 1000) {
+            // Clone a form (without event handlers) from the first form
+            var row = $(".item:last").clone(false).get(0);
+
+            // Insert it after the last form
+            $(row).removeAttr('id').hide().insertAfter(".item:last").slideDown(300);
+
+            // Remove the bits we don't want in the new row/form
+            // e.g. error messages
+            $(".errorlist", row).remove();
+            $(row).children().removeClass("error");
+
+            // Relabel or rename all the relevant bits
+            $(row).find('.formset-field').each(function () {
+               updateElementIndex(this, prefix, formCount);
+               $(this).val('');
+               $(this).removeAttr('value');
+               $(this).prop('checked', false);
+            });
+
+            // Add an event handler for the delete item/form link
+            $(row).find(".delete").click(function () {
+               return deleteForm(this, prefix);
+            });
+            // Update the total form count
+            $("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+
+         } // End if
+
+         return false;
+      }
+
+
+      function deleteForm(btn, prefix) {
+         var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+         if (formCount > 1) {
+            // Delete the item/form
+            var goto_id = $(btn).find('input').val();
+            if (goto_id) {
+               $.ajax({
+                  url: "/" + window.location.pathname.split("/")[1] + "/formset-data-delete/" + goto_id + "/?next=" + window.location.pathname,
+                  error: function () {
+                     console.log("error");
+                  },
+                  success: function (data) {
+                     $(btn).parents('.item').remove();
+                  },
+                  type: 'GET'
+               });
+            } else {
+               $(btn).parents('.item').remove();
+            }
+
+            var forms = $('.item'); // Get all the forms
+            // Update the total number of forms (1 less than before)
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            var i = 0;
+            // Go through the forms and set their indices, names and IDs
+            for (formCount = forms.length; i < formCount; i++) {
+               $(forms.get(i)).find('.formset-field').each(function () {
+                  updateElementIndex(this, prefix, i);
+               });
+            }
+         } // End if
+
+         return false;
+      }
+
+      $("body").on('click', '.remove-form-row', function () {
+         deleteForm($(this), String($('.add-form-row').attr('id')));
+      });
+
+      $("body").on('click', '.add-form-row', function () {
+         return addForm($(this), String($(this).attr('id')));
+      });
+
+
+   </script>
+   <script>
+      $("#id_country").change(function () {
+         console.log('id_country clicked');
+         var url = $("#registrationForm").attr("data-state-url");  // get the url of the `load_cities` view
+         console.log(window.location.origin)
+         var countryId = $(this).val();  // get the selected country ID from the HTML input
+         console.log(countryId)
+
+         $.ajax({                       // initialize an AJAX request
+            url: window.location.origin + '/ajax/load-state/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+               'country': countryId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_cities` view function
+               $("#recidence_cstate").html(data);  // replace the contents of the city input with the data that came from the server
+            }
+         });
+
+      });
+
+
+   </script>
+   <script>
+      $("#recidence_cstate").change(function () {
+         var url = $("#registrationForm").attr("data-city-url");  // get the url of the `load_cities` view
+         var regionId = $(this).val();  // get the selected country ID from the HTML input
+         $.ajax({                       // initialize an AJAX request
+            url: window.location.origin + '/ajax/load-city/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+               'region': regionId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_cities` view function
+               $("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
+            }
+         });
+
+      });
+
+   </script>
+   <script>
+      $("#id_country_office").change(function () {
+         var url = $("#registrationForm").attr("data-state-url");  // get the url of the `load_cities` view
+         console.log(window.location.origin)
+         var countryId = $(this).val();  // get the selected country ID from the HTML input
+         console.log(countryId)
+
+         $.ajax({                       // initialize an AJAX request
+            url: window.location.origin + '/ajax/load-state/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+               'country': countryId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_cities` view function
+               $("#recidence_cstate_office").html(data);  // replace the contents of the city input with the data that came from the server
+            }
+         });
+
+      });
+
+
+   </script>
+   <script>
+      $("#recidence_cstate_office").change(function () {
+         var url = $("#registrationForm").attr("data-city-url");  // get the url of the `load_cities` view
+         var regionId = $(this).val();  // get the selected country ID from the HTML input
+         $.ajax({                       // initialize an AJAX request
+            url: window.location.origin + '/ajax/load-city/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+               'region': regionId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_cities` view function
+               $("#id_city_office").html(data);  // replace the contents of the city input with the data that came from the server
+            }
+         });
+
+      });
+
+   </script>
+   <script>
+      $("#reg_country").change(function () {
+         var url = $("#registrationForm").attr("data-state-url");  // get the url of the `load_cities` view
+         console.log(window.location.origin)
+         var countryId = $(this).val();  // get the selected country ID from the HTML input
+         console.log(countryId)
+
+         $.ajax({                       // initialize an AJAX request
+            url: window.location.origin + '/ajax/load-state/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+            data: {
+               'country': countryId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_cities` view function
+               $("#reg_state").html(data);  // replace the contents of the city input with the data that came from the server
+            }
+         });
+
+      });
+
+
+   </script>
+   <script src="{% static 'koss/js/jquery-3.1.1.min.js' %}"></script>
+   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+   <script>
+         $(document).ready(function () {
+            var preSelectedVal = $('#memberID1').val();
+            console.log('pre selected from first')
+            $("#memberID2>option[value="+preSelectedVal+"]").prop('disabled', true);
+            $('#memberID2').select2();
+
+            $('#memberID1').change(function () {
+
+               var id = $(this).val();
+               console.log(id);
+               $("#memberID2>option").prop('disabled', false);
+               $('#memberID2').select2();
+               $("#memberID2>option[value="+id+"]").prop('disabled', true);
+               $('#memberID2').select2();
+
+            $.ajax({
+               method: 'get',
+               url: "{%url 'koscientific:new_func_for_ajaxget'%}",
+
+               dataType: 'json',
+               data: {
+                  "id": $(this).val()
+               },
+               success: function (data) {
+                  $('#select5').val(data.kos_no);
+               },
+               error: function (data) {
+                  alert(data.error);
+
+               }
+
+            });
+
+         });
+      });
+   </script>
+   <script>
+      $(document).ready(function () {
+         var preSelectedVall = $('#memberID2').val();
+         console.log('pre selected from second')
+         $("#memberID1>option[value="+preSelectedVall+"]").prop('disabled', true);
+         $('#memberID1').select2();
+
+         $('#memberID2').change(function () {
+
+            var id = $(this).val();
+            console.log(id);
+            $("#memberID1>option").prop('disabled', false);
+            $('#memberID1').select2();
+            $("#memberID1>option[value="+id+"]").prop('disabled', true);
+            $('#memberID1').select2();
+            $.ajax({
+               method: 'get',
+               url: "{%url 'koscientific:new_func_for_ajaxget'%}",
+
+               dataType: 'json',
+               data: {
+                  "id": $(this).val()
+               },
+               success: function (data) {
+                  $('#select6').val(data.kos_no);
+               },
+               error: function (data) {
+                  alert(data.error);
+
+               }
+
+            });
+
+         });
+      });
+   </script>
+   <script>
+      $(document).ready(function () {
+         $(".select_introducer").select2();
+
+         $("#dob").on("change paste keyup", function() {
+           console.log('tues ', $(this).val());
+           if(!isValidDate($(this).val())){
+            $("#dob").addClass("error");
+            $("#bod_error_msg").css('visibility','visible');
+           } else{
+            $("#dob").removeClass("error");
+            $("#bod_error_msg").css('visibility','hidden');
+           }
+
+           function isValidDate(dateString) {
+            var regEx = /^\d{4}-\d{2}-\d{2}$/;
+            if(!dateString.match(regEx)) return false;  // Invalid format
+            var d = new Date(dateString);
+            var dNum = d.getTime();
+            if(!dNum && dNum !== 0) return false; // NaN value, Invalid date
+            return d.toISOString().slice(0,10) === dateString;
+          }
+         });
+      });
+   </script>
+   <script src="{% static 'koss/js/plugins/jquery.formset.js' %}"></script>
+   <script type="text/javascript">
+      $('.link-formset').formset({
+         addText: 'Add',
+         deleteText: 'Remove',
+      });
+   </script>
+
+
+   <script type="text/javascript">
+      // paper auto save
+      var timeOut;
+      $(document).ready(function () {
+          // Configure to save every 60 seconds
+          timeOut = window.setInterval(saveDraft, '{{auto_save_in}}');
+      });
+  
+      var form = $('#registrationForm');
+      var original = form.serialize();
+
+  
+      // The magic happens here...
+      function saveDraft() {
+          console.log('paper auto saving');
+          //e.preventDefault(); // avoid to execute the actual submit of the form.
+  
+          var form = $("#registrationForm");
+  
+          console.log('form = ', form.serializeArray());
+  
+          $.ajax({
+              type: "POST",
+              url: '{% url "koscientific:application_form" %}',
+              data: form.serialize(), // serializes the form's elements.
+              success: function (data) {
+                 
+               console.log('ajax success data = ', data);
+                     
+               
+              },
+              error: function (data) {
+                  console.log('An error occurred.');
+                  console.log('ajax error data = ', data);
+                  console.log(data);
+                  clearInterval(timeOut);
+              },
+          });
+      }
+
+      $('#submit').on("click",function() {
+         // clear auto save stuff
+         clearInterval(timeOut);
+         console.log("clear auto save stuff");
+       }); 
+  </script>
+
+{% endblock %}

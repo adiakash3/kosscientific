@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+
+<html translate="no">
+
+{% load static %}
+{% load has_role %}
+
+<head>
+    <meta name="google" content="notranslate">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title%}kosscientific{% endblock %}</title>
+    {% block link%}
+    {% endblock %}
+    <link href="{% static 'koss/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+<!--    datatables css-->
+    <link href="{% static 'koss/css/plugins/dataTables/datatables.min.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/css/datepicker3.css' %}" rel="stylesheet">
+
+    <link href="{% static 'koss/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+
+    <style>
+        #side_profile_photo {
+            width: 70px;
+            height: 70px;
+            background-color: #fff;
+        }
+        .pointer {
+            cursor: pointer;
+        }
+        
+        {% block style %}
+        {% endblock style %}
+    </style>
+    {% block style_link %}
+    {% endblock style_link %}
+
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        {% if request.user.profile.photo %}
+                        <img id="side_profile_photo" alt="image" class="img-circle" src="{{request.user.profile.photo.url}}"
+                        onerror="imgError(this);" >
+                        {% else %}
+                        <img id="side_profile_photo" alt="image" class="img-circle" src="{% static  'koss/img/default1.png'%}"
+                        onerror="imgError(this);" >
+                        {% endif %}
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="block m-t-xs font-bold">{{ request.user.first_name }} {{ request.user.last_name}}</span>
+                            <span class="text-muted text-xs block"><b class="caret"></b></span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            
+                            {% if perms.koscientific.full_profile %}
+                            <li><a  href="{% url 'koscientific:member_profile'%}">Profile</a></li>
+                            {% elif perms.koscientific.base_profile %}
+                                <li><a  href="{% url 'koscientific:profile'%}">Profile</a></li>
+                            {% endif %}
+                            
+                                <li><a href="{% url 'koscientific:change_password'%}">Change Password</a></li>
+                                <li><a class="dropdown-item" href="/accounts/logout">Logout</a></li>                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        IN+
+                    </div>
+                </li>
+                
+                {% if request.user|has_role:'scientific admin' %}
+                
+                    {% include "main/sidebars/scientific_admin_sidebar.html" %}
+
+                {% elif request.user|has_role:'evaluator' %}
+                    {% include "main/sidebars/evaluator_sidebar.html" %}
+                
+                {% else %}
+                    {% include 'main/sidebar.html'%} 
+                {% endif %}
+                    
+                    
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+
+                    <!--************************START OF NOTIFICATION****************************-->
+                    <li id="noti" class="dropdown">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                            <i class="fa fa-bell"></i> 
+                            <span class="label label-primary">
+                            {% if request.user.un_read_message_count %}
+                                {{request.user.un_read_message_count}}
+                            {% else %}
+                                0
+                            {% endif %}
+                            </span>
+                        </a>
+                        <ul class="replace-notification dropdown-menu dropdown-alerts">
+                            {% include 'main/notification.html' %}
+
+                        </ul>
+                    </li>
+                    <!--************************END OF NOTIFICATION*******************************-->
+
+                    <li>
+                        <a href="/accounts/logout">
+                            <i class="fa fa-sign-out"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+
+
+
+
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+        </div>
+
+        {% endfor %}
+        {% endif %}
+
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+        {% block content %}
+
+        {% endblock %}
+        </div>
+        <div class="footer">
+
+            <div>
+                <strong>Copyright</strong> scientific.kosonline.org &copy; 2014-2020
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'koss/js/jquery-3.1.1.min.js' %}"></script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script> -->
+<script src="{% static 'koss/js/popper.min.js' %}"></script>
+<script src="{% static 'koss/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'koss/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'koss/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+<!--datatables js plugins-->
+<script src="{% static 'koss/js/plugins/dataTables/datatables.min.js' %}"></script>
+<script src="{% static 'koss/js/plugins/dataTables/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'koss/js/inspinia.js' %}"></script>
+<script src="{% static 'koss/js/plugins/pace/pace.min.js' %}"></script>
+
+<!--date field-->
+<script src="{% static 'koss/js/bootstrap-datepicker.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>  
+
+
+ <script>
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "{% static  'koss/img/profile_small.png'%}";
+        return true;
+    }
+ </script>
+ <script>
+
+    {% block script%}
+    {% endblock script%}
+
+  </script>
+
+  {% block script_link%}
+    {% endblock script_link%}
+
+  <!-- ********************Start of web socket ******************************* -->
+  <script>
+    // Correctly decide between ws:// and wss://
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    let chatSocket = new WebSocket(ws_scheme + "://" + window.location.host + '/ws/notifications');
+
+    chatSocket.onopen = function () {
+        console.log('connected');
+    }
+
+    chatSocket.onmessage = function (e) {
+        console.log('message from web notification', e);
+        var message = JSON.parse(e.data).message;
+        //console.log('websocket message 2 recevied from backend => ', message);
+        // increment the count
+        $('.label-primary').html(function (i, val) { return +val + 1 });
+
+        // call ajax when drop down open to load message
+        var isExpanded = $('.count-info').attr("aria-expanded");
+        var isExpanded = (isExpanded === "true");
+        if (isExpanded) {
+            callAjax();
+
+        }
+
+    };
+
+
+    function callAjax() {
+        $.ajax({
+            type: "GET",
+            url: "{% url 'notification:update_notification' %}",
+            data: { 'emp_id': '{{request.user.id}}' },
+            success: function (data) {
+                //console.log('ajax websocket data ', data);
+
+                $('.replace-notification').html(data);
+                // notification is zero when dropdown open
+                $('.label-primary').html(function (i, val) { return 0 });
+
+            }
+        });
+    }
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly', e);
+    };
+
+
+
+</script>
+<script>
+    // call ajax when drop down open to load message
+    $('.dropdown').on('show.bs.dropdown', function () {
+        callAjax();
+    });
+     
+</script>
+<!-- ************************ End of web socket*****************-->
+
+</body>
+</html>

@@ -1,0 +1,318 @@
+{% extends 'main/base.html'%}
+{% load has_group %}
+
+{% block title%}freepaper assign{% endblock %}
+
+{% block style%}
+<style>
+    .section {
+        position: absolute;
+        left: 45%;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        position: absolute;
+        left: 70%;
+        top: 75px;
+    }
+
+    .title {
+        color: #2679bf;
+    }
+
+    .title:hover {
+        color: #023866;
+    }
+
+    .align-right {
+        margin-right: 16px;
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate {
+        display: none;
+    }
+
+    div.dataTables_wrapper div.dataTables_length label {
+        display: none;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        display: none;
+    }
+
+    .row-green,
+    .row-green:hover {
+        background: #488647 !important;
+        color: white !important;
+        font-weight: 800;
+    }
+
+    .row-red,
+    .row-red:hover {
+        background: #bc0f0f !important;
+        color: white !important;
+        font-weight: 800;
+    }
+
+    .modal {
+        color: #545454 !important;
+    }
+</style>
+
+{% endblock style%}
+
+{% block script_link%}
+<script>
+
+    $(document).ready(function () {
+        
+        $('.dataTables-example').DataTable({
+            pageLength: 10,
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: []
+
+        });
+
+    });
+
+    $("a.reassign").click(function () {
+        var section_id = $(this).attr('name');
+        var evalutor_id = $(this).attr('name1');
+        // console.log('section id', section_id);
+        // console.log('evalutor_id ', evalutor_id);
+        $(".select_evaluator").empty();
+        $.ajax({
+            url: '{% url "koscientific:section_evaluators" %}',
+            data: {
+                'section_id': section_id,
+                'evalutor_id': evalutor_id
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data['result'] == 'success') {
+                    for (let index = 0; index < data['section_evaluator'].length; index++) {
+                        const section_obj = data['section_evaluator'][index];
+                        $(".select_evaluator").append("<option value = " + section_obj.id + '>' + section_obj.membership__user__first_name + ' ' + section_obj.membership__user__last_name + "</option > ");
+                    };
+                    
+                    // $(".select2_demo_1").select2({});
+                    $(".select_evaluator").val(evalutor_id);
+                } else {
+                    alert(data['message']);
+                }
+
+            }
+        });
+
+    });
+
+</script>
+
+{% endblock script_link %}
+
+{% block content %}
+<!--write main content here-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title row">
+                <div>
+                    <h3> Assigned Evaluator List For freepaper </h3>
+
+                </div>
+
+            </div>
+            <div class="ibox-content">
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <div class="section">
+                            <form action="{% url 'koscientific:assign_to_freepaper' %}" method="get">
+                                <select required id="clientID" style="width:139px;margin-right: 10px;" name="section"
+                                    class="btn btn-success col-sm-12">
+                                    <option value="1">Choose Section</option>
+                                    {% for assigned_free_paper in sec%}
+                                    <option value="{{assigned_free_paper.id}}">
+                                        {{assigned_free_paper.section_name}}</option>
+                                    {% endfor %}
+
+                                </select>
+                                <input type="submit" value="Filter" class="btn btn-success" />
+                                <a href="{% url 'koscientific:assign_to_freepaper'%}" class="btn btn-danger "
+                                    style="padding-left:8px;"> Reset</a>
+                            </form>
+
+
+                        </div>
+
+
+                        <thead>
+                            <tr>
+                                <th>Sl. no</th>
+                                {% if request.user|has_group:"evaluator" or request.user|has_group:"evaluator_non_member" %}
+                                <th>Reference id</th>
+                                {% else %}
+                                <th>Unique id</th>
+                                {% endif %}
+                                <th>Evaluator Name</th>
+                                <th>Section</th>
+                                <th>Status</th>
+                                <th>Marks</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="ev">
+
+                            {% for assigned_free_paper in assigned_free_papers %}
+
+                            <tr class="{% if assigned_free_paper.marks %}
+                                row-green
+                                {% else %}
+                                row-red  
+                                {% endif %}">
+                                <td>{{forloop.counter0|add:assigned_free_papers.start_index}}</td>
+                                {% if request.user|has_group:"evaluator" or request.user|has_group:"evaluator_non_member" %}
+                                <td>{{assigned_free_paper.fp.ref_id}}</td>
+                                {% else %}
+                                <td>{{assigned_free_paper.fp.unique_id}}</td>
+                                {% endif %}
+                                <td>
+
+                                    {% if assigned_free_paper.evulator.membership %}
+                                    {{assigned_free_paper.evulator.membership.user.first_name}}
+                                    {{assigned_free_paper.evulator.membership.user.last_name}}</td>
+                                {% elif assigned_free_paper.evulator.invite %}
+                                {{assigned_free_paper.evulator.invite.first_name}} {{assigned_free_paper.evulator.invite.last_name}}
+                                {% endif %}
+
+                                <td>{{assigned_free_paper.section.section_name}}</td>
+                                <td>{{assigned_free_paper.status}}</td>
+                                <td>{{assigned_free_paper.marks|default_if_none:"N/A"}}</td>
+                                <td>
+                                    {% if perms.koscientific.reassign_evaluator and not assigned_free_paper.marks %}
+                                    <a class="btn btn-primary reassign" href="#" data-toggle="modal"
+                                        name="{{assigned_free_paper.fp.section.pk}}"
+                                        name1="{{assigned_free_paper.evulator_id}}"
+                                        data-target="#reassign_{{assigned_free_paper.id}}">Reassign</a>
+
+                                    <div class="modal inmodal" id="reassign_{{ assigned_free_paper.id }}" tabindex="-1"
+                                        role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog">
+
+                                            <div class="modal-content animated bounceInRight">
+                                                <form action="" method="post" enctype="multipart/form-data">
+
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span
+                                                                aria-hidden="true">&times;</span><span
+                                                                class="sr-only">Close</span></button>
+
+                                                        <h4 class="modal-title">Free paper Reassign evaluator</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {% csrf_token %}
+                                                        <input type="text" name="id" hidden
+                                                            value="{{ assigned_free_paper.id }}">
+
+
+                                                        <p> Unique Id:
+                                                            <span>{{assigned_free_paper.fp.unique_id}}</span>
+                                                        </p>
+                                                        <p> Title: <span>{{assigned_free_paper.fp.title}}</span>
+                                                        </p>
+
+
+                                                        <div class="form-group">
+                                                            <label for="">
+                                                                <b>Evaluator: </b>
+                                                            </label>
+                                                        </div>
+
+
+                                                        <select required name="evulator"
+                                                            class="form-control select2_demo_1 select_evaluator">
+
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Save
+                                                            changes
+                                                        </button>
+
+                                                        <button type="button" class="btn btn-white"
+                                                            data-dismiss="modal">Close
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% endif %}
+                                    {% if perms.koscientific.add_marks  and not assigned_free_paper.marks %}
+                                    <a href="{% url 'koscientific:add_marks_freepaper' assigned_free_paper.id %}"
+                                        class="btn btn-primary">Add
+                                        marks</a>
+                                    {% endif %}
+
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                    {% if assigned_free_papers.has_other_pages %}
+                    <div style="margin-left:13px;">
+
+                        <b style="margin-left: 6px;">Page</b>
+                        <span><b>{{ assigned_free_papers.number }}</b></span> <b>of</b>
+                        <span> <b>{{ end_index}}</b></span>
+
+                    </div>
+                    <div class="text-center">
+                        <ul class="pagination pagination-lg text-center" style="margin-left: 19px;">
+
+                            {% if assigned_free_papers.has_previous %}
+                            <li><a href="?page={{ assigned_free_papers.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                            <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+
+                            {% if start_index %}
+                            <li><a href="?page={{ start_index }}">{{ start_index }}</a></li>
+                            <li class="disabled"><span>&mldr;</span></li>
+                            {% endif %}
+
+                            {% for i in page_range %}
+                            {% if assigned_free_papers.number == i %}
+                            <li class="active" style=""><span style="border-color:#252a2d;font-weight:900">{{ i }} <span
+                                        class="sr-only">(current)</span></span></li>
+                            {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+
+
+                            {% if assigned_free_papers.has_next %}
+                            <li><a href="?page={{ assigned_free_papers.next_page_number }} ">&raquo;</a></li>
+                            {% else %}
+                            <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

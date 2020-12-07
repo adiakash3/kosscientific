@@ -1,0 +1,175 @@
+{% extends 'main/base.html'%}
+{% load crispy_forms_tags %}
+
+{% block title%}Dashboard{% endblock %}
+{% block style_link %}
+<style>
+    .ibox-title {
+        padding: 15px 15px 8px 15px;
+    }
+    a:hover {
+        color: #ff0066;
+        text-decoration: none;
+    }
+</style>
+{% endblock style_link%}
+{% block script%}
+{% endblock %}
+<html>
+
+<head>
+    <!--write main content here-->
+    {% block content %}
+    {% load static %}
+
+    <div class="wrapper wrapper-content">
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5><a href="{% url 'koscientific:member_list' %}"> MEMBER </a> </h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{total_members_count}}</h1>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5><a href="{% url 'koscientific:evaluter_list' %}"> EVALUATOR </a> </h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{evaluator}}</h1>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>UNDER EVALUATION</h5>
+                    </div>
+                    <div class="ibox-content">
+
+
+                        <h1 class="no-margins">{{all_papers_status_under_evaluation_count}}</h1>
+                        <!--for admin-->
+                        <h1 class="no-margins">{{total_under_evaluated}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>EVALUATED</h5>
+                    </div>
+                    <div class="ibox-content">
+
+                        <h1 class="no-margins">{{all_papers_status_evaluated_count}}</h1>
+                        <!--for admin-->
+                        <h1 class="no-margins">{{total_evaluated}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5><a href="{% url 'koscientific:instruction_course' %}"> INSTRUCTION COURSE</a></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{ins_count}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5><a href="{% url 'koscientific:freepaper_list' %}"> FREE PAPER/POSTER </a></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{FreePaper_count}}</h1>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5><a href="{% url 'koscientific:video' %}"> VIDEO </a></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{Video_count}}</h1>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--==========================================================-->
+        <!--==========================paper settings==================-->
+        <!--==========================================================-->
+        {% if perms.koscientific.paper_authors_limit %}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="ibox shadow">
+                    <div class="ibox-title">
+                        <h5>Free paper</h5>
+                    </div>
+                    <form action="." method="POST">
+                        {% csrf_token %}
+                        <div class="ibox-content">
+                            {{free_paper_author_form|crispy}}
+                            <input type="submit" name="free_paper" value="Save" class="btn btn-primary">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ibox shadow">
+                    <div class="ibox-title">
+                        <h5>Instruction Course</h5>
+                    </div>
+                    <form action="." method="POST">
+                        {% csrf_token %}
+                        <div class="ibox-content">
+                            {{ic_paper_author_form|crispy}}
+                            <input type="submit" name="ic_paper" value="Save" class="btn btn-primary">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ibox shadow">
+                    <div class="ibox-title">
+                        <h5>Video</h5>
+                    </div>
+                    <form action="." method="POST">
+                        {% csrf_token %}
+                        <div class="ibox-content">
+                            {{video_paper_author_form|crispy}}
+                            <input type="submit" name="video_paper" value="Save" class="btn btn-primary">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <!--===========================================================-->
+        <!--=====================end paper settings====================-->
+        <!--===========================================================-->
+
+    </div>
+</head>
+
+</html>
+{% endblock %}

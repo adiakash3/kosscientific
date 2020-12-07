@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title%}Verify SMS otp for new password{% endblock %}</title>
+
+    <link href="{% static 'koss/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+
+    <link href="{% static 'koss/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'koss/css/style.css' %}" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+        </div>
+
+        {% endfor %}
+        {% endif %}
+        <div id="otp_sent_message">
+            <p>OTP sent</p>
+        </div>
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div>
+            <div> <img src="{% static  'koss/img/profile_small.png'%}" alt="pic" height="200" width="200"> </div>
+            <h3>Welcome to Karnataka Ophthalmic Society</h3>
+            <p>Verify OTP to set new password</p>
+            <form class="m-t" role="form" method="POST">
+                {% csrf_token %}
+                <div class="form">
+                    <input type="text" id="id_otp" autofocus name="otp" class="form-control"
+                        placeholder="Enter otp" autocomplete="off" required>
+                </div>
+                <div class="text-right mb-3">
+                    <a id="resend_otp" class="pointer">resend otp</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary block full-width m-b">Submit OTP</button>
+                <p class="text-muted text-center"><small>Need to go back?</small></p>
+                <a class="btn btn-sm  btn-primary full-width m-b" href="{% url 'koscientific:main_login'%}">Login</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="{% static 'koss/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'koss/js/popper.min.js' %}"></script>
+    <script src="{% static 'koss/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'koss/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+    <script src="{% static 'koss/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+
+    <!-- Custom and plugin javascript -->
+    <script src="{% static 'koss/js/inspinia.js' %}"></script>
+    <script src="{% static 'koss/js/plugins/pace/pace.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#otp_sent_message").hide();
+            $("#resend_otp").click(function (event) {
+                $.ajax({
+                    url: '{% url "koscientific:resend_otp" %}',
+                    data: {
+                      'old_sms_trans_id': window.location.pathname.split("otp_verify/").pop().replace('/', '')
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data)
+                    if (data.op == 'success') {
+                        $("#otp_sent_message").show();
+                    }
+                      else {
+                        alert("A user with this username already exists.");
+                      }
+                    }
+                  });
+          });
+        }); 
+    </script>
+
+</body>
+
+</html>

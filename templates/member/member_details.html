@@ -1,0 +1,457 @@
+{% extends 'main/base.html'%}
+
+{% block title%}view instruction course{% endblock %}
+
+{% block style%}
+img {
+vertical-align: middle;
+border-style: none;
+height: 100%;
+width: 100%;
+object-fit: contain;
+}
+
+
+{% endblock style%}
+
+{% block script%}
+
+$(document).ready(function () {
+$('.dataTables-example').DataTable({
+pageLength: 10,
+responsive: true,
+dom: '<"html5buttons"B>lTfgitp',
+    buttons: []
+
+    });
+
+    });
+
+    {% endblock %}
+
+    {% block content %}
+    <!--write main content here-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h3>Member Details</h3>
+                    <span class="pull-right">
+                        <button type="button" class="btn btn-primary" data-toggle="model">
+
+                            <a href="{% url 'koscientific:member_list'%}" class="text-white">
+                                Member List</a>
+                        </button>
+                    </span>
+                </div>
+
+                <!--table-start-here-->
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <tbody>
+
+                                <tr>
+                                    <th width="30%" class="p-1">Name</th>
+                                    <td width="70%">{{ member.user.first_name}} {{ member.user.last_name}}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">DOB</th>
+                                    <td width="70%">{{member.dob}}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Gender</th>
+                                    <td width="70%">
+                                        {{ member.gender}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="30%" class="p-1">Residence Street Address</th>
+                                    <td width="70%">
+                                        {{ member.recidence_Street_address }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Residence Address Line2</th>
+                                    <td width="70%">
+                                        {{member.recidence_address_line_2}}
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <th width="30%" class="p-1">Residence City</th>
+                                    <td width="70%">
+                                        {{member.recidencecity}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="30%" class="p-1">Residence State</th>
+                                    <td width="70%">
+                                        {{member.recidencestate}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Residence Pincode</th>
+                                    <td width="70%">
+                                        {{member.recidence_pincode}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Residence Country</th>
+                                    <td width="70%">
+                                        {{member.recidencecountry}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="30%" class="p-1">Office City</th>
+                                    <td width="70%">
+                                        {{member.office_city}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="30%" class="p-1">Office State</th>
+                                    <td width="70%">
+                                        {{member.office_state}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Office Pincode</th>
+                                    <td width="70%">
+                                        {{member.office_pincode}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Office Country</th>
+                                    <td width="70%">
+                                        {{member.office_country}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Registered Mobile</th>
+                                    <td width="70%">
+                                        {{ member.user.profile.mobile_number|default:'Not added' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Home Phone</th>
+                                    <td width="70%">
+                                        {{ member.home_phone}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Office Phone</th>
+                                    <td width="70%">
+                                        {{member.office_phone }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Registered Email</th>
+                                    <td width="70%">
+                                        {{member.user.email }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Cheque No</th>
+                                    <td width="70%">
+                                        {{member.cheque_no }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Bank</th>
+                                    <td width="70%">
+                                        {{member.bank }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Date</th>
+                                    <td width="70%">
+                                        {{member.date}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Photo</th>
+                                    <td width="70%">
+                                        <a href="#" data-toggle="modal" data-target="#user_activate">Member Photo</a>
+
+                                        <!--                        photo model starts-->
+                                        <div class="modal inmodal" id="user_activate" tabindex="-1" role="dialog"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content animated bounceInRight">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span
+                                                                aria-hidden="true">&times;</span><span
+                                                                class="sr-only">Close</span></button>
+                                                        <h4 class="modal-title">{{member.name}}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{member.photo.url}}">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-white"
+                                                            data-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                                photo model ends-->
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Certificate</th>
+                                    <td width="70%">
+                                        <a href="#" data-toggle="modal" data-target="#member_certificate">Member
+                                            Certificate</a>
+
+                                        <!--                                certificate photo start-->
+                                        <div class="modal inmodal" id="member_certificate" tabindex="-1" role="dialog"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content animated bounceInRight">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span
+                                                                aria-hidden="true">&times;</span><span
+                                                                class="sr-only">Close</span></button>
+                                                        <h4 class="modal-title">{{member.name}}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{member.certificate.url}}">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-white"
+                                                            data-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!--                                certificate photo end-->
+                                    </td>
+                                </tr>
+                                {% if member_resign.document  %}
+                                 <tr>
+                                    <th width="30%" class="p-1">Resignation Certificate</th>
+                                    <td width="70%">
+                                        <a href="#" data-toggle="modal" data-target="#member_resign">Resignation letter</a>
+
+                                        <!--                                certificate photo start-->
+                                        <div class="modal inmodal" id="member_resign" tabindex="-1" role="dialog"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content animated bounceInRight">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span
+                                                                aria-hidden="true">&times;</span><span
+                                                                class="sr-only">Close</span></button>
+                                                        <h4 class="modal-title">{{member.name}}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{member_resign.document.url}}">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-white"
+                                                            data-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!--                                certificate photo end-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Resignation Date and Time</th>
+                                    <td width="70%">
+                                        {{member_resign.updated_at}}
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <th width="30%" class="p-1">Price</th>
+                                    <td width="70%">
+                                        {{member.price}}
+                                    </td>
+                                </tr>
+                                </tr>
+                                {% if deceased_member.document  %}
+                                <tr>
+                                    <th width="30%" class="p-1">Deceased certificate </th>
+                                    <td width="70%">
+                                        <a href="#" data-toggle="modal" data-target="#decesed_certificate">Deceased certificate</a>
+
+                                        <!--                                certificate photo start-->
+                                        <div class="modal inmodal" id="decesed_certificate" tabindex="-1" role="dialog"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content animated bounceInRight">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span
+                                                                aria-hidden="true">&times;</span><span
+                                                                class="sr-only">Close</span></button>
+                                                        <h4 class="modal-title">{{member.name}}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{deceased_member.document.url}}">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-white"
+                                                            data-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!--                                certificate photo end-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Deceased  Date and Time</th>
+                                    <td width="70%">
+                                        {{deceased_member.updated_at}}
+                                    </td>
+                                </tr>
+                                {% endif %}
+
+                                <tr>
+                                    <th width="30%" class="p-1">Qualification</th>
+                                    <td width="70%">
+                                        {% for qualification in member.qualifications.all %}
+                                            <p><span>College: </span>{{qualification.college }}</p>
+                                            <p><span>degree: </span>{{qualification.degree }}</p>
+                                            <p><span>year: </span>{{qualification.year }}</p>
+                                            <hr>
+                                        {% endfor %}
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">First introduced By</th>
+                                    <td width="70%">
+                                        <p>Member : {{member.membership_detail.introducer_one.user }}</p>
+                                        {% if member.membership_detail %}
+                                        <p>Approved status : {{member.membership_detail.get_introducer_one_status_display}}</p>
+                                        {% endif %}
+                    
+                                        <p
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Second introduced By</th>
+                                    <td width="70%">
+                                        <p>Member : {{member.membership_detail.introducer_two.user }}</p>
+                                        {% if member.membership_detail %}
+                                        <p>Approved status : {{member.membership_detail.get_introducer_two_status_display}}</p>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Admin/Secretary approved</th>
+                                    <td width="70%">
+                                        {% if member.membership_detail %}
+                                        <p>Approved status :
+                                            {% if member.membership_detail.admin_status %}
+                                                {{member.membership_detail.get_admin_status_display}}
+                                            {% else %}
+                                                Mail not sent
+                                            {% endif %}</p>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">AGM approved</th>
+                                    <td width="70%">
+                                        {% if member.provisional_membership_approval %}
+                                        <p>Name : {{member.provisional_membership_approval.agm}}</p>
+                                        <p>Approved status : {{member.provisional_membership_approval.get_status_display}}</p>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Membership No</th>
+                                    <td width="70%">
+                                        {{member.kos_no}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Active/InActive</th>
+                                    <td width="70%">
+                                        {% if member.is_active == True %}
+                                        <span class="font-weight-bold" style="color:green">ACTIVE</span>
+                                        {% else %}
+                                        <span class=" font-weight-bold" style="color:red">INACTIVE</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Member/Non Member</th>
+                                    <td width="70%">
+                                        {% if member.is_member == True %}
+                                        <span class="font-weight-bold" style="color:green">ACTIVE</span>
+                                        {% else %}
+                                        <span class=" font-weight-bold" style="color:red">INACTIVE</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Medical Registration No</th>
+                                    <td width="70%">
+                                        {{member.medical_registration_no }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Registration State</th>
+                                    <td width="70%">
+                                        {{member.reg_state}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Registration Country</th>
+                                    <td width="70%">
+                                        {{member.reg_country}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Created_at</th>
+                                    <td width="70%">
+                                        {{member.created_at }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Updated_at</th>
+                                    <td width="70%">
+                                        {{member.updated_at}}
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <!--                table ends here-->
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}

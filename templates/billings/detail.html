@@ -1,0 +1,194 @@
+{% extends 'main/base.html'%}
+{% load maths %}
+{% block title%}Billing Detail{% endblock %}
+
+{% block style%}
+<style>
+    table {
+        border: 1px solid #EBEBEB !important;
+    }
+
+    .table-responsive>.table-bordered {
+        border: 1px solid #EBEBEB !important;
+    }
+</style>
+{% endblock style%}
+
+{% block script%}
+
+$(document).ready(function () {
+$('.dataTables-example').DataTable({
+pageLength: 10,
+responsive: true,
+dom: '<"html5buttons"B>lTfgitp',
+    buttons: []
+
+    });
+
+    });
+
+    {% endblock %}
+
+     {% block crumbs %}
+ / <a href="">Billings</a>
+ {% endblock %}
+
+    {% block content %}
+    <!--write main content here-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h3>Billing Details</h3>
+                    <span class="pull-right">
+                        <button type="button" class="btn btn-primary" data-toggle="model">
+
+                            <a href="{% url 'koscientific:billings'%}" class="text-white">Billings List</a>
+                        </button>
+                    </span>
+                </div>
+
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <tbody>
+                                <tr>
+                                    <th width="30%" class="p-1">First name</th>
+                                    <td width="70%">{{membership.user.first_name}}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Last name</th>
+                                    <td width="70%">
+                                        {{ membership.user.last_name }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Email</th>
+                                    <td width="70%">
+                                        {{ membership.user.email }}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="30%" class="p-1">Mobile number</th>
+                                    <td width="70%">
+                                        {{ membership.user.profile.mobile_number }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Application submitted date</th>
+                                    <td width="70%">
+                                        {{ membership.created_at}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">KOS number</th>
+                                    <td width="70%">
+                                        {{ membership.kos_no}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th width="30%" class="p-1">Role</th>
+                                    <td width="70%">
+
+                                        {% if membership.user.groups.all %}
+                                        {% for role in membership.user.groups.all %}
+                                        <li>{{role.name}}</li>
+                                        {% endfor %}
+
+                                        {% endif %}
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <br>
+                        <h3>Transactions</h3>
+                        {% for order in membership.member.all %}
+                            <table class="table table-striped table-bordered table-hover dataTables-example">
+
+                                <tbody>
+                                    <tr>
+                                        <th width="30%" class="p-1">Total amount</th>
+                                        <td width="70%">{{order.amount|divide:"100"}} {{RAZOR_PAY_CURRENCY}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%" class="p-1">Payment status</th>
+                                        <td width="70%">
+                                            {{order.status|title}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%" class="p-1">Due amount</th>
+                                        <td width="70%">
+                                            {{order.amount_due|divide:"100"}} {{RAZOR_PAY_CURRENCY}}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th width="30%" class="p-1">Paid amount</th>
+                                        <td width="70%">
+                                            {{order.amount_paid|divide:"100.00"}} {{RAZOR_PAY_CURRENCY}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%" class="p-1">Order Id</th>
+                                        <td width="70%">
+                                            {% if order.order_id %}
+                                                {{order.order_id}}
+                                            {% else %}
+                                                Unavailable
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%" class="p-1">Order receipt</th>
+                                        <td width="70%">
+                                            {{order.order_receipt}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%" class="p-1">Transaction Id</th>
+                                        <td width="70%">
+
+                                            {% if order.transaction %}
+                                                {{order.transaction}}
+                                            {% else %}
+                                                Unavailable
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%" class="p-1">Create At</th>
+                                        <td width="70%">
+                                            {% if order.created %}
+                                                {{order.created}}
+                                            {% else %}
+                                                Unavailable
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%" class="p-1">Updated At</th>
+                                        <td width="70%">
+                                            {{order.modified}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                        {% endfor %}
+                        
+                        {% if not membership.member.all %}
+                            <p>Transaction data not available in our record</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}

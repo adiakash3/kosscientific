@@ -1,0 +1,176 @@
+{% extends 'main/base.html'%}
+{% load static %}
+
+
+<!-- Page Level Styles-->
+{% block title %}
+    Mail Settings
+{% endblock %}
+
+<!-- Page Level Title-->
+{% block style %}
+
+{% endblock %}
+
+
+<!-- Page Level Scripts-->
+{% block script %}
+
+{% endblock %}
+     {% block crumbs %}
+ / <a href="">Mail Settings</a>
+ {% endblock %}
+
+
+
+<!-- Page Level Content-->
+{% block content %}
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / Mail Settings
+
+    </div>
+{% endblock %}
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Mail Settings</h5>
+                </div>
+                <div class="ibox-content">
+                    <form action="" method="post" enctype="multipart/form-data" id="form">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-xs col-sm">
+                                <div class="form-group">
+                                    <label>Mail Server</label>
+                                    {% if mail_settings.mail_server == None or mail_settings.mail_server == '' %}
+                                        <input required type="text" class="form-control"
+                                               placeholder="Mail Server"
+                                               name="mail_server">
+                                    {% else %}
+                                        <input required type="text" class="form-control"
+                                               placeholder="Mail Server"
+                                               name="mail_server" value="{{ mail_settings.mail_server }}">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-xs col-sm">
+                                <div class="form-group">
+                                    <label>Mail Port</label>
+                                    {% if mail_settings.mail_port == None or mail_settings.mail_port == '' %}
+
+                                        <input required type="text" class="form-control"
+                                               placeholder="Mail Port" name="mail_port">
+                                    {% else %}
+                                        <input required type="text" class="form-control"
+                                               placeholder="Mail Port" name="mail_port"
+                                               value="{{ mail_settings.mail_port }}">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-xs col-sm">
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    {% if mail_settings.username == None or mail_settings.username == '' %}
+                                        <input required type="text" class="form-control"
+                                               placeholder="Username" name="username">
+                                    {% else %}
+                                        <input required type="text" class="form-control"
+                                               placeholder="Username" name="username"
+                                               value="{{ mail_settings.username }}">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-xs col-sm">
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    {% if mail_settings.password == None or mail_settings.password == '' %}
+
+                                        <input required type="password" class="form-control"
+                                               placeholder="Password" name="password">
+                                    {% else %}
+                                        <input required type="password" class="form-control"
+                                               placeholder="Password" name="password"
+                                               value="{{ mail_settings.password }}">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <!--from email-->
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-xs col-sm">
+                                <div class="form-group">
+                                    <label>From email</label>
+                                    {% if mail_settings.from_email == None or mail_settings.from_email == '' %}
+                                        <input required type="email" class="form-control"
+                                               placeholder="From email id" name="from_email">
+                                    {% else %}
+                                        <input required type="email" class="form-control"
+                                               placeholder="From email id" name="from_email"
+                                               value="{{ mail_settings.from_email }}">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-xs col-sm">
+                                <div class="form-group pull-left">
+                                    <label>Use SSL</label>
+
+
+
+                                    {% if mail_settings.use_ssl == True %}
+                                        <fieldset class="radio">
+                                            <label>
+                                                <input type="radio" name="use_ssl" value="True" checked> True
+                                            </label>
+                                        </fieldset>
+                                        <fieldset class="radio">
+                                            <label>
+                                                <input type="radio" name="use_ssl" value="False"> False
+                                            </label>
+                                        </fieldset>
+                                    {% else %}
+                                        <fieldset class="radio">
+                                            <label>
+                                                <input type="radio" name="use_ssl" value="True"> True
+                                            </label>
+                                        </fieldset>
+                                        <fieldset class="radio">
+                                            <label>
+                                                <input type="radio" name="use_ssl" value="False" checked> False
+                                            </label>
+                                        </fieldset>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary mr-1">
+                                <i class="fa fa-check-square-o" ></i> Save Settings
+                            </button>
+                            <button type="reset" class="btn btn-primary"><i class="ft cancel-link"></i>&nbsp;Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

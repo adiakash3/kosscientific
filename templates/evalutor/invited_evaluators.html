@@ -1,0 +1,140 @@
+{% extends 'main/base.html'%}
+
+{% block title%}Evaluator list{% endblock %}
+
+{% block style%}
+<!--write here css-->
+<style>
+    .title {
+        color: #2679bf;
+    }
+
+    .title:hover {
+        color: #023866;
+    }
+
+    .align-right {
+        margin-right: 16px;
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate {
+        display: none;
+    }
+
+    div.dataTables_wrapper div.dataTables_length label {
+        display: none;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        display: none;
+    }
+</style>
+{% endblock style%}
+
+{% block script%}
+
+$(document).ready(function () {
+$('.dataTables-example').DataTable({
+pageLength: 10,
+responsive: true,
+dom: '<"html5buttons"B>lTfgitp',
+buttons: []
+
+});
+
+});
+
+{% endblock %}
+
+{% block content %}
+<!--write main content here-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h3>Non Kos Created Evaluators List</h3>
+                    <span class="pull-right">
+                        <a href="{% url 'koscientific:evaluator_invite' %}" class="btn btn-primary">
+                                    Invite new Evaluator</a>
+                    </span>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>Sl No</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile number</th>
+                                <th>Status</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for each in InvitedEvaluator %}
+                            <tr class="gradeX">
+                                <td>{{ forloop.counter0|add:InvitedEvaluator.start_index }}</td>
+                                <td>{{ each.name}} {{ each.membership.user.last_name}}</td>
+                                <td>{{ each.email}}</td>
+                                <td>{{ each.mobile_number }}</td>
+                                {% if each.status == False%}
+                                    <td>Inactive</td>
+                                {%  else %}
+                                    <td>Active</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% if InvitedEvaluator.has_other_pages %}
+                        <div style="margin-left:13px;">
+
+                            <b style="margin-left: 6px;">Page</b> <span><b>{{ InvitedEvaluator.number }}</b></span> <b>of</b>
+                            <span> <b>{{ end_index}}</b></span>
+
+                        </div>
+                        <div class="text-center">
+                            <ul class="pagination pagination-lg text-center" style="margin-left: 19px;">
+
+                                {% if InvitedEvaluator.has_previous %}
+                                <li><a href="?page={{ InvitedEvaluator.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                <li class="disabled"><span>&laquo;</span></li>
+                                {% endif %}
+
+                                {% if start_index %}
+                                <li><a href="?page={{ start_index }}">{{ start_index }}</a></li>
+                                <li class="disabled"><span>&mldr;</span></li>
+                                {% endif %}
+
+                                {% for i in page_range %}
+                                {% if InvitedEvaluator.number == i %}
+                                <li class="active" style=""><span style="border-color:#252a2d;font-weight:900">{{ i }} <span
+                                        class="sr-only">(current)</span></span></li>
+                                {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+
+
+                                {% if InvitedEvaluator.has_next %}
+                                <li><a href="?page={{ InvitedEvaluator.next_page_number }} ">&raquo;</a></li>
+                                {% else %}
+                                <li class="disabled"><span>&raquo;</span></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

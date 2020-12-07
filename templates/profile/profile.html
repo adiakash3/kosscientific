@@ -1,0 +1,132 @@
+{% extends 'main/base.html'%}
+
+{% block title%} profile{% endblock %}
+{% load static %}
+
+{% block style%}
+#profile_image {
+    border-radius: 50%;
+    width: 240px;
+    height: 228px;
+    
+
+}
+{% endblock style%}
+
+{% block script%}
+function imgError(image) {
+image.onerror = "";
+image.src = "{% static  'koss/img/profile_small.png'%}";
+return true;
+}
+{% endblock %}
+
+
+
+
+
+{% block content %}
+<!--write main content here-->
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / Profile
+
+    </div>
+{% endblock %}
+
+<div class="wrapper wrapper-content">
+    <div class="row animated fadeInRight">
+        <div class="col-md-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+
+                        </div>
+                        
+                        {% if perms.koscientific.full_profile %}
+                        <div class="col-sm-4">
+                            <a href="{% url 'koscientific:edit_profile'%}" class="btn btn-primary btn-xs"
+                                style="margin-left: 200px">Edit
+                            </a>
+                        </div>
+                        {% elif perms.koscientific.base_profile %}
+                        <div class="col-sm-4">
+                            <a href="{% url 'koscientific:edit_base_profile'%}" class="btn btn-primary btn-xs"
+                                style="margin-left: 200px">Edit
+                            </a>
+                        </div>
+                        
+                        {% endif %}
+
+                    </div>
+                    <div style="text-align:center">
+                        <h3><strong>Profile Details</strong></h3>
+                    </div>
+                </div>
+                <div>
+                    <div class="ibox-content no-padding text-center">
+                        
+                        {% if profile_photo.photo %}
+                            <img id="profile_image" alt="image" class="img-fluid  m-3" src="{{profile_photo.photo.url}}"
+                            onerror="imgError(this);">
+                        {% else %}
+                            <img id="profile_image" alt="image" class="img-fluid  m-3" src="{% static  'koss/img/default1.png'%}"
+                            onerror="imgError(this);">
+                        {% endif %}
+                            
+                        
+                    </div>
+                    <div class="ibox-content profile-content">
+
+                        <div class="user-button">
+
+                            <div class="row">
+
+                                <div class="col-sm-3">
+                                    <p>First Name:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p><strong>{{first_name}}</strong></p>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <p>Last Name:</p>
+                                </div>
+                                <div class="col-sm-3"><strong>{{last_name}}</strong></div>
+
+                            </div>
+
+                            <div class="row">
+
+                                
+                                <div class="col-sm-3">
+                                    <p>Registered email address:</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p><strong>{{email}}</strong></p>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <p>Registered mobile number:</p>
+                                </div>
+                                <div class="col-sm-3"><strong>{{mobile_number}}</strong></div>
+                                <div class="col-sm-3">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

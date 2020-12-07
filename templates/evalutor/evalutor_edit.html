@@ -1,0 +1,68 @@
+{% extends 'main/base.html'%}
+{% load crispy_forms_tags %}
+
+{% block title%}add Evaluter{% endblock %}
+{% block style%}
+<!--write here css-->
+{% endblock style%}
+{% block script%}
+{% endblock %}
+
+
+
+{% block content %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        / <a href="{% url 'koscientific:evaluter_list' %}">Evaluators</a>
+        / Edit
+
+    </div>
+{% endblock %}
+<!--write main content here-->
+<div class="row" style="background-color: white">
+    <div class="col-lg-12" style="margin-bottom:900px">
+
+        <div style="margin-left: 20px;">
+            <h1><b>Edit Evaluator</b></h1>
+            <span class="pull-right" style="margin-top: -35px;"><a href="{% url 'koscientific:evaluter_list' %}"
+                    class="btn btn-primary">Evaluator
+                    List</a> </span>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a>Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a>Evaluator List</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <strong>Edit Evaluator</strong>
+                </li>
+            </ol>
+        </div>
+        <hr size="30">
+    
+        <form id="" action="." method="post">
+            {% csrf_token %}
+            <div style="margin-left: 20px;">
+                <div class="col-sm-8 row">
+                    {{form|crispy}}
+                </div>
+                <br />
+                
+                <div class="col-sm-8 row">
+                    <button type="submit" style="margin-left:110px" class="btn btn-primary ">Update</button>
+                    <a href="{% url 'koscientific:evaluter_list' %}" class="btn btn-danger"
+                        style="margin-left:10px"><b>Cancel</b></a>
+                </div>
+                <br />
+            </div>
+
+        </form>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{ form.media.js }}
+{% endblock %}

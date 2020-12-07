@@ -1,0 +1,59 @@
+{% extends 'main/base.html'%}
+{% load static %}
+
+{% block title%}Create invited session{% endblock %}
+
+{% block style%}
+<!--write here css-->
+{% endblock style%}
+
+
+{% block content %}
+<!--write main content here-->
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'koscientific:home' %}">Home</a>
+
+        /  <a href="{% url 'koscientific:feedback_list' %}">Feedback</a>
+            /Add
+    </div>
+{% endblock %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+
+                <h3>Create Feedback</h3>
+            </div>
+            <div class="ibox-content">
+                {% if form.errors %}
+                {% for field in form %}
+                {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+                {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <form class="m-t col-md-6" role="form" method="POST">
+                    {% csrf_token %}
+                    <h5><b>Subject:</b></h5> {{ form.subject}}
+                    <br><br>
+                    <h5><b>Description:</b></h5> {{ form.description}}
+                    <br><br>
+                    <input id="submit" type="submit" class="btn btn-primary" value="Submit"/>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

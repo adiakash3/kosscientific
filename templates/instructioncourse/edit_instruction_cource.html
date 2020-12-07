@@ -1,0 +1,303 @@
+{% extends 'main/base.html'%}
+{% load has_group %}
+
+{% block title%} edit instruction course{% endblock %}
+
+{% block style%}
+
+<!--write here css-->
+{% endblock style%}
+
+{% block script%}
+    $(document).ready(function () {
+        $(".select2_demo_2").select2();
+    });
+
+    function textCounterr(field, maxlimit) {
+        var countfield = $(field).prev("input");
+        console.log(countfield);
+        if (field.value.length > maxlimit) {
+            field.value = field.value.substring(0, maxlimit);
+            return false;
+        } else {
+            countfield.val(maxlimit - field.value.length);
+        }
+    }
+
+{% endblock %}
+
+{% block content %}
+<!--write main content here-->
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h3>Submit Instruction Course</h3>
+                <span class="pull-right">
+                    <button type="button" class="btn btn-primary" data-toggle="model">
+
+                        <a href="{% url 'koscientific:instruction_course'%}" class="text-white">Instruction Course
+                            List</a>
+
+                    </button>
+                </span>
+            </div>
+
+            <!--            register here     -->
+            <div class="ibox-content">
+
+                <form id="inst" action="." method="post">
+                    {% csrf_token %}
+
+                    <div class="form-group  row">
+                        <br>
+                        <label for="event" class="col-sm-2 col-form-label">Event<span
+                                style="color: red;">*</span>
+                        </label>
+                        <div class="col-sm-10">
+                            <select id="event" style="color:#808080;" name="event" class="form-control select2_demo_2">
+                                <option value="" selected="" disabled="">select an event</option>
+
+                                {% for event in events %}
+                                <option value="{{event.id}}" {% if event.id == inst_edit.event.id %} selected {% endif %} >{{event.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Title Of the Abstract</label>
+
+                        <div class="col-sm-10" style="color:#1c84c6">
+                            Must not exceeds 100 characters * &nbsp<input  maxlength="3" size="3"
+                                                style="color:red" value="100" > characters left
+                            <input type="text" placeholder="Enter Title Of the Abstract " class="form-control"
+                                name="title" value="{{inst_edit.title}}" required maxlength="100" onkeyup="textCounterr(this,100);">
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Instruction course type:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control select2_demo_2" id="" name="Instruction_course_type">
+                                <option>{{inst_edit.Instruction_course_type}}</option>
+                                <option>Beginner</option>
+                                <option>Intermediate</option>
+                                <option>Advance</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Section:</label>
+                        <div class="col-sm-10">
+
+                            <select id="clientID" style="width:auto" name="section" class="form-control select2_demo_2">
+                                <option value="{{inst_edit.section_id}}">{{inst_edit.section.section_name}}</option>
+                                {% for each in section_list %}
+                                <option value="{{ each.id }}">{{ each }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Resume:</label>
+                        <div class="col-sm-10">
+                            <div class="" style="color:#1c84c6">Brief "RESUME" of the chief instructor (not to
+                                reveal the identity) with relevance to the chief_instructor_topic of this IC & (not
+                                exceeding 600 characters)</div>
+                            <p style="color:red">("DO NOT REVEAL ANY PERSONAL INFORMATION ABOUT YOURSELF / HOSPITAL. IF
+                                ANY PERSONAL INFORMATION IS FOUND YOUR IC WILL BE REJECTED WITHOUT FURTHER
+                                NOTIFICATION.)</p>
+                            Must not exceeds 600 characters * &nbsp<input  maxlength="3" size="3"
+                                                style="color:red" value="600" > characters left
+                            <textarea rows="6" cols="70" type="text" id="resume" class="form-control" name="resume"
+                            maxlength="600" onkeyup="textCounterr(this,600);">{{ inst_edit.resume }}</textarea>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Synopsis:</label>
+                        <div class="col-sm-10">
+                            Must not exceeds 1000 characters * &nbsp<input  maxlength="4" size="4"
+                                                style="color:red" value="1000" > characters left
+                            <textarea rows="6" cols="70" type="text" id="abstract" class="form-control" name="synopsis"
+                            maxlength="1000" onkeyup="textCounterr(this,1000);">{{ inst_edit.synopsis }}</textarea>
+
+                        </div>
+                    </div>
+
+                    <!--=================================================================-->
+                    <!--=========================Start of chief instructors==============-->
+                    <!--=================================================================-->
+                    {% if request.user|has_group:"admin" %}
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label control-label">Chief Instructor's name:</label>
+                            <div class="col-sm-10">
+                                <select id="" style="width:auto" name="chief_instructor_name"
+                                    class="form-control select2_demo_2">
+                                    <option value="" selected="" disabled="">
+                                        {{ inst_edit.chief_instructor_ic_paper.chief_instructor.user.first_name }} {{ inst_edit.chief_instructor_ic_paper.chief_instructor.user.last_name }}</option>
+                                    {% for each in member_name_list %}
+                                    <option value="{{ each.id }}" {% if inst_edit.chief_instructor_ic_paper.chief_instructor.pk == each.id %} selected {% endif %}>{{ each }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                        <!--chief_instructor_duration start-->
+                        <div class="row">
+                            <label for="chief_instructor_duration" class="col-sm-2 col-form-label">
+                                Duration:
+                            </label>
+                            <div class="col-sm-10">
+                                <input id="chief_instructor_duration" name="chief_instructor_duration"
+                                    style="background-color: #f5fff8;" type="number" class="form-control" 
+                                    value="{{ inst_edit.chief_instructor_ic_paper.duration}}">
+                            </div>
+                        </div>
+                        <!--chief_instructor_duration end-->
+
+                        <br>
+                        <!--chief_instructor_topic start-->
+                        <div class="row">
+                            <label for="chief_instructor_topic" class="col-sm-2 col-form-label">
+                                Topic:
+                            </label>
+                            <div class="col-sm-10">
+                                Must not exceeds 100 characters * &nbsp<input  maxlength="3" size="3"
+                                                style="color:red" value="100" > characters left
+                                <input id="chief_instructor_topic" name="chief_instructor_topic"
+                                    style="background-color: #f5fff8;" type="text" class="form-control"
+                                    value="{{ inst_edit.chief_instructor_ic_paper.topic }}" maxlength="100" onkeyup="textCounterr(this,100);">
+                            </div>
+                        </div>
+                        <!--chief_instructor_topic end-->
+                    
+                    <!--=================================================================-->
+                    <!--=========================end of chief instructors==============-->
+                    <!--=================================================================-->
+                    <br>
+                    <!--=================================================================-->
+                    <!--=========================Start of co-instructors=================-->
+                    <!--=================================================================-->
+                    <div class="ibox-title">
+                        <h3>Co instructors</h3>
+                    </div>
+                    <div class="ibox-content">
+                        {% for co_instructor_ic_paper in inst_edit.co_instructor_ic_paper.all %}
+                            <div class="form-group  row">
+                                <label class="col-sm-2 col-form-label control-label">Co Instructor's name:</label>
+                                <div class="col-sm-10">
+                                    <select id="" style="width:auto" name="co_instructor_name"
+                                        class="form-control select2_demo_2">
+                                        {% for each in member_name_list %}
+                                        <option value="{{ each.id }}" {% if co_instructor_ic_paper.co_instructor.pk == each.id %} selected {% endif %}>{{ each }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <!--co_instructor_duration start-->
+                            <div class="row">
+                                <label for="co_instructor_duration" class="col-sm-2 col-form-label">
+                                    Duration:
+                                </label>
+                                <div class="col-sm-10">
+                                    <input id="chief_instructor_duration" name="co_instructor_duration"
+                                        style="background-color: #f5fff8;" type="number" class="form-control" 
+                                        value="{{ co_instructor_ic_paper.duration}}">
+                                </div>
+                            </div>
+                            <!--co_instructor_duration end-->
+
+                            
+                            <!--co_instructor_topic start-->
+                            <div class="row">
+                                <label for="co_instructor_topic" class="col-sm-2 col-form-label">
+                                    Topic:
+                                </label>
+                                <div class="col-sm-10">
+                                    Must not exceeds 100 characters * &nbsp<input  maxlength="3" size="3"
+                                                style="color:red" value="100" > characters left
+                                    <input id="co_instructor_topic" name="co_instructor_topic"
+                                        style="background-color: #f5fff8;" type="text" class="form-control"
+                                        value="{{ co_instructor_ic_paper.topic }}" maxlength="100" onkeyup="textCounterr(this,100);">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <!--chief_instructor_topic end-->
+                        {% endfor %}
+                    </div>
+                    <!--=================================================================-->
+                    <!--=========================end of co-instructors=================-->
+                    <!--=================================================================-->
+                    <br>
+
+                    <div class="input_fields_wrap dynamic-co-instructor non_mem_co_ins">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="ibox" >
+                                    <div class="ibox-title">
+                                        <h5>For non members</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="form-group  row">
+                                            <div class="col-sm-10">
+                                                <div class="row">
+                                                    <label class="col-sm-3 col-form-label">Co Instructors E-Mail:</label>
+                                                    <div class="col-sm-9">
+                                                        <input style="background-color: #f5fff8;" type="text"
+                                                            name="non_member_co_instructor" class="form-control" {% if inst_edit.non_member_co_instructor %}value="{{inst_edit.non_member_co_instructor}}" {% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-sm-10 col-sm-offset-2 text-center">
+                            <button type="submit" class="btn btn-primary" name="draft"><strong>Save
+                                    Draft</strong></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-primary" name="final"><strong>Final Submit</strong>
+
+                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <button type="button" class="btn btn-danger " name="cancel"><strong><a
+                                        href="{% url 'koscientific:instruction_course' %}"
+                                        class="text-white">Cancel</a></strong>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+
+            </div>
+
+            <!--   register end-->
+
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
